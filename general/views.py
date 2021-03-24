@@ -3,10 +3,10 @@ from django.http import HttpResponse
 
 # Create your views here.
 def home(request):
-    return HttpResponse('Home page')
+    return render(request,'general/home.html')
 
 def result(request):
-    return HttpResponse('Result page')
+    return render(request,'general/result.html')
 
 def detail(request):
-    return HttpResponse('Detail page')
+    return render(request,'general/detail.html')
