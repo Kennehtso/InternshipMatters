@@ -1,7 +1,28 @@
 {% extends 'general/main.html'%}
+{% load static %}
 
 {% block content %}
-
+<div class="container_2">
+    <div class="card">
+        <div class="sneaker">
+            <div class="circle"></div>
+            <img class="img-fluid rounded-circle mb-3" src="{% static '/img/YODA1.jpg'%}" alt="yoda2">
+        </div>
+        <div class="info">
+            <h1 class="title">Adidas ZX</h1>
+            <h3>FUTURE-READY TRAINERS WITH WRAPPED BOOST FOR EXCEPTION COMFORT.</h3>
+            <div class="sizes">
+                <button>39</button>
+                <button>40</button>
+                <button class="active">42</button>
+                <button>44</button>
+            </div>
+            <div class="purchase">
+                <button>Purchase</button>
+            </div>
+        </div>
+    </div>
+</div>
     <!-- Icons Grid -->
     {% include './component/descriptionBox.html'%}
 
