@@ -21,6 +21,7 @@
 
   <!-- Custom styles for this template -->
   <link href="{% static 'css/landing-page.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/custom.css' %}" rel="stylesheet">
 
 </head>
 
@@ -28,17 +29,20 @@
 
     <!-- Navigation -->
     {% include './component/navbar.html'%}
-    
+
     <!--Main Content By other pages-->
-    {% block content%}
-    {% endblock content%}
+    <div class="wrapper">
+        {% block content%}
+        {% endblock content%}
+    </div>
     
+    <div class="push"></div>
     <!-- Footer -->
     {% include './component/footer.html'%}
+    
   <!-- Bootstrap core JavaScript -->
   <script src="{% static 'vendor/jquery/jquery.min.js'%}"></script>
   <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
-
 </body>
 
 </html>

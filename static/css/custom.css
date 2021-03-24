@@ -1,0 +1,18 @@
+
+.form-control::placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+.form-control-lg{
+  color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+a {
+  color:white;
+}
+a:hover {
+  color: #17a2b8;
+  text-decoration: underline;
+}
