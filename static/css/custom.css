@@ -12,7 +12,14 @@
 a {
   color:white;
 }
-a:hover {
+/* FOOTER */
+ul li a {
+  transition: .5s;
+}
+ul li a:hover {
   color: #17a2b8;
-  text-decoration: underline;
+  text-shadow: 0 0 5px #17a2b8;
+}
+.ih-item.circle {
+  left:20%;
 }

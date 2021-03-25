@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.expressions import ValueRange
+from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 
 # TODO - may need to use Login user id
@@ -22,7 +24,7 @@ class Organization(models.Model):
     area = models.CharField(max_length=200, null=True)
     # TODO - may better need define in db
     organizationType = models.CharField(null=True, max_length=200, choices=ORGANIZATIONTYPE)
-    score = models.FloatField(default=0, null=True)
+    score = models.IntegerField(default=0, null=True, validators=[MaxValueValidator(5), MinValueValidator(0)])
 
     def __str__(self):
         return self.name
@@ -47,9 +49,11 @@ class Comment(models.Model):
     # TODO -  may better need define in db
     internshipType = models.CharField(null=True, max_length=200, choices=INTERNSHIPTYPE)
     # TODO - Many(hashTags) to Many(Comment)
-    hashTags = models.ManyToManyField(HashTags)
+    hashTags = models.ManyToManyField(HashTags, blank=True)
     comments = models.CharField(max_length=200, null=True,blank=True)
     createDate = models.DateTimeField(auto_now_add=True, null=True)
+    score = models.IntegerField(default=0, null=True, validators=[MaxValueValidator(5), MinValueValidator(0)])
+    
     def __str__(self):
         return f"{self.organization}({self.intern})({self.comments})"
         
