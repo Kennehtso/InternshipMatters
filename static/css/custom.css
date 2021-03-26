@@ -23,3 +23,6 @@ ul li a:hover {
 .ih-item.circle {
   left:20%;
 }
+#bannerTitle, header.masthead .overlay {
+  transition: 1s;
+}

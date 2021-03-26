@@ -48,3 +48,15 @@ comments = Comment.objects.all().order_by('-score')
 ## Format: {fields}__{field.variable}='{target}'
 comments = Comment.objects.filter(hashTags__name='講座多')
 
+# 10. Query from parent with other parent
+## As we want to count all Counts of the org,
+## that the target intern has left
+comments = Comment.objects.filter(intern__name='kso')
+orgCount = {}
+for cmt in comments:
+    orgName = cmt.organization.name
+    if orgName and orgName in orgCount:
+        orgCount[orgName] += 1
+    else:
+        orgCount[orgName] = 1
+print(orgCount)

@@ -5,7 +5,7 @@
   <div class="container">
     <div class="row">
       <div class="col-xl-9 mx-auto">
-        <h1 class="mb-5">Internship Matters! 
+        <h1 id="bannerTitle" class="mb-5">Internship Matters! 
           <br/>
 Share & Help Others</h1>
       </div>
@@ -16,7 +16,7 @@ Share & Help Others</h1>
           <form>
             <div class="form-row">
               <div class="btn-group col-md-10 col-lg-10 col-xl-10 mb-5 mb-md-0">
-                <input type="email" class="form-control form-control-lg" placeholder="機構名稱 / 類型">
+                <input id="bannerSearch" type="search" class="form-control form-control-lg" placeholder="機構名稱 / 類型">
               </div>
               <!--Search Button -->
               <div class="btn-group col-md-2 col-lg-2 col-xl-2 mb-2 mb-md-0">
@@ -32,10 +32,10 @@ Share & Help Others</h1>
             <div class="form-row">
               <!--Location-->
               <div class="btn-group col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0">
-                <button type="button" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button id="location_select" type="button" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Location
                 </button>
-                <div class="dropdown-menu">
+                <div id="location_list" class="dropdown-menu">
                   <a class="dropdown-item" href="#">Action</a>
                   <a class="dropdown-item" href="#">Another action</a>
                   <a class="dropdown-item" href="#">Something else here</a>
@@ -46,10 +46,10 @@ Share & Help Others</h1>
 
               <!--Internship Type-->
               <div class="btn-group col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0">
-                <button type="button" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button id="internshipType_select" type="button" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Internship Type
                 </button>
-                <div class="dropdown-menu">
+                <div id="internshipType_list" class="dropdown-menu">
                   <a class="dropdown-item" href="#">Action</a>
                   <a class="dropdown-item" href="#">Another action</a>
                   <a class="dropdown-item" href="#">Something else here</a>
