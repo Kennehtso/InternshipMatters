@@ -6,12 +6,11 @@ $(window).resize(function () {
    }
 }).resize();
 
-
-$('#internshipType_select').click(function () {
+$('#location_list').click(function (e) {
    bgReact($(this));
 });
 
-$('#location_select').click(function (e) {
+$('#internshipType_select').click(function () {
    bgReact($(this));
 });
 
@@ -51,4 +50,8 @@ $(document).click(function() {
          'color':"#17a2b8;"
       });
    }
+});
+
+$(function () {
+   $('select').selectpicker();
 });

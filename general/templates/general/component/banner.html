@@ -7,57 +7,61 @@
       <div class="col-xl-9 mx-auto">
         <h1 id="bannerTitle" class="mb-5">Internship Matters! 
           <br/>
-Share & Help Others</h1>
+          Share & Help Others
+        </h1>
       </div>
-      </div>
+    </div>
 
-      <div class="row">
-        <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
-          <form>
-            <div class="form-row">
-              <div class="btn-group col-md-10 col-lg-10 col-xl-10 mb-5 mb-md-0">
-                <input id="bannerSearch" type="search" class="form-control form-control-lg" placeholder="機構名稱 / 類型">
+    <div class="row">
+      <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
+        <form>
+          <div class="form-row">
+            <div class="btn-group col-md-10 col-lg-10 col-xl-10 mb-5 mb-md-0">
+              <input id="bannerSearch" type="search" class="form-control form-control-lg" placeholder="機構名稱 / 類型">
               </div>
               <!--Search Button -->
               <div class="btn-group col-md-2 col-lg-2 col-xl-2 mb-2 mb-md-0">
                 <button type="submit" class="btn btn-lg btn-info">Search</button>
               </div>
-              </div>
-            </form>
-          </div>
+            </div>
+          </form>
+        </div>
       </div>
       <div class="row" style="padding-top: 10px;">
         <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
           <form>
             <div class="form-row">
-              <!--Location-->
-              <div class="btn-group col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0">
-                <button id="location_select" type="button" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Location
-                </button>
-                <div id="location_list" class="dropdown-menu">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Separated link</a>
-                </div>
-              </div>
-
-              <!--Internship Type-->
-              <div class="btn-group col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0">
-                <button id="internshipType_select" type="button" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Internship Type
-                </button>
-                <div id="internshipType_list" class="dropdown-menu">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Separated link</a>
-                </div>
-              </div>
-
+              <!--地區-->
+              <select id="location_list" data-style="btn-outline-info" 
+                class="selectpicker col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0" aria-label="選擇地區" data-live-search="true">
+                <option selected>選擇地區</option>
+                <option data-divider="true"></option>
+                <option value='臺北市'>臺北市</option>
+                <option value='基隆市'>基隆市</option>
+                <option value='新北市'>新北市</option>
+                <option value='宜蘭縣'>宜蘭縣</option>
+                <option value='新竹市'>新竹市</option>
+                <option value='新竹縣'>新竹縣</option>
+                <option value='桃園市'>桃園市</option>
+                <option value='苗栗縣'>苗栗縣</option>
+                <option value='臺中市'>臺中市</option>
+                <option value='雲林縣'>雲林縣</option>
+                <option value='臺南市'>臺南市</option>
+                <option value='高雄市'>高雄市</option>
+                <option value='屏東縣'>屏東縣</option>
+                <option value='臺東縣'>臺東縣</option>
+                <option value='花蓮縣'>花蓮縣</option>
+              </select>
+              <!--實習類型-->
+              <select id="internshipType_list" data-style="btn-outline-info" 
+                class="selectpicker col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0" aria-label="選擇實習類型" data-live-search="true">
+                <option selected>選擇實習類型</option>
+                <option data-divider="true"></option>
+                <option value="校外課程實習">校外課程實習</option>
+                <option value="校外全職實習">校外全職實習</option>
+                <option value="校內課程實習">校內課程實習</option>
+                <option value="校內全職實習">校內全職實習</option>
+              </select>
             </div>
           </form>
         </div>
