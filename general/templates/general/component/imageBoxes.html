@@ -1,4 +1,26 @@
 {% load static %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>機構名稱</th>
+      <th>機構類型</th>
+      <th>地區</th>
+      <th>綜合評分</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in organizations %}
+      <tr>
+        <th>{{ item.name }}</th>
+        <th>{{ item.area }}</th>
+        <th>{{ item.organizationType }}</th>
+        <th>{{ item.score }}</th>
+      </tr>
+    {% endfor%}
+  </tbody>
+</table>
+
+<hr/>
 <section class="showcase">
   <div class="container-fluid p-0">
     <div class="row no-gutters">
@@ -25,3 +47,4 @@
     </div>
   </div>
 </section>
+

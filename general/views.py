@@ -6,7 +6,8 @@ def home(request):
     return render(request,'general/home.html')
 
 def result(request):
-    return render(request,'general/result.html')
+    organizations = Organization.objects.all()
+    return render(request,'general/result.html', {'organizations':organizations})
 
 def detail(request):
     return render(request,'general/detail.html')
