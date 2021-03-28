@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from .models import *
 # Create your views here.
 def home(request):
-    return render(request,'general/home.html')
+    organizations = Organization.objects.all()
+    return render(request,'general/home.html',{'organizations':organizations})
 
 def result(request):
     organizations = Organization.objects.all()
