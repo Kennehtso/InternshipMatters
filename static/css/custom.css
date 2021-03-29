@@ -99,7 +99,7 @@ input[type=submit] {
 /* Jquery Autoccomplete End */
 
 /* comments component start */
-.comments {
+.comments, .results {
   width:50%; 
   margin-left:25%; 
   margin-right:25%;
