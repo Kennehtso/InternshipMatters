@@ -11,19 +11,21 @@ def home(request):
 
 def result(request):
     queryList = []
-
+    # Get Data
     bannerSearch = request.POST['bannerSearch']
     location = request.POST['location_list']
     internshipType = request.POST['internshipType_list']
 
+    # Combine Filter option
     if bannerSearch and bannerSearch != '': 
         queryList.append(Q(name__icontains=bannerSearch))
     if location and location != '': 
         queryList.append(Q(area__icontains=location))
     #if internshipType: queryList.append(internshipType)
 
-    organizations = Organization.objects.filter(reduce(operator.and_, queryList))
-    #organizations = Organization.objects.all()
+    # Fetch actopm
+    if not queryList: organizations = Organization.objects.all()
+    else: organizations = Organization.objects.filter(reduce(operator.and_, queryList))
 
     context = {'organizations':organizations}
     return render(request, 'general/result.html', context)
