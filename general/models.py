@@ -5,7 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 # TODO - may need to use Login user id
 
-class Intern(models.Model):
+class InternPerson(models.Model):
     name = models.CharField(max_length=200, null=False)
     email = models.EmailField(null=True)
     def __str__(self):
@@ -45,7 +45,7 @@ class Comment(models.Model):
     organization = models.ForeignKey(Organization, null=True, on_delete=models.SET_NULL)
     # TODO - 1(intern) to 1(Comment)
     # On Delete = If the related user is deleted, delete this record
-    intern = models.ForeignKey(Intern, null=True, on_delete=models.SET_NULL)
+    intern = models.ForeignKey(InternPerson, null=True, on_delete=models.SET_NULL)
     # TODO -  may better need define in db
     internshipType = models.CharField(null=True, max_length=200, choices=INTERNSHIPTYPE)
     # TODO - Many(hashTags) to Many(Comment)

@@ -29,7 +29,6 @@ print(comments)
 # 6. Get Data from Child (comment) to Parent (Intern)
 ## Get parent variable by foreign key mapping already
 comment = Comment.objects.first()
-comment.
 intern_name = comment.intern.name
 print(intern_name)
 

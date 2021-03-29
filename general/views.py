@@ -10,5 +10,10 @@ def result(request):
     organizations = Organization.objects.all()
     return render(request,'general/result.html', {'organizations':organizations})
 
-def detail(request):
-    return render(request,'general/detail.html')
+def detail(request, orgId):
+    organization = Organization.objects.get(id=orgId)
+    comments = organization.comment_set.all()
+    comments_count = comments.count()
+    context = {'organization':organization,'comments_count':comments_count}
+
+    return render(request,'general/detail.html',context)

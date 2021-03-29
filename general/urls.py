@@ -4,5 +4,5 @@ urlpatterns = [
     path('',views.home),
     path('home/',views.home),
     path('result/',views.result),
-    path('detail/',views.detail),
+    path('detail/<str:orgId>/',views.detail),
 ]

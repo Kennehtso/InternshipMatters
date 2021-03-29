@@ -2,7 +2,7 @@
 
 <section class="testimonials text-center bg_grad1">
 	<div class="container">
-		<h2 class="mb-5">想對你說的話...</h2>
+		<h2 class="mb-5">{{ organization.name }}</h2>
 		<div class="row">
 			<div class="col-md-12 col-lg-12 col-xl-12 mx-auto">
 				<form>
@@ -13,8 +13,8 @@
 									<div class="img">
 										<img src="{% static '/img/YODA1.jpg'%}" alt="img"></div>
 										<div class="info">
-											<h3>沒有期待，沒有傷害</h3>
-											<p>彼此尊重，才有未來</p>
+											<h3 style="font-size: 40px;">{{ comments_count }}</h3>
+											<p>評論次數</p>
 										</div>
 									</a>
 								</div>
@@ -25,8 +25,8 @@
 										<div class="img">
 											<img src="{% static '/img/YODA2.gif'%}" alt="img"></div>
 											<div class="info">
-												<h3>充滿好奇</h3>
-												<p>挑戰自我，勇敢往前！</p>
+												<h3 style="font-size: 40px;">{{ organization.score }}</h3>
+												<p>整體評分</p>
 											</div>
 										</a>
 									</div>
@@ -37,8 +37,8 @@
 											<div class="img">
 												<img src="{% static '/img/YODA3.jpg'%}" alt="img"></div>
 												<div class="info">
-													<h3>累了吧？</h3>
-													<p>生活不如簡單點</p>
+													<h3>TODO</h3>
+													<p>熱門標籤</p>
 												</div>
 											</a>
 										</div>
