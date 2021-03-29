@@ -97,3 +97,11 @@ input[type=submit] {
 }
 
 /* Jquery Autoccomplete End */
+
+/* comments component start */
+.comments {
+  width:50%; 
+  margin-left:25%; 
+  margin-right:25%;
+}
+/* comments compnent end */

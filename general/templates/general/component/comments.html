@@ -1,0 +1,26 @@
+{% load static %}
+    <table class="table comments">
+        <thead>
+        <tr>
+            <th>實習類型</th>
+            <th>伙伴稱呼</th>
+            <th>標籤</th>
+            <th>心得分享</th>
+            <th>創立日期</th>
+            <th>評分</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in comments %}
+            <tr>
+				<th>{{ item.internshipType }}</th>
+				<th>{{ item.intern.name }}</th>
+				<th>{{ item.hashTags.name }}</th>
+				<th>{{ item.comments }}</th>
+				<th>{{ item.createDate | date:"Y-m-d H:i" }}</th>
+				<th>{{ item.score }}</th>
+            </tr>
+        {% endfor%}
+        </tbody>
+    </table>
+		
