@@ -99,9 +99,28 @@ input[type=submit] {
 /* Jquery Autoccomplete End */
 
 /* comments component start */
-.comments, .results {
+.comments{
   width:50%; 
   margin-left:25%; 
   margin-right:25%;
 }
 /* comments compnent end */
+
+/* results component start */
+.results {
+  width:50%; 
+  margin-left:25%; 
+  margin-right:25%;
+}
+
+.results tbody tr td a {
+  color: black
+}
+/*
+.results tbody tr:hover,
+.results tbody tr:focus-within {
+  background: #f2f3ff;
+  outline: none;
+}
+*/
+/* results compnent end */

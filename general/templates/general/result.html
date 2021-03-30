@@ -11,13 +11,22 @@
         </thead>
         <tbody>
         {% for item in organizations %}
-            <tr>
-            <th>{{ item.name }}</th>
-            <th>{{ item.area }}</th>
-            <th>{{ item.organizationType }}</th>
-            <th>{{ item.score }}</th>
+            <tr class="resultsRow" id="{{ item.id}}">
+                <td>{{ item.name }}</td>
+                <td>{{ item.area }}</td>
+                <td>{{ item.organizationType }}</td>
+                <td>{{ item.score }}</td>
             </tr>
         {% endfor%}
         </tbody>
     </table>
+    <script>
+        let resultsRow = document.getElementsByClassName('resultsRow');
+        
+        for (let i = 0; i < resultsRow.length; i++) {
+            resultsRow[i].addEventListener("click", () => {
+                window.location.href = '/detail/' + resultsRow[i].id;
+            });
+        }
+    </script>
 {% endblock %}
