@@ -57,4 +57,6 @@ class Comment(models.Model):
     def __str__(self):
         return f"{self.organization}({self.intern})({self.comments})"
         
-
+    def hashTags_names(self):
+        return ', '.join([h.name for h in self.hashTags.all()])
+    hashTags_names.short_description = "HashTags Names"
