@@ -2,6 +2,8 @@
 {% load static %}
 {% block content %}
     <form method="POST" action="" class="comments">
+        {% csrf_token %}
+        {{form}}
         <input type="submit" name="submit"  class="btn btn-info" value="送出"/>
     </form>
 {% endblock %} 

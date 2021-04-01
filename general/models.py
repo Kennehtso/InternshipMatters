@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.expressions import ValueRange
+from django.db.models.expressions import F, ValueRange
 from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 
