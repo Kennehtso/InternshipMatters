@@ -64,7 +64,6 @@ input[type=text] {
   width: 100%;
 }
 input[type=submit] {
-  background-color: DodgerBlue;
   color: #fff;
 }
 .autocomplete-items {
@@ -115,6 +114,10 @@ input[type=submit] {
 
 .results tbody tr td a {
   color: black
+}
+.comments tbody tr td {
+  border-left: 1px solid #dee2e6;
+  border-right: 1px solid #dee2e6;
 }
 /*
 .results tbody tr:hover,
