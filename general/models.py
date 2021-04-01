@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.expressions import F, ValueRange
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import Avg
 # Create your models here.
 
 # TODO - may need to use Login user id
@@ -24,7 +25,16 @@ class Organization(models.Model):
     area = models.CharField(max_length=200, null=True)
     # TODO - may better need define in db
     organizationType = models.CharField(null=True, max_length=200, choices=ORGANIZATIONTYPE)
-    score = models.IntegerField(default=0, null=True, validators=[MaxValueValidator(5), MinValueValidator(0)])
+    #score = models.IntegerField(default=0, null=True, validators=[MaxValueValidator(5), MinValueValidator(0)])
+    
+    def score(self):
+        comments = Comment.objects.filter(organization__id=self.id)
+        self.commentsCount = comments.count()
+        avgScore = comments.aggregate(Avg('score'))["score__avg"]
+        return 0 if avgScore is None else int(avgScore)
+
+    def commentsCount(self):
+        return self.commentsCount()
 
     def __str__(self):
         return self.name
@@ -35,6 +45,7 @@ class HashTags(models.Model):
         return self.name
 
 class Comment(models.Model):
+
     INTERNSHIPTYPE = (
         ('校外課程實習','校外課程實習'),
         ('校外全職實習','校外全職實習'),
@@ -59,4 +70,5 @@ class Comment(models.Model):
         
     def hashTags_names(self):
         return ', '.join([h.name for h in self.hashTags.all()])
-    hashTags_names.short_description = "HashTags Names"
+
+

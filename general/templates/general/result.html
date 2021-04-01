@@ -7,6 +7,7 @@
             <th>機構類型</th>
             <th>地區</th>
             <th>綜合評分</th>
+            <th>評論人數</th>
         </tr>
         </thead>
         <tbody>
@@ -16,6 +17,7 @@
                 <td>{{ item.area }}</td>
                 <td>{{ item.organizationType }}</td>
                 <td>{{ item.score }}</td>
+                <td>{{ item.commentsCount }}</td>
             </tr>
         {% endfor%}
         </tbody>

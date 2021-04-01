@@ -3,10 +3,40 @@
 {% block content %}
     <form method="POST" action="" class="comments">
         {% csrf_token %}
-        {{form}}
+        <!-- Customize -->
+        <div style="display:none" class="fieldWrapper form-group">
+            {{ form.organization.errors }}
+            <label for="{{ form.organization.id_for_label }}">Organization:</label>
+            {{ form.organization }}
+        </div>
+        <div class="fieldWrapper form-group">
+            {{ form.internshipType.errors }}
+            <label for="{{ form.internshipType.id_for_label }}">Internship Type:</label>
+            {{ form.internshipType }}
+        </div>
+        <div class="fieldWrapper form-group">
+            {{ form.hashTags.errors }}
+            <label for="{{ form.hashTags.id_for_label }}">Hash Tags:</label>
+            {{ form.hashTags }}
+        </div>
+        <div class="fieldWrapper form-group">
+            {{ form.comments.errors }}
+            <label for="{{ form.comments.id_for_label }}">Comments:</label>
+            {{ form.comments }}
+        </div>
+
+        <div class="fieldWrapper form-group">
+            {{ form.score.errors }}
+            <label for="{{ form.score.id_for_label }}">Score:</label>
+            {{ form.score }}
+        </div>
+        <!-- AUTO GEN {{form}}-->
         <input type="submit" name="submit"  class="btn btn-info" value="送出"/>
     </form>
 {% endblock %} 
 
-{% load static %}
-		
+{% block contentJs%}
+<script>
+    $(".comments div input, .comments div select").addClass("form-control");
+</script>
+{% endblock contentJs%}

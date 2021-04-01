@@ -45,7 +45,7 @@ def createComment(request):
     if request.method =='POST':
         #print(F"Post!! {request.POST}")
         form = CommentForm(request.POST)
-        if form.is_valid:
+        if form.is_valid():
             form.save()
             orgId = request.POST["organization"]
             return redirect(f'../detail/{orgId}')
@@ -59,7 +59,7 @@ def updateComment(request, pk):
 
     if request.method =='POST':
         form = CommentForm(request.POST, instance=comment)
-        if form.is_valid:
+        if form.is_valid():
             form.save()
             orgId = request.POST["organization"]
             return redirect(f'../detail/{orgId}')
