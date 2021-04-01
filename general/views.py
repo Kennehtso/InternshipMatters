@@ -52,3 +52,17 @@ def createComment(request):
 
     context = {"form" : form}
     return render(request,'general/commentForm.html', context)
+
+def updateComment(request, pk):
+    comment = Comment.objects.get(id=pk)
+    form  = CommentForm(instance=comment)
+
+    if request.method =='POST':
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid:
+            form.save()
+            orgId = request.POST["organization"]
+            return redirect(f'../detail/{orgId}')
+
+    context = {"form" : form}
+    return render(request,'general/commentForm.html', context)

@@ -1,6 +1,6 @@
 {% load static %}
 <div class="comments">
-    <a style="width: 100%;" class="btn btn-info" href="{% url 'commentForm'%}">我想分享</a>
+    <a style="width: 100%;" class="btn btn-info" href="{% url 'createComment'%}">我想分享</a>
 </div>
 <table class="table comments">
     <thead>
@@ -11,6 +11,7 @@
             <th>心得分享</th>
             <th>創立日期</th>
             <th>評分</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +23,8 @@
             <td>{{ item.comments }}</td>
             <td>{{ item.createDate | date:"Y-m-d H:i" }}</td>
             <td>{{ item.score }}</td>
+            <td><a class="btn btn-info" href="{% url 'updateComment' item.id %}">修改</a>
+            </td>
         </tr>
         {% endfor%}
     </tbody>
