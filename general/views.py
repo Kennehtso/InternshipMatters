@@ -38,3 +38,9 @@ def detail(request, orgId):
     context = {'organization':organization,'comments':comments, 'comments_count':comments_count}
 
     return render(request,'general/detail.html',context)
+
+def commentsForm(request):
+    context={
+        
+    }
+    return render(request,'general/commentsForm.html')
