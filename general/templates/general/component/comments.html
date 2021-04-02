@@ -1,6 +1,6 @@
 {% load static %}
 <div class="comments">
-    <a style="width: 100%;" class="btn btn-info" href="{% url 'createComment'%}">我想分享</a>
+    <a style="width: 100%;" class="btn btn-info" href="{% url 'createComment' organization.id %}">我想分享</a>
 </div>
 <table class="table comments">
     <thead>

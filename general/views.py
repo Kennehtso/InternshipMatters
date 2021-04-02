@@ -4,7 +4,7 @@ from functools import reduce
 import operator
 from django.db.models import Q
 from .models import *
-from .form import CommentForm
+from .form import *
 # Create your views here.
 def home(request):
     organizations = Organization.objects.all()
@@ -40,18 +40,18 @@ def detail(request, orgId):
 
     return render(request,'general/detail.html',context)
 
-def createComment(request):
-    form  = CommentForm()
+def createComment(request, orgId):
+    form = CreateCommentForm(initial={'organization':orgId})
     if request.method =='POST':
         #print(F"Post!! {request.POST}")
-        form = CommentForm(request.POST)
+        form = CreateCommentForm(request.POST)
         if form.is_valid():
             form.save()
             orgId = request.POST["organization"]
             return redirect(f'../detail/{orgId}')
 
     context = {"form" : form}
-    return render(request,'general/commentForm.html', context)
+    return render(request,'general/createComment.html', context)
 
 def updateComment(request, pk):
     comment = Comment.objects.get(id=pk)
