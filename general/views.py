@@ -40,18 +40,21 @@ def detail(request, orgId):
 
     return render(request,'general/detail.html',context)
 
+import random
 def createComment(request, orgId):
-    form = CreateCommentForm(initial={'organization':orgId})
+    # TODO - Get UserId from Login
+    userId = random.randint(1, 3)
+    form = CommentForm(initial={'organization':orgId, 'intern':userId})
     if request.method =='POST':
         #print(F"Post!! {request.POST}")
-        form = CreateCommentForm(request.POST)
+        form = CommentForm(request.POST)
         if form.is_valid():
             form.save()
             orgId = request.POST["organization"]
             return redirect(f'../detail/{orgId}')
 
     context = {"form" : form}
-    return render(request,'general/createComment.html', context)
+    return render(request,'general/commentForm.html', context)
 
 def updateComment(request, pk):
     comment = Comment.objects.get(id=pk)
@@ -69,9 +72,10 @@ def updateComment(request, pk):
 
 def deleteComment(request):
     if request.method =='POST':
-        cmtId = request.POST.get("cmtId", "")
-        comment = Comment.objects.get(id=cmtId)
+        cmtId = request.POST["cmtId"]
+        orgId = request.POST["orgId"]
 
+        comment = Comment.objects.get(id=cmtId)
         comment.delete()
         data = {'success': f" Success delete id ='{ cmtId }' comment !!" }
         return JsonResponse(data)
