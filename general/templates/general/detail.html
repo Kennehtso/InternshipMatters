@@ -12,3 +12,26 @@
     {% include './component/comments.html'%}
 
 {% endblock %} 
+
+
+{% block contentJs%}
+<script>
+    function deleteComment(cmtId){
+        alert(cmtId);
+        $.ajax({
+         type: "POST",
+         url: "{% url 'deleteComment' %}",
+         data: { 'cmtId': cmtId },
+         beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+         },
+         success: function(response){
+         alert(response.success);
+        }
+        });
+    }
+
+   
+</script>
+
+{% endblock contentJs%}

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from functools import reduce
 import operator
 from django.db.models import Q
@@ -66,3 +66,12 @@ def updateComment(request, pk):
 
     context = {"form" : form}
     return render(request,'general/commentForm.html', context)
+
+def deleteComment(request):
+    if request.method =='POST':
+        cmtId = request.POST.get("cmtId", "")
+        comment = Comment.objects.get(id=cmtId)
+
+        comment.delete()
+        data = {'success': f" Success delete id ='{ cmtId }' comment !!" }
+        return JsonResponse(data)

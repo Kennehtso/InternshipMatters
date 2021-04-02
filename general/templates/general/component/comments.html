@@ -12,6 +12,7 @@
             <th>創立日期</th>
             <th>評分</th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -24,6 +25,7 @@
             <td>{{ item.createDate | date:"Y-m-d H:i" }}</td>
             <td>{{ item.score }}</td>
             <td><a class="btn btn-info" href="{% url 'updateComment' item.id %}">修改</a>
+            <td><a class="btn btn-danger" onclick="deleteComment('{{item.id}}')">刪除</a>
             </td>
         </tr>
         {% endfor%}
