@@ -21,10 +21,14 @@
             </div>
         </div>
         <div class="form-row" style="padding-top: 20px;">
-            <div class="fieldWrapper col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0">
+            <!--div class="fieldWrapper col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0">
                 {{ form.score.errors }}
                 {{ form.score.label_tag }}
                 {{ form.score }}
+            </div-->
+            <div class="col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0">
+                <label for="id_score">評分: <span id="scoreValue"></span> 分 </label>
+                <input type="range" class="form-range" value="{{form.score.value}}" min="0" max="5" step="1" name="score"  required="" id="id_score">
             </div>
             <div class="fieldWrapper col-md-8 col-lg-8 col-xl-8 mb-8 mb-md-0">
                 {{ form.comments.errors }}
@@ -52,5 +56,12 @@
     $('#commentForm').submit(function(){
         $("#commentForm :disabled").removeAttr('disabled');
     });
+    
+    var id_score = document.getElementById("id_score");
+    var scoreValue = document.getElementById("scoreValue");
+    scoreValue.innerHTML = id_score.value;
+    id_score.oninput = function() {
+        scoreValue.innerHTML = this.value;
+    }
 </script>
 {% endblock contentJs%}

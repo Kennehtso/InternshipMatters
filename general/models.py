@@ -12,30 +12,31 @@ class InternPerson(models.Model):
     def __str__(self):
         return self.name
 
+ORGANIZATIONTYPE = (
+    ('各級學校諮商','各級學校諮商'),
+    ('社區性心理衛生中心或諮商機構','社區性心理衛生中心或諮商機構'),
+    ('已立案之社會福利相關機構','已立案之社會福利相關機構'),
+    ('醫療機構','醫療機構'),
+    ('司法院或法務部所屬相關單位','司法院或法務部所屬相關單位'),
+    ('企業單位及所屬基金會','企業單位及所屬基金會'),
+)
 class Organization(models.Model):
-    ORGANIZATIONTYPE = (
-        ('各級學校諮商','各級學校諮商'),
-        ('社區性心理衛生中心或諮商機構','社區性心理衛生中心或諮商機構'),
-        ('已立案之社會福利相關機構','已立案之社會福利相關機構'),
-        ('醫療機構','醫療機構'),
-        ('司法院或法務部所屬相關單位','司法院或法務部所屬相關單位'),
-        ('企業單位及所屬基金會','企業單位及所屬基金會'),
-    )
     name = models.CharField(max_length=200, null=False)
     area = models.CharField(max_length=200, null=True)
     # TODO - may better need define in db
     organizationType = models.CharField(null=True, max_length=200, choices=ORGANIZATIONTYPE)
-    #score = models.IntegerField(default=0, null=True, validators=[MaxValueValidator(5), MinValueValidator(0)])
-    
-    def score(self):
+    score = models.FloatField(default=0, null=True, validators=[MaxValueValidator(5), MinValueValidator(0)])
+    commentsCount = models.IntegerField(default=0, null=True, validators=[MinValueValidator(0)])
+    """
+    def getScore(self):
         comments = Comment.objects.filter(organization__id=self.id)
         self.commentsCount = comments.count()
         avgScore = comments.aggregate(Avg('score'))["score__avg"]
         return 0 if avgScore is None else int(avgScore)
 
-    def commentsCount(self):
+    def getCommentsCount(self):
         return self.commentsCount()
-
+    """
     def __str__(self):
         return self.name
 
