@@ -1,0 +1,56 @@
+{% extends 'general/main.html'%}
+{% load static %}
+{% block content %}
+    <form id="createForm" method="POST" action="" class="comments">
+        {% csrf_token %}
+        <div class="form-row" style="padding-top: 20px;">
+            <div class="fieldWrapper col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0">
+                {{ form.organization.errors }}
+                {{ form.organization.label_tag }}
+                {{ form.organization }}
+            </div>
+            <div class="fieldWrapper col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0">
+                {{ form.intern.errors }}
+                {{ form.intern.label_tag }}
+                {{ form.intern }}
+            </div>
+            <div class="fieldWrapper col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0">
+                {{ form.internshipType.errors }}
+                {{ form.internshipType.label_tag }}
+                {{ form.internshipType }}
+            </div>
+        </div>
+        <div class="form-row" style="padding-top: 20px;">
+            <div class="fieldWrapper col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0">
+                {{ form.score.errors }}
+                {{ form.score.label_tag }}
+                {{ form.score }}
+            </div>
+            <div class="fieldWrapper col-md-8 col-lg-8 col-xl-8 mb-8 mb-md-0">
+                {{ form.comments.errors }}
+                {{ form.comments.label_tag }}
+                {{ form.comments }}
+            </div>
+        </div>
+        <div class="form-row" style="padding-top: 20px; padding-bottom: 20px;">
+            <div class="fieldWrapper col-md-6 col-lg-6 col-xl-6 mb-6 mb-md-0">
+                {{ form.hashTags.errors }}
+                {{ form.hashTags.label_tag }}
+                {{ form.hashTags }}
+            </div> 
+            <div class="col-md-6 col-lg-6 col-xl-6 mb-6 mb-md-0">
+                <input type="submit" name="submit" class="btn btn-info" value="送出"
+                style="width: 50%; margin-left: 25%; margin-top: 7%;"/>
+            </div>
+        </div>
+    </form>
+{% endblock %} 
+
+{% block contentJs%}
+<script>
+    $(".comments div input, .comments div select").addClass("form-control");
+    $('#createForm').submit(function(){
+        $("#createForm :disabled").removeAttr('disabled');
+    });
+</script>
+{% endblock contentJs%}

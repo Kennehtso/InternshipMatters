@@ -12,3 +12,36 @@
     {% include './component/comments.html'%}
 
 {% endblock %} 
+
+
+{% block contentJs%}
+<script>
+    function deleteComment(cmtId){
+        
+    }
+
+    $(document).on('click', '.comment-delete', function () {
+        var cmtId = $(this).attr("id");
+        $("#confirmDeleteModal").attr("comment-id", cmtId);
+        $(".modal-comment").text($("#comment-"+cmtId).html());
+    });
+
+    $(document).on('click', '#confirmDeleteButtonModal', function () {
+        var cmtId = $("#confirmDeleteButtonModal").closest(".modal").attr("comment-id");
+        //alert(cmtId);
+        $.ajax({
+            type: "POST",
+            url: "{% url 'deleteComment' %}",
+            data: { 'cmtId': cmtId, 'orgId':'{{organization.id}}'},
+            beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        },
+        success: function(response){
+            //alert(response.success);
+            window.location.href = '/detail/{{organization.id}}'
+            }
+        });
+    });
+   </script>
+
+{% endblock contentJs%}

@@ -4,4 +4,7 @@ urlpatterns = [
     path('',views.home, name='home'),
     path('result/',views.result, name='result'),
     path('detail/<str:orgId>/',views.detail, name='detail'),
+    path('createComment/<str:orgId>',views.createComment, name='createComment'),
+    path('commentForm/<str:pk>',views.updateComment, name='updateComment'),
+    path('deleteComment',views.deleteComment, name='deleteComment')
 ]

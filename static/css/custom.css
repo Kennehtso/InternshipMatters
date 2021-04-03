@@ -99,9 +99,20 @@ input[type=submit] {
 
 /* comments component start */
 .comments{
-  width:50%; 
-  margin-left:25%; 
-  margin-right:25%;
+  width:70%; 
+  margin-left:15%; 
+  margin-right:15%;
+}
+.shareComment{
+  width:40%; 
+  margin-left:30%; 
+  margin-right:30%;
+  padding-bottom: 20px;
+}
+
+.shareComment :hover {
+  box-shadow: 0px 1px 10px 0px #17a2b8;
+  transition: all .2s ease-in-out;
 }
 /* comments compnent end */
 

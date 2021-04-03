@@ -1,5 +1,80 @@
 {% extends 'general/main.html'%}
 {% block content %}
+
+<div class="row" style="padding-top: 10px; padding-bottom: 20px;" >
+    <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
+      <form id="searchForm" method="post" action="/result/">{% csrf_token %}
+        <div class="form-row" >
+          <div class="btn-group col-md-10 col-lg-10 col-xl-10 mb-5 mb-md-0">
+            <input name="bannerSearch" id="bannerSearch" type="search" class="form-control form-control-lg" placeholder="機構名稱 / 類型">
+            </div>
+            <!--Search Button -->
+            <div class="btn-group col-md-2 col-lg-2 col-xl-2 mb-2 mb-md-0">
+              <button type="submit" class="btn btn-lg btn-info">Search</button>
+            </div>
+          </div>
+          
+          <div class="form-row" style="padding-top: 10px;">
+            <!--地區-->
+            <select id="location_list" name="location_list" data-style="btn-outline-info" 
+              class="selectpicker col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0" aria-label="全部地區" data-live-search="true">
+              <option value='' selected>全部地區</option>
+              <option data-divider="true"></option>
+              <option value='臺北市'>臺北市</option>
+              <option value='基隆市'>基隆市</option>
+              <option value='新北市'>新北市</option>
+              <option value='宜蘭縣'>宜蘭縣</option>
+              <option value='新竹市'>新竹市</option>
+              <option value='新竹縣'>新竹縣</option>
+              <option value='桃園市'>桃園市</option>
+              <option value='苗栗縣'>苗栗縣</option>
+              <option value='臺中市'>臺中市</option>
+              <option value='雲林縣'>雲林縣</option>
+              <option value='臺南市'>臺南市</option>
+              <option value='高雄市'>高雄市</option>
+              <option value='屏東縣'>屏東縣</option>
+              <option value='臺東縣'>臺東縣</option>
+              <option value='花蓮縣'>花蓮縣</option>
+            </select>
+             <!--機構類型-->
+              <select id="organizationType_list" name="organizationType_list" data-style="btn-outline-info" 
+              class="selectpicker col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0" aria-label="全部機構類型" data-live-search="true">
+              <option value=''selected>全部機構類型</option>
+              <option data-divider="true"></option>
+              <option value="各級學校諮商">各級學校諮商</option>
+              <option value="社區性心理衛生中心或諮商機構">社區性心理衛生中心或諮商機構</option>
+              <option value="已立案之社會福利相關機構">已立案之社會福利相關機構</option>
+              <option value="醫療機構">醫療機構</option>
+              <option value="司法院或法務部所屬相關單位">司法院或法務部所屬相關單位</option>
+              <option value="企業單位及所屬基金會">企業單位及所屬基金會</option>
+            </select>
+          </div>
+
+          
+            <div class="form-row" style="padding-top: 10px;">
+                <div class="form-group col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0">
+                    <div class="row">
+                        <label for="score_input" class="col-sm-3 col-form-label">分數：<br/><span id="scoreValue"></span> 分或以上</label>
+                        <div class="col-sm-9">
+                            <input id="score_input" name="score_input" type="range" class="form-range" value ="0" min="0" max="5" step="1" >
+                        </div>
+                    </div>
+                  </div>
+                <!--Search Button -->
+                <div class="form-group col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0">
+                    <div class="row">
+                        <label for="commentsCount_input" class="col-sm-3 col-form-label">評論人數：<br/> <span id="commentsCountValue"></span> 人或以上</label>
+                        <div class="col-sm-9">
+                            <input id="commentsCount_input" name="commentsCount_input" type="range" value ="0" class="form-range" min="0" max="99" >
+                        </div>
+                    </div>
+                 </div>
+            </div>
+
+        </form>
+      </div>
+    </div>
+
     <table class="table results">
         <thead>
         <tr>
@@ -7,6 +82,7 @@
             <th>機構類型</th>
             <th>地區</th>
             <th>綜合評分</th>
+            <th>評論人數</th>
         </tr>
         </thead>
         <tbody>
@@ -16,6 +92,7 @@
                 <td>{{ item.area }}</td>
                 <td>{{ item.organizationType }}</td>
                 <td>{{ item.score }}</td>
+                <td>{{ item.commentsCount }}</td>
             </tr>
         {% endfor%}
         </tbody>
@@ -28,5 +105,17 @@
                 window.location.href = '/detail/' + resultsRow[i].id;
             });
         }
+        var score_input = document.getElementById("score_input");
+        var scoreValue = document.getElementById("scoreValue");
+        var commentsCount_input = document.getElementById("commentsCount_input");
+        var commentsCountValue = document.getElementById("commentsCountValue");
+        scoreValue.innerHTML = score_input.value;
+        commentsCountValue.innerHTML = commentsCount_input.value;
+        score_input.oninput = function() {
+            scoreValue.innerHTML = this.value;
+        } 
+        commentsCount_input.oninput = function() {
+            commentsCountValue.innerHTML = this.value;
+        } 
     </script>
 {% endblock %}
