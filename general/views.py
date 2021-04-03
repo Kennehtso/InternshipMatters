@@ -8,11 +8,12 @@ from functools import reduce
 import operator
 from .models import *
 from .form import *
+
 # Create your views here.
 def register(request):
-    form = UserCreationForm()
+    form = CreateUserForm()
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CreateUserForm(request.POST)
         if form.is_valid:
             form.save()
 
@@ -20,8 +21,13 @@ def register(request):
     return render(request,'general/register.html',context)
     
 def login(request):
-    organizations = Organization.objects.all()
-    context = {'organizations':organizations}
+    form = LoginUserForm()
+    if request.method == 'POST':
+        form = LoginUserForm(request.POST)
+        if form.is_valid:
+            form.save()
+
+    context = {'form':form}
     return render(request,'general/login.html',context)
 
 def home(request):

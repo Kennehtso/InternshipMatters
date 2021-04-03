@@ -1,1 +1,62 @@
-<h1>LOGIN</h1>
+{% extends 'general/main.html'%}
+{% load static %}
+
+{% block otherCSS %}
+    <link href="{% static '/css/register.css' %}" rel="stylesheet">
+{% endblock otherCSS %}
+
+
+{% block content %}
+<section class="loginSecton">
+<div class="container">
+	<div class="d-flex justify-content-center h-100">
+		<div class="card">
+			<div class="card-header">
+				<h3>登入分享空間</h3>
+				<div class="d-flex justify-content-end social_icon">
+					<span><i class="fab fa-facebook-square"></i></span>
+					<span><i class="fab fa-google-plus-square"></i></span>
+					<span><i class="fab fa-twitter-square"></i></span>
+				</div>
+			</div>
+			<div class="card-body">
+                <form id="loginForm" action="" method="post">
+                    {% csrf_token %}
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-user"></i></span>
+						</div>
+                        {{form.username}}
+					</div>
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-key"></i></span>
+						</div>
+                        {{form.password1}}
+                    </div>
+					<div class="row align-items-center remember">
+						<input type="checkbox">把我記住
+					</div>
+					<div class="form-group">
+						<input type="submit" value="確認" class="btn btn-info login_btn">
+					</div>
+				</form>
+			</div>
+			<div class="card-footer">
+				<div class="d-flex justify-content-center links">
+					還沒加入嗎？<a href="{% url 'register'%}" >點我加入</a>
+				</div>
+				<div class="d-flex justify-content-center">
+					<a href="#">忘記密碼點我</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section>
+{% endblock %}
+{% block contentJs%}
+<script>
+    $("#loginForm input").addClass("form-control");
+</script>
+{% endblock%}
