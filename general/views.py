@@ -1,11 +1,29 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
+from django.db.models import Q
+from django.contrib.auth.forms import UserCreationForm
+
+#Other import
 from functools import reduce
 import operator
-from django.db.models import Q
 from .models import *
 from .form import *
 # Create your views here.
+def register(request):
+    form = UserCreationForm()
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid:
+            form.save()
+
+    context = {'form':form}
+    return render(request,'general/register.html',context)
+    
+def login(request):
+    organizations = Organization.objects.all()
+    context = {'organizations':organizations}
+    return render(request,'general/login.html',context)
+
 def home(request):
     organizations = Organization.objects.all()
     return render(request,'general/home.html',{'organizations':organizations})
