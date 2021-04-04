@@ -119,7 +119,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = 'img/profile/'
 # Customize Added
 STATICFILES_DIRS = [
-    Path.joinpath(BASE_DIR, STATIC_URL)
+    Path.joinpath(BASE_DIR, STATIC_URL),
+    Path.joinpath(BASE_DIR, MEDIA_URL)
 ]
+
+MEDIA_ROOT = Path.joinpath(BASE_DIR, 'static/img/profile/')

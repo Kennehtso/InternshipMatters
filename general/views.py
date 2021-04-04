@@ -15,7 +15,7 @@ from .form import *
 from .decorators import *
 
 # Create your views here.
-@isLogin
+@isLoginRedirect
 def register(request):
     form = CreateUserForm()
     if request.method == 'POST':
@@ -23,9 +23,17 @@ def register(request):
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
+
+            # Add New user to group 'InternPerson'
             group = Group.objects.get(name='internPerson')
             user.groups.add(group)
 
+            # create InternPerson when create User
+            # Due to already set One To One relationship in model, so we can do as:
+            InternPerson.objects.create(
+                user=user,
+                
+            )
 
             messages.success(request, f"伙伴 '{username}' 註冊成功！現在可以登入嚕～")
             return redirect('login')
@@ -33,7 +41,7 @@ def register(request):
     context = {'form':form}
     return render(request,'general/register.html',context)
 
-@isLogin
+@isLoginRedirect
 def loginPage(request):
     form = LoginUserForm()
     if request.method == 'POST':
@@ -50,6 +58,19 @@ def loginPage(request):
 
     context = {'form':form}
     return render(request,'general/login.html',context)
+
+@isLogin
+def userSetting(request):
+    internPerson = InternPerson.objects.get(user=request.user)
+    form = UpdateUserForm(instance=internPerson)
+
+    if request.method == 'POST':
+        form = UpdateUserForm(request.POST,request.FILES, instance=internPerson)
+        if form.is_valid():
+            form.save()
+        
+    context = {'internPerson':internPerson, 'form':form }
+    return render(request,'general/userSetting.html',context)
 
 def logoutPage(request):
     logout(request)

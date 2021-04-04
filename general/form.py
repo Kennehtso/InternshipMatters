@@ -1,6 +1,6 @@
 from django.db.models import fields
 from django.forms import ModelForm, ValidationError, TextInput
-from .models import Comment
+from .models import Comment, InternPerson
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -27,6 +27,19 @@ class CreateUserForm(UserCreationForm):
     class Meta():
         model = User
         fields = ['username','email','password1','password2']
+
+class UpdateUserForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(UpdateUserForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs['placeholder'] = '你/妳的稱呼'
+        self.fields['email'].widget.attrs['placeholder'] = '電郵地址（找回密碼用）'
+        self.fields['profilePic'].widget.attrs['placeholder'] = '上傳頭像照片'
+
+    class Meta():
+        model = InternPerson
+        fields = '__all__'
+        exclude = ['user']
+
 
 class CommentForm(ModelForm):
     def __init__(self, *args, **kwargs):

@@ -14,11 +14,20 @@ def isAuthenticated_detail(views_func):
         return views_func(request, *args, **kwargs)
     return wrapper_func
 
-def isLogin(views_func):
+def isLoginRedirect(views_func):
     def wrapper_func(request, *args, **kwargs):
         if request.user.is_authenticated:
             return redirect('home')
         return views_func(request, *args, **kwargs)
+    return wrapper_func
+
+def isLogin(views_func):
+    def wrapper_func(request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return views_func(request, *args, **kwargs)
+        else:
+            messages.error(request, f"要先登入才能瀏覽 “機構評論詳閱” 頁面。")
+            return redirect('login')
     return wrapper_func
 
 def allowed_user_groups(allowed_roles=[]):
