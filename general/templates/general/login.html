@@ -38,7 +38,11 @@
 						<input type="checkbox">記住我
 					</div>
 					{% for msg in messages %}
-						<div id='{{msg}}' class="alert alert-success alert-dismissible fade show">
+						{% if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+							<div id='{{msg}}' class="alert alert-success alert-dismissible fade show">
+						{% elif msg.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+							<div id='{{msg}}' class="alert alert-warning   alert-dismissible fade show">
+						{% endif %}
 							<strong>{{msg}}</strong>
 							<button type="button" class="close" data-dismiss="alert">&times;</button>
 						</div>

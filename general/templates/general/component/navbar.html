@@ -2,11 +2,13 @@
 <nav class="navbar navbar-dark bg-dark static-top">
   <div class="container">
     <a href="{% url 'home'%}">
-      <img style="width: 193px; height: 43px;" src="{% static 'img/logo.png'%}"/></a>
+      <img style="width: 193px; height: 43px;" src="{% static 'img/logo.png'%}"/>
+    </a>
     <div>
+      <span style="color:white;">伙伴 '{{request.user}}' 你好！</span>
       <a class="btn btn-info" href="{% url 'login' %}">登入</a>
       <a class="btn btn-outline-info" href="{% url 'register'%}">註冊</a>
-      <a class="btn btn-outline-danger" href="#">登出</a>
+      <a class="btn btn-outline-danger" href="{% url 'logout' %}">登出</a>
     </div> 
   </div>
 </nav>

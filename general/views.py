@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 #Other import
@@ -24,15 +25,26 @@ def register(request):
     context = {'form':form}
     return render(request,'general/register.html',context)
     
-def login(request):
+def loginPage(request):
     form = LoginUserForm()
     if request.method == 'POST':
-        form = LoginUserForm(request.POST)
-        if form.is_valid():
-            form.save()
+        username = request.POST['username']
+        password = request.POST['password1']
+        user = authenticate(request,username=username, password=password)
+        if user is None:
+            messages.error(request, f"稱呼 '{username}' 或密碼有誤，請檢查後再嘗試")
+            return redirect('login')
+        else:
+            login(request, user)
+            return render(request,'general/home.html')
+
 
     context = {'form':form}
     return render(request,'general/login.html',context)
+
+def logoutPage(request):
+    logout(request)
+    return redirect('login')
 
 def home(request):
     organizations = Organization.objects.all()
