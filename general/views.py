@@ -59,6 +59,7 @@ def loginPage(request):
     context = {'form':form}
     return render(request,'general/login.html',context)
 
+@isLogin
 def userSetting(request):
     internPerson = InternPerson.objects.get(user=request.user)
     form = UpdateUserForm(instance=internPerson)
@@ -76,13 +77,17 @@ def logoutPage(request):
     return redirect('login')
 
 def home(request):
-    internPerson = InternPerson.objects.get(user=request.user)
+    internPerson = {}
+    if request.user.is_authenticated:
+        internPerson = InternPerson.objects.get(user=request.user)
     organizations = Organization.objects.all()
     context = {'organizations':organizations, 'internPerson':internPerson}
     return render(request,'general/home.html', context)
 
 def result(request):
-    internPerson = InternPerson.objects.get(user=request.user)
+    internPerson = {}
+    if request.user.is_authenticated:
+        internPerson = InternPerson.objects.get(user=request.user)
     organizations = Organization.objects.all()
     if request.method =='POST':
         #print(f"*********　request.POST: {request.POST} ********** ")
