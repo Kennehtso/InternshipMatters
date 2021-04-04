@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
@@ -20,8 +21,12 @@ def register(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
             username = form.cleaned_data.get('username')
+            group = Group.objects.get(name='internPerson')
+            user.groups.add(group)
+
+
             messages.success(request, f"伙伴 '{username}' 註冊成功！現在可以登入嚕～")
             return redirect('login')
 
@@ -85,6 +90,7 @@ def result(request):
     return render(request, 'general/result.html', context)
 
 @isAuthenticated_detail
+#@allowed_user_groups(allowed_roles=['admin'])
 def detail(request, orgId):
     organization = Organization.objects.get(id=orgId)
     comments = organization.comment_set.all()

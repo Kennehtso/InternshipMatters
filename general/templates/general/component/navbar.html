@@ -11,7 +11,13 @@
       {% endif %}
       
       {% if request.user.is_authenticated %}
-          <span style="color:white;">伙伴 '{{request.user}}' 你好！</span>
+          <span style="color:white;">
+            {% if request.user.is_staff %}
+                <a class="btn btn-info" href='#'>管理員</a>
+            {% else %}
+                伙伴
+            {% endif %}
+            '{{request.user}}' 你好！</span>
           <a class="btn btn-outline-danger" href="{% url 'logout' %}">登出</a>
       {% endif %}
     </div> 
