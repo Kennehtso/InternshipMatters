@@ -32,9 +32,9 @@ def register(request):
             # Due to already set One To One relationship in model, so we can do as:
             InternPerson.objects.create(
                 user=user,
-                
+                name=user.username,
+                email=user.email
             )
-
             messages.success(request, f"伙伴 '{username}' 註冊成功！現在可以登入嚕～")
             return redirect('login')
 
@@ -59,7 +59,6 @@ def loginPage(request):
     context = {'form':form}
     return render(request,'general/login.html',context)
 
-@isLogin
 def userSetting(request):
     internPerson = InternPerson.objects.get(user=request.user)
     form = UpdateUserForm(instance=internPerson)
@@ -77,10 +76,13 @@ def logoutPage(request):
     return redirect('login')
 
 def home(request):
+    internPerson = InternPerson.objects.get(user=request.user)
     organizations = Organization.objects.all()
-    return render(request,'general/home.html',{'organizations':organizations})
+    context = {'organizations':organizations, 'internPerson':internPerson}
+    return render(request,'general/home.html', context)
 
 def result(request):
+    internPerson = InternPerson.objects.get(user=request.user)
     organizations = Organization.objects.all()
     if request.method =='POST':
         #print(f"*********　request.POST: {request.POST} ********** ")
@@ -107,17 +109,17 @@ def result(request):
         if queryList: 
             organizations = Organization.objects.filter(reduce(operator.and_, queryList))
         
-    context = {'organizations':organizations}
+    context = {'organizations':organizations, 'internPerson':internPerson}
     return render(request, 'general/result.html', context)
 
 @isAuthenticated_detail
 #@allowed_user_groups(allowed_roles=['admin'])
 def detail(request, orgId):
+    internPerson = InternPerson.objects.get(user=request.user)
     organization = Organization.objects.get(id=orgId)
     comments = organization.comment_set.all()
     comments_count = comments.count()
-    context = {'organization':organization,'comments':comments, 'comments_count':comments_count}
-
+    context = {'organization':organization,'internPerson':internPerson, 'comments':comments, 'comments_count':comments_count}
     return render(request,'general/detail.html',context)
 
 @login_required(login_url='login')
@@ -134,11 +136,12 @@ def createComment(request, orgId):
             updateRelatedFieldForOrganization(orgId)
             return redirect(f'../detail/{orgId}')
 
-    context = {"form" : form}
+    context = {"form" : form, 'internPerson': internPerson }
     return render(request,'general/commentForm.html', context)
 
 @login_required(login_url='login')
 def updateComment(request, pk):
+    internPerson = InternPerson.objects.get(user=request.user)
     comment = Comment.objects.get(id=pk)
     form  = CommentForm(instance=comment)
 
@@ -150,7 +153,7 @@ def updateComment(request, pk):
             updateRelatedFieldForOrganization(orgId)
             return redirect(f'../detail/{orgId}')
 
-    context = {"form" : form}
+    context = {"form" : form, 'internPerson':internPerson }
     return render(request,'general/commentForm.html', context)
 
 @login_required(login_url='login')

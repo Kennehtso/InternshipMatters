@@ -18,7 +18,12 @@
             {% for item in comments %}
             <tr>
                 <td >{{ item.internshipType }}</td>
-                <td >{{ item.intern.name }}</td>
+                <td >
+                    {% if item.intern.profilePic %}
+                        <img style="max-width:30px; max-height: 30px; border-radius: 50%;" src='{{ item.intern.profilePic.url }}'>
+                    {% endif %}
+                    {{ item.intern.name }}
+                </td>
                 <td >{{ item.hashTags_names }}</td>
                 <td id="comment-{{item.id}}">{{ item.comments }}</td>
                 <td >{{ item.createDate | date:"Y-m-d H:i" }}</td>
