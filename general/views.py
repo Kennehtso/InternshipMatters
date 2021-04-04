@@ -99,12 +99,11 @@ def detail(request, orgId):
 
     return render(request,'general/detail.html',context)
 
-import random
 @login_required(login_url='login')
 def createComment(request, orgId):
     # TODO - Get UserId from Login
-    userId = random.randint(1, 3)
-    form = CommentForm(initial={'organization':orgId, 'intern':userId})
+    internPerson = InternPerson.objects.get(user=request.user)
+    form = CommentForm(initial={'organization':orgId, 'intern':internPerson.id})
     if request.method =='POST':
         #print(F"Post!! {request.POST}")
         form = CommentForm(request.POST)

@@ -2,11 +2,13 @@ from django.db import models
 from django.db.models.expressions import F, ValueRange
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import Avg
+from django.contrib.auth.models import User
 # Create your models here.
 
 # TODO - may need to use Login user id
 
 class InternPerson(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=False)
     email = models.EmailField(null=True)
     def __str__(self):
