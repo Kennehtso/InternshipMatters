@@ -138,3 +138,19 @@ input[type=submit] {
 }
 */
 /* results compnent end */
+.uploadImage:hover {
+  box-shadow: 0px 1px 10px 0px #17a2b8;
+  transition: all .2s ease-in-out;
+  cursor: pointer;
+}
+.uploadImage:hover + .uploadImageIcon {
+  box-shadow: 0px 1px 10px 0px #17a2b8;
+  transition: all .2s ease-in-out;
+  cursor: pointer; 
+  animation: color-change 2s infinite;
+}
+@keyframes color-change {
+  0% { color: #138496; }
+  50% { color: #17a2b8; }
+  100% { color: #138496; }
+}
