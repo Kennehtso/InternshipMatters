@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
@@ -10,8 +11,10 @@ from functools import reduce
 import operator
 from .models import *
 from .form import *
+from .decorators import *
 
 # Create your views here.
+@isLogin
 def register(request):
     form = CreateUserForm()
     if request.method == 'POST':
@@ -24,7 +27,8 @@ def register(request):
 
     context = {'form':form}
     return render(request,'general/register.html',context)
-    
+
+@isLogin
 def loginPage(request):
     form = LoginUserForm()
     if request.method == 'POST':
@@ -80,6 +84,7 @@ def result(request):
     context = {'organizations':organizations}
     return render(request, 'general/result.html', context)
 
+@isAuthenticated_detail
 def detail(request, orgId):
     organization = Organization.objects.get(id=orgId)
     comments = organization.comment_set.all()
@@ -89,6 +94,7 @@ def detail(request, orgId):
     return render(request,'general/detail.html',context)
 
 import random
+@login_required(login_url='login')
 def createComment(request, orgId):
     # TODO - Get UserId from Login
     userId = random.randint(1, 3)
@@ -105,6 +111,7 @@ def createComment(request, orgId):
     context = {"form" : form}
     return render(request,'general/commentForm.html', context)
 
+@login_required(login_url='login')
 def updateComment(request, pk):
     comment = Comment.objects.get(id=pk)
     form  = CommentForm(instance=comment)
@@ -120,6 +127,7 @@ def updateComment(request, pk):
     context = {"form" : form}
     return render(request,'general/commentForm.html', context)
 
+@login_required(login_url='login')
 def deleteComment(request):
     if request.method =='POST':
         cmtId = request.POST["cmtId"]
