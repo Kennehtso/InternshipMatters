@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 
 #Other import
 from functools import reduce
@@ -14,8 +15,11 @@ def register(request):
     form = CreateUserForm()
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
-        if form.is_valid:
+        if form.is_valid():
             form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f"伙伴 '{username}' 註冊成功！現在可以登入嚕～")
+            return redirect('login')
 
     context = {'form':form}
     return render(request,'general/register.html',context)
@@ -24,7 +28,7 @@ def login(request):
     form = LoginUserForm()
     if request.method == 'POST':
         form = LoginUserForm(request.POST)
-        if form.is_valid:
+        if form.is_valid():
             form.save()
 
     context = {'form':form}
