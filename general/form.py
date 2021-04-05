@@ -1,7 +1,45 @@
 from django.db.models import fields
 from django.forms import ModelForm, ValidationError, TextInput
-from .models import Comment
+from .models import Comment, InternPerson
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+class LoginUserForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super(LoginUserForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['placeholder'] = '你/妳的稱呼'
+        self.fields['password1'].widget.attrs['placeholder'] = '密碼'
+
+    class Meta():
+        model = User
+        fields = '__all__'
+
+class CreateUserForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+    def __init__(self, *args, **kwargs):
+        super(CreateUserForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['placeholder'] = '你/妳的稱呼'
+        self.fields['email'].widget.attrs['placeholder'] = '電郵地址（找回密碼用）'
+        self.fields['password1'].widget.attrs['placeholder'] = '密碼'
+        self.fields['password2'].widget.attrs['placeholder'] = '密碼確認'
+
+    class Meta():
+        model = User
+        fields = ['username','email','password1','password2']
+
+class UpdateUserForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(UpdateUserForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs['placeholder'] = '你/妳的稱呼'
+        self.fields['email'].widget.attrs['placeholder'] = '電郵地址（找回密碼用）'
+        self.fields['profilePic'].widget.attrs['placeholder'] = '上傳頭像照片'
+
+    class Meta():
+        model = InternPerson
+        fields = '__all__'
+        exclude = ['user']
+
 
 class CommentForm(ModelForm):
     def __init__(self, *args, **kwargs):

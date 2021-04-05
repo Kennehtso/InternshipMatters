@@ -1,16 +1,83 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
+from django.db.models import Q
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+
+#Other import
 from functools import reduce
 import operator
-from django.db.models import Q
 from .models import *
 from .form import *
+from .decorators import *
+
 # Create your views here.
+@isLoginRedirect
+def register(request):
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f"伙伴 '{username}' 註冊成功！現在可以登入嚕～")
+            return redirect('login')
+
+    context = {'form':form}
+    return render(request,'general/register.html',context)
+
+@isLoginRedirect
+def loginPage(request):
+    form = LoginUserForm()
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password1']
+        user = authenticate(request,username=username, password=password)
+        if user is None:
+            messages.error(request, f"稱呼 '{username}' 或密碼有誤，請檢查後再嘗試")
+            return redirect('login')
+        else:
+            login(request, user)
+            return render(request,'general/home.html')
+
+
+    context = {'form':form}
+    return render(request,'general/login.html',context)
+
+@isLogin
+def userSetting(request):
+    internPerson = InternPerson.objects.get(user=request.user)
+    form = UpdateUserForm(instance=internPerson)
+
+    if request.method == 'POST':
+        form = UpdateUserForm(request.POST,request.FILES, instance=internPerson)
+        if form.is_valid():
+            form.save()
+        
+    context = {'internPerson':internPerson, 'form':form }
+    return render(request,'general/userSetting.html',context)
+
+def logoutPage(request):
+    userName = request.user.username
+    logout(request)
+    messages.success(request, f"伙伴 '{userName}' 已經登出嚕，我們下次見～")
+    return redirect('login')
+
 def home(request):
+    internPerson = {}
+    if request.user.is_authenticated:
+        internPerson = InternPerson.objects.get(user=request.user)
     organizations = Organization.objects.all()
-    return render(request,'general/home.html',{'organizations':organizations})
+    context = {'organizations':organizations, 'internPerson':internPerson}
+    return render(request,'general/home.html', context)
 
 def result(request):
+    internPerson = {}
+    if request.user.is_authenticated:
+        internPerson = InternPerson.objects.get(user=request.user)
     organizations = Organization.objects.all()
     if request.method =='POST':
         #print(f"*********　request.POST: {request.POST} ********** ")
@@ -37,22 +104,24 @@ def result(request):
         if queryList: 
             organizations = Organization.objects.filter(reduce(operator.and_, queryList))
         
-    context = {'organizations':organizations}
+    context = {'organizations':organizations, 'internPerson':internPerson}
     return render(request, 'general/result.html', context)
 
+@isAuthenticated_detail
+#@allowed_user_groups(allowed_roles=['admin'])
 def detail(request, orgId):
+    internPerson = InternPerson.objects.get(user=request.user)
     organization = Organization.objects.get(id=orgId)
     comments = organization.comment_set.all()
     comments_count = comments.count()
-    context = {'organization':organization,'comments':comments, 'comments_count':comments_count}
-
+    context = {'organization':organization,'internPerson':internPerson, 'comments':comments, 'comments_count':comments_count}
     return render(request,'general/detail.html',context)
 
-import random
+@login_required(login_url='login')
 def createComment(request, orgId):
     # TODO - Get UserId from Login
-    userId = random.randint(1, 3)
-    form = CommentForm(initial={'organization':orgId, 'intern':userId})
+    internPerson = InternPerson.objects.get(user=request.user)
+    form = CommentForm(initial={'organization':orgId, 'intern':internPerson.id})
     if request.method =='POST':
         #print(F"Post!! {request.POST}")
         form = CommentForm(request.POST)
@@ -62,10 +131,12 @@ def createComment(request, orgId):
             updateRelatedFieldForOrganization(orgId)
             return redirect(f'../detail/{orgId}')
 
-    context = {"form" : form}
+    context = {"form" : form, 'internPerson': internPerson }
     return render(request,'general/commentForm.html', context)
 
+@login_required(login_url='login')
 def updateComment(request, pk):
+    internPerson = InternPerson.objects.get(user=request.user)
     comment = Comment.objects.get(id=pk)
     form  = CommentForm(instance=comment)
 
@@ -77,9 +148,10 @@ def updateComment(request, pk):
             updateRelatedFieldForOrganization(orgId)
             return redirect(f'../detail/{orgId}')
 
-    context = {"form" : form}
+    context = {"form" : form, 'internPerson':internPerson }
     return render(request,'general/commentForm.html', context)
 
+@login_required(login_url='login')
 def deleteComment(request):
     if request.method =='POST':
         cmtId = request.POST["cmtId"]
