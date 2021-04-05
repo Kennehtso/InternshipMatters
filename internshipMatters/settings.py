@@ -127,3 +127,14 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_ROOT = Path.joinpath(BASE_DIR, 'static/img/profile/')
+
+# SMTP Config
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'kengame121101@gmail.com'
+import os
+
+EMAIL_HOST_PASSWORD = os.environ.get('mailHost')
+print('EMAIL_HOST_PASSWORD: ',os.environ.get('mailHost'))

@@ -12,30 +12,19 @@
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
 			<div class="card-header">
-				<h3>登入分享空間</h3>
-				<!--div class="d-flex justify-content-end social_icon">
-					<span><i class="fab fa-facebook-square"></i></span>
-					<span><i class="fab fa-google-plus-square"></i></span>
-					<span><i class="fab fa-twitter-square"></i></span>
-				</div-->
+				<h3>重新設定密碼</h3>
 			</div>
 			<div class="card-body">
-                <form id="loginForm" action="" method="post">
+                <form id="resetForm" action="" method="post">
                     {% csrf_token %}
+					<div id='{{msg}}' class="alert alert-warning  fade show">
+							請注意！此電鄱雖然<strong>用戶註冊時</strong>的電鄱地址，否則將無法收取「重設密碼通知信」。
+						</div>
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-user"></i></span>
+							<span class="input-group-text"><i class="fas fa-envelope"></i></span>
 						</div>
-                        {{form.username}}
-					</div>
-					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-key"></i></span>
-						</div>
-                        {{form.password1}}
-                    </div>
-					<div class="row align-items-center remember" style="padding-bottom: 10px;">
-						<input type="checkbox">記住我
+                        <input type="email" name="email" autocomplete="email" maxlength="254" required="" id="id_email" placeholder="請填入註冊時的電郵地址" >
 					</div>
 					{% for msg in messages %}
 						{% if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
@@ -56,9 +45,6 @@
 				<div class="d-flex justify-content-center links">
 					還沒加入嗎？<a href="{% url 'register'%}" >點我加入</a>
 				</div>
-				<div class="d-flex justify-content-center">
-					<a href="{% url 'reset_password' %}">忘記密碼點我</a>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -67,6 +53,6 @@
 {% endblock %}
 {% block contentJs%}
 <script>
-    $("#loginForm input").addClass("form-control");
+    $("#resetForm input").addClass("form-control");
 </script>
 {% endblock%}
