@@ -23,18 +23,6 @@ def register(request):
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
-
-            # Add New user to group 'InternPerson'
-            group = Group.objects.get(name='internPerson')
-            user.groups.add(group)
-
-            # create InternPerson when create User
-            # Due to already set One To One relationship in model, so we can do as:
-            InternPerson.objects.create(
-                user=user,
-                name=user.username,
-                email=user.email
-            )
             messages.success(request, f"伙伴 '{username}' 註冊成功！現在可以登入嚕～")
             return redirect('login')
 
@@ -73,7 +61,9 @@ def userSetting(request):
     return render(request,'general/userSetting.html',context)
 
 def logoutPage(request):
+    userName = request.user.username
     logout(request)
+    messages.success(request, f"伙伴 '{userName}' 已經登出嚕，我們下次見～")
     return redirect('login')
 
 def home(request):
