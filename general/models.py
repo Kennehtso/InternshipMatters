@@ -8,13 +8,13 @@ from django.contrib.auth.models import User
 # TODO - may need to use Login user id
 
 class InternPerson(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=False)
     email = models.EmailField(null=True)
     profilePic = models.ImageField(default="default.png", null=True, blank=True)
     createDate = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
-        return self.user.username
+        return self.name
 
 ORGANIZATIONTYPE = (
     ('各級學校諮商','各級學校諮商'),
