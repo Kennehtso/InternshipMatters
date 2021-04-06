@@ -36,10 +36,13 @@ def loginPage(request):
         username = request.POST['username']
         password = request.POST['password1']
         user = authenticate(request,username=username, password=password)
-        if user is None:
-            messages.error(request, f"稱呼 '{username}' 或密碼有誤，請檢查後再嘗試")
+        if not User.objects.filter(username=username).exists():
+            messages.error(request, f"稱呼 '{username}' 不存在，請先註冊。")
             return redirect('login')
-        else:
+        elif user is None:
+            messages.error(request, f"稱呼 '{username}' 密碼不正確，請檢查後再嘗試。")
+            return redirect('login')
+        elif user.is_active:
             login(request, user)
             return render(request,'general/home.html')
 
