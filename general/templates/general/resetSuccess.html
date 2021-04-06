@@ -1,0 +1,37 @@
+{% extends 'general/main.html'%}
+{% load static %}
+
+{% block otherCSS %}
+    <link href="{% static '/css/register.css' %}" rel="stylesheet">
+{% endblock otherCSS %}
+
+
+{% block content %}
+<section class="loginSecton">
+<div class="container">
+	<div class="d-flex justify-content-center h-100">
+		<div class="card">
+			<div class="card-header">
+				<h3>重新設定密碼</h3>
+			</div>
+			<div class="card-body">
+				<div id='{{msg}}' class="alert alert-success alert-dismissible fade show">
+					<strong>密碼重設完成，你現在可以登入嚕！</strong>
+					<button type="button" class="close" data-dismiss="alert"></button>
+				</div>
+			</div>
+			<div class="card-footer">
+				<div class="d-flex justify-content-center links">
+					已經加入嗎？<a href="{% url 'login'%}" >點我登入</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section>
+{% endblock %}
+{% block contentJs%}
+<script>
+    $("#resetForm input").addClass("form-control");
+</script>
+{% endblock%}
