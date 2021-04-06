@@ -26,10 +26,27 @@
                 {{ form.score.label_tag }}
                 {{ form.score }}
             </div-->
-            <div class="col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0">
+            <div class="col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0" style="padding-bottom: 50px;">
                 <label for="id_score">評分: <span id="scoreValue"></span> 分 </label>
-                <input type="range" class="form-range" value="{{form.score.value}}" min="0" max="5" step="1" name="score"  required="" id="id_score">
+                <div class="rating">
+                    <input type="radio" name="rating" id="r1">
+                    <label for="r1"></label>
+                   
+                    <input type="radio" name="rating" id="r2">
+                    <label for="r2"></label>
+                   
+                    <input type="radio" name="rating" id="r3">
+                    <label for="r3"></label>
+                   
+                    <input type="radio" name="rating" id="r4">
+                    <label for="r4"></label>
+                   
+                    <input type="radio" name="rating" id="r5">
+                    <label for="r5"></label>
+                </div>
+                <input style="display: none;" type="range" class="form-range" value="{{form.score.value}}" min="0" max="5" step="1" name="score"  required="" id="id_score">
             </div>
+            
             <div class="fieldWrapper col-md-8 col-lg-8 col-xl-8 mb-8 mb-md-0">
                 {{ form.comments.errors }}
                 {{ form.comments.label_tag }}
@@ -37,11 +54,15 @@
             </div>
         </div>
         <div class="form-row" style="padding-top: 20px; padding-bottom: 20px;">
-            <div class="fieldWrapper col-md-6 col-lg-6 col-xl-6 mb-6 mb-md-0">
+            <div class="fieldWrapper col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0">
                 {{ form.hashTags.errors }}
                 {{ form.hashTags.label_tag }}
                 {{ form.hashTags }}
             </div> 
+            
+        </div> 
+
+        <div class="form-row" style="padding-top: 20px; padding-bottom: 20px;">
             <div class="col-md-6 col-lg-6 col-xl-6 mb-6 mb-md-0">
                 <input type="submit" name="submit" class="btn btn-info" value="送出"
                 style="width: 50%; margin-left: 25%; margin-top: 7%;"/>
@@ -52,16 +73,28 @@
 
 {% block contentJs%}
 <script>
-    $(".comments div input, .comments div select").addClass("form-control");
+    $(".comments div input, .comments div select, .comments div textarea").addClass("form-control");
     $('#commentForm').submit(function(){
         $("#commentForm :disabled").removeAttr('disabled');
     });
     
     var id_score = document.getElementById("id_score");
+    switch (id_score.value) {
+        case "1": $('#r5').trigger('click'); break;
+        case "2": $('#r4').trigger('click'); break;
+        case "3": $('#r3').trigger('click'); break;
+        case "4": $('#r2').trigger('click'); break;
+        case "5": $('#r1').trigger('click'); break;
+    }
     var scoreValue = document.getElementById("scoreValue");
     scoreValue.innerHTML = id_score.value;
     id_score.oninput = function() {
         scoreValue.innerHTML = this.value;
     }
+    $('#r1').click(function (e) {$('#id_score').val(5);scoreValue.innerHTML = 5;});
+    $('#r2').click(function (e) {$('#id_score').val(4);scoreValue.innerHTML = 4;});
+    $('#r3').click(function (e) {$('#id_score').val(3);scoreValue.innerHTML = 3;});
+    $('#r4').click(function (e) {$('#id_score').val(2);scoreValue.innerHTML = 2;});
+    $('#r5').click(function (e) {$('#id_score').val(1);scoreValue.innerHTML = 1;});
 </script>
 {% endblock contentJs%}

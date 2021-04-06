@@ -42,6 +42,7 @@ class UpdateUserForm(ModelForm):
 
 
 class CommentForm(ModelForm):
+    comments = forms.CharField(widget=forms.Textarea(attrs={'rows': 4, 'cols': 100}))
     def __init__(self, *args, **kwargs):
         super(CommentForm, self).__init__(*args, **kwargs)
         self.fields['organization'].widget.attrs['disabled'] = 'true'

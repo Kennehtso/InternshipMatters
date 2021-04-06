@@ -10,7 +10,7 @@
             </div>
             <!--Search Button -->
             <div class="btn-group col-md-2 col-lg-2 col-xl-2 mb-2 mb-md-0">
-              <button type="submit" class="btn btn-lg btn-info">Search</button>
+              <button type="submit" class="btn btn-lg btn-info">搜尋</button>
             </div>
           </div>
           
@@ -51,13 +51,30 @@
           </div>
 
           
-            <div class="form-row" style="padding-top: 10px;">
+            <div class="form-row" style="padding-top: 10px; padding-bottom: 50px;">
                 <div class="form-group col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0">
                     <div class="row">
                         <label for="score_input" class="col-sm-3 col-form-label">分數：<br/><span id="scoreValue"></span> 分或以上</label>
-                        <div class="col-sm-9">
-                            <input id="score_input" name="score_input" type="range" class="form-range" value ="0" min="0" max="5" step="1" >
+                        <div class=" col-md-3 col-lg-3 col-xl-3 mb-3 mb-md-0">
+                          <a id="clearRate" class="btn btn-md btn-outline-danger">重設評分</a>
                         </div>
+                        <div class="rating">
+                            <input type="radio" name="rating" id="r1">
+                            <label for="r1"></label>
+                          
+                            <input type="radio" name="rating" id="r2">
+                            <label for="r2"></label>
+                          
+                            <input type="radio" name="rating" id="r3">
+                            <label for="r3"></label>
+                          
+                            <input type="radio" name="rating" id="r4">
+                            <label for="r4"></label>
+                          
+                            <input type="radio" name="rating" id="r5">
+                            <label for="r5"></label>
+                        </div>
+                        <input style="display: none;" id="score_input" name="score_input" type="range" class="form-range" value ="0" min="0" max="5" step="1" >
                     </div>
                   </div>
                 <!--Search Button -->
@@ -97,25 +114,49 @@
         {% endfor%}
         </tbody>
     </table>
-    <script>
-        let resultsRow = document.getElementsByClassName('resultsRow');
-        
-        for (let i = 0; i < resultsRow.length; i++) {
-            resultsRow[i].addEventListener("click", () => {
-                window.location.href = '/detail/' + resultsRow[i].id;
-            });
-        }
-        var score_input = document.getElementById("score_input");
-        var scoreValue = document.getElementById("scoreValue");
-        var commentsCount_input = document.getElementById("commentsCount_input");
-        var commentsCountValue = document.getElementById("commentsCountValue");
-        scoreValue.innerHTML = score_input.value;
-        commentsCountValue.innerHTML = commentsCount_input.value;
-        score_input.oninput = function() {
-            scoreValue.innerHTML = this.value;
-        } 
-        commentsCount_input.oninput = function() {
-            commentsCountValue.innerHTML = this.value;
-        } 
-    </script>
 {% endblock %}
+
+{% block contentJs%}
+
+<script>
+  let resultsRow = document.getElementsByClassName('resultsRow');
+  
+  for (let i = 0; i < resultsRow.length; i++) {
+      resultsRow[i].addEventListener("click", () => {
+          window.location.href = '/detail/' + resultsRow[i].id;
+      });
+  }
+  var score_input = document.getElementById("score_input");
+  var scoreValue = document.getElementById("scoreValue");
+  switch (score_input.value) {
+      case "1": $('#r5').trigger('click'); break;
+      case "2": $('#r4').trigger('click'); break;
+      case "3": $('#r3').trigger('click'); break;
+      case "4": $('#r2').trigger('click'); break;
+      case "5": $('#r1').trigger('click'); break;
+  }
+  var commentsCount_input = document.getElementById("commentsCount_input");
+  var commentsCountValue = document.getElementById("commentsCountValue");
+  scoreValue.innerHTML = score_input.value;
+  commentsCountValue.innerHTML = commentsCount_input.value;
+  score_input.oninput = function() {
+      scoreValue.innerHTML = this.value;
+  } 
+  commentsCount_input.oninput = function() {
+      commentsCountValue.innerHTML = this.value;
+  } 
+
+
+  $('#r1').click(function (e) {$('#score_input').val(5);scoreValue.innerHTML = 5;});
+  $('#r2').click(function (e) {$('#score_input').val(4);scoreValue.innerHTML = 4;});
+  $('#r3').click(function (e) {$('#score_input').val(3);scoreValue.innerHTML = 3;});
+  $('#r4').click(function (e) {$('#score_input').val(2);scoreValue.innerHTML = 2;});
+  $('#r5').click(function (e) {$('#score_input').val(1);scoreValue.innerHTML = 1;});
+  $('#clearRate').click(function (e) { 
+    $('#r5').trigger('click');
+    $('#r5').next().addClass('added-class');
+    $('#score_input').val(0);
+    scoreValue.innerHTML = 0;
+    });
+</script>
+{% endblock contentJs%}
