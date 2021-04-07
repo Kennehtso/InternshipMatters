@@ -5,7 +5,7 @@ from .models import InternPerson
 def internPerson_profile(sender, instance, created, **kwargs):
     if created:
         # Add New user to group 'InternPerson'
-        group = Group.objects.get(name='internPerson')
+        group = Group.objects.get(name='user')
         instance.groups.add(group)
         
         # create InternPerson when create User

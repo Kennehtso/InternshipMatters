@@ -58,6 +58,7 @@ def userSetting(request):
     if request.method == 'POST':
         form = UpdateUserForm(request.POST,request.FILES, instance=internPerson)
         if form.is_valid():
+            messages.success(request, f"你的資料更新成功嚕！～")
             form.save()
         
     context = {'internPerson':internPerson, 'form':form }

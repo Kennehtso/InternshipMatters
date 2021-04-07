@@ -26,10 +26,11 @@
                     {% csrf_token %}
 					<div class="input-group form-group">
 						<label class="" style="margin:auto;" for="id_profilePic">
-							<img class="uploadImage profilePic" src='{{ internPerson.profilePic.url }}'>
+							<img id='output' class="uploadImage profilePic" src='{{ internPerson.profilePic.url }}'>
 							<i style="margin: auto;left: 46%;color: grey;bottom: -5%;z-index: 2;position: absolute;" class="fas fa-edit fa-2x uploadImageIcon"></i>
 						</label>
-						<input style="display: none;" type="file" name="profilePic" accept="image/*" placeholder="上傳頭像照片" id="id_profilePic" class="form-control">
+						<input style="display: none;" type="file" name="profilePic" accept="image/*" placeholder="上傳頭像照片" id="id_profilePic" class="form-control"
+						onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" >
 					</div>
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
@@ -43,6 +44,16 @@
 						</div>
                         {{form.email}}
 					</div>
+					{% for msg in messages %}
+						{% if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+							<div id='{{msg}}' class="alert alert-success alert-dismissible fade show">
+						{% elif msg.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+							<div id='{{msg}}' class="alert alert-warning   alert-dismissible fade show">
+						{% endif %}
+							<strong>{{msg}}</strong>
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+						</div>
+					{% endfor %}
 					<div class="form-group">
 						<input type="submit" value="確認" class="btn btn-info register_btn">
 					</div>
