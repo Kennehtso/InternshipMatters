@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -76,11 +76,14 @@ WSGI_APPLICATION = 'internshipMatters.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+     'ENGINE': 'django.db.backends.postgresql',
+     'NAME': os.environ.get('internshipMatters_db_name'), #Find in pg admin
+     'USER': os.environ.get('internshipMatters_user'), 
+     'PASSWORD':os.environ.get('internshipMatters_pw'),
+     'HOST': os.environ.get('internshipMatters_db'),
+     'PORT':os.environ.get('internshipMatters_port'),
     }
-}
-
+   }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -134,7 +137,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'kengame121101@gmail.com'
-import os
-
 EMAIL_HOST_PASSWORD = os.environ.get('mailHost')
-print('EMAIL_HOST_PASSWORD: ',os.environ.get('mailHost'))
