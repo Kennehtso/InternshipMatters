@@ -1,0 +1,100 @@
+Pre install for PostgreSQL 
+1. 	Pre install for PostgreSQL 
+	1. Download PostgreSQL
+		https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
+
+	2. install, remind that there will be a password setting during installation
+	
+	3. database server install 
+		once installed, stack builder to install 'database server', 10.1 (32/64 bit)
+		
+
+2. pg admin install
+	work with PostgreSQL database
+	1. Download
+		https://www.pgadmin.org/download/pgadmin-4-windows/
+	
+	2. Once, installed, open the pg admin,
+	3. set the password
+	4. Setup Server group
+		1. Eight click on 'Servers' > create 'Server Group' 
+		2. Set name eg: DEMO
+		3. Right click on 'DEMO' > create 'Server'
+		4.  Set name eg: DEMO Server
+			1. Set Host name/address: localhost
+			2. Set Port: (should be as default, 5432)
+			3. specifies the password when you installed
+	
+	5. Done, it should have a default database 'Postgre'
+	6. Create our own db, Server > Database > 
+		Right click on 'Database' > Create >
+	7. set name for the db eg: DEMO_TEST
+	8. In Schemas > Table, currently should no table in there
+	
+3. Migrate django table to it:
+	# Allow postgre to talk to any kind of program
+	1. pip install psycopg2 ( if not installed)
+	2. go to {project}/{project}/settings.py
+	3. In 'DATABASES' sections, change the:
+	
+		 'DATABASES = {
+			'default': {
+				'ENGINE': 'django.db.backends.sqlite3',
+				'NAME': BASE_DIR / 'db.sqlite3',
+			}
+		}
+		#### TO ####
+		
+		# You can find setting info in, right click 'Server', properties
+		DATABASES = {
+			'default': {
+				'ENGINE': 'django.db.backends.postgresql',
+				'NAME': 'DEMO_TEST', 
+				'USER': 'postgres', #DEFAULT
+				'PASSWORD':'XXXXXXXX',
+				'HOST':'localhost',
+				'PORT':'5432',#DEFAULT
+			}
+		}
+
+4. Use AWS RDS,
+	- Login in to Amazon AWS,
+	- Search 'RDS'
+	- Click 'Create  Database'
+	- Choose 'postgre'
+	- free trail
+	- Key-in and remember the username and password, other field leave it default.
+	- ** In 'Connectivity' sessions, be aware to check 'yes' for 'Public access' to allow we access the db outside AWS
+	- In' Additional options' we can give a initial db name, but isn't necessary
+	- Click 'create' to start create process, it will take about 5 - 8 mins
+
+5. Modify db:
+	Once completed, we can modify our db
+	1. Click on 'database-1' (as default)
+	2. In 'Connectivity & security、 sessions, you will find 'endpoint'
+	3. Copy the 'database-1.cx7daogp4teq.us-east-2.rds.amazonaws.com、 address, 
+	4. Open 'pg admin 4'
+	5. Right click on 'Server Group', click 'create' Server
+	6. input a name for the db
+	7. in 'Connection' tab, paste the 'endpoint' to 'Host' field
+	8. follow the info in AWS for 'Port', 'username', 'password'
+	9. For those received 'time out' alert, please check the following
+	 	In AWS, Go to "Security group rules" (under "Connectivity & security")
+		- Click the item "default" Security group
+		- Click "Actions" > "Edit inbound rules" > "Add rule"
+		- Select... Type: "All traffic", Source: "My IP", then click "Save rules"
+	10. Once connected, Go back to django project
+	11. Open settings.py
+	12. update the db session TO:
+		DATABASES = {
+				'default': {
+					'ENGINE': 'django.db.backends.postgresql',
+					'NAME': 'XXXXXXXXXXXXXXX', #Find in pg admin
+					'USER': 'XXXXXXX', #DEFAULT
+					'PASSWORD':'XXXXXXXX',
+					'HOST':'XXXXXXXXXXXXXXXXXXXXX.com',
+					'PORT':'XXXXX',#DEFAULT
+				}
+			}
+	13. Save, and run 'python migrate.py migrate' in CMD
+	14. You can now access the DB in Live !
