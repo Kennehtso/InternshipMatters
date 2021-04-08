@@ -56,7 +56,9 @@ Pre install for PostgreSQL
 				'PORT':'5432',#DEFAULT
 			}
 		}
-
+4. I decided to use heroku due to for side project only, refer setup guide as following.
+	- https://learningsky.io/database-pgadmin-postgresql-heroku/
+"""
 4. Use AWS RDS,
 	- Login in to Amazon AWS,
 	- Search 'RDS'
@@ -97,4 +99,5 @@ Pre install for PostgreSQL
 				}
 			}
 	13. Save, and run 'python migrate.py migrate' in CMD
-	14. You can now access the DB in Live !
+	14. You can now access the DB in Live ! 
+	"""

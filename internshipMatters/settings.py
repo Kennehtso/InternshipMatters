@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'general.apps.GeneralConfig',
-    'storages',
+    #'storages',
 ]
 
 MIDDLEWARE = [
@@ -141,12 +141,12 @@ EMAIL_HOST_USER = 'kengame121101@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get('mailHost')
 
 #AWS S3 Connetction
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_KEY')
-AWS_STORAGE_BUCKET_NAME = 'kso-internshipsmatter-bucket'
-AWS_S3_REGION_NAME ="ap-northeast-3"
+#AWS_ACCESS_KEY_ID = 'AKIA4PANOBH5A7KYBLUT'
+#AWS_SECRET_ACCESS_KEY = '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'
+#AWS_STORAGE_BUCKET_NAME = 'kso-internshipsmatter-bucket'
+#AWS_S3_REGION_NAME ="ap-northeast-3"
 
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#AWS_S3_FILE_OVERWRITE = False
+#AWS_DEFAULT_ACL = None
+#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
