@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'grr+&ow&z62lq+d($0d+2)y3uwrnd58_lwi3%cs@bvu6#gcm61'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['internships-matters.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'general.apps.GeneralConfig',
-    #'storages',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'internshipMatters.urls'
@@ -121,13 +121,22 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
+if not DEBUG:
+    ALLOWED_HOSTS= ['*']
+    import dj_database_url
+    db_from_env = dj_database_url.config()
+    DATABASES['default'].update(db_from_env)
 
 STATIC_URL = 'static/'
 MEDIA_URL = 'img/profile/'
+#Static Root for collectstatic
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 # Customize Added
 STATICFILES_DIRS = [
+    #BASE_DIR / "static",
     Path.joinpath(BASE_DIR, STATIC_URL),
-    Path.joinpath(BASE_DIR, MEDIA_URL)
+    #Path.joinpath(BASE_DIR, MEDIA_URL)
 ]
 
 MEDIA_ROOT = Path.joinpath(BASE_DIR, 'static/img/profile/')
@@ -140,13 +149,50 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'kengame121101@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get('mailHost')
 
-#AWS S3 Connetction
-#AWS_ACCESS_KEY_ID = 'AKIA4PANOBH5A7KYBLUT'
-#AWS_SECRET_ACCESS_KEY = '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'
-#AWS_STORAGE_BUCKET_NAME = 'kso-internshipsmatter-bucket'
-#AWS_S3_REGION_NAME ="ap-northeast-3"
+#Whitenoise static files handling
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
-#AWS_S3_FILE_OVERWRITE = False
-#AWS_DEFAULT_ACL = None
-#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-#STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+import logging
+from logging.handlers import SysLogHandler
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'formatters': {
+        'verbose': {
+            'format': '[contactor] %(levelname)s %(asctime)s %(message)s'
+        },
+    },
+    'handlers': {
+        # Send all messages to console
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+        # Warning messages are sent to admin emails
+        'mail_admins': {
+            'level': 'WARNING',
+            'filters': ['require_debug_false'],
+            'class': 'logging.StreamHandler',
+        },
+        # critical errors are logged to sentry
+        'sentry': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        # This is the "catch all" logger
+        '': {
+            'handlers': ['console', 'mail_admins', 'sentry'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    }
+}

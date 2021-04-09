@@ -1,0 +1,1 @@
+web: gunicorn internshipMatters.wsgi --log-file -
