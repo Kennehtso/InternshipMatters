@@ -129,7 +129,7 @@ if not DEBUG:
     #print(f"env.db(): {env.db()}")
 
     ALLOWED_HOSTS= ['*']
-    import dj_database_url
+    #import dj_database_url
     #format as: postgress://user:password@HOST:port/Database。
     #defaulturl = f'postgres://{os.environ.get("internshipMatters_user")}:{os.environ.get("internshipMatters_pw")}@{os.environ.get("internshipMatters_db")}:{os.environ.get("internshipMatters_port")}/{os.environ.get("internshipMatters_db_name")}'
     #print(F"defaulturl: {defaulturl}")
@@ -138,18 +138,17 @@ if not DEBUG:
     DATABASES['default'].update(env.db())
 
 STATIC_URL = 'static/'
-MEDIA_URL = 'img/profile/'
+MEDIA_URL = 'media/'
 #Static Root for collectstatic
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Customize Added
 STATICFILES_DIRS = [
     #BASE_DIR / "static",
     Path.joinpath(BASE_DIR, STATIC_URL),
-    #Path.joinpath(BASE_DIR, MEDIA_URL)
+    Path.joinpath(BASE_DIR, MEDIA_URL)
 ]
-
-MEDIA_ROOT = Path.joinpath(BASE_DIR, 'static/img/profile/')
 
 # SMTP Config
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
