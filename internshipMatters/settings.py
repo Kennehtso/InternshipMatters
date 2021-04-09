@@ -124,7 +124,9 @@ USE_TZ = True
 if not DEBUG:
     ALLOWED_HOSTS= ['*']
     import dj_database_url
-    db_from_env = dj_database_url.config()
+    #format as: postgress://user:password@HOST:port/Database。
+    db_from_env = dj_database_url.config(default=
+    f'postgress://{os.environ.get("internshipMatters_user")}:{os.environ.get("internshipMatters_pw")}@{os.environ.get("internshipMatters_db")}:{os.environ.get("internshipMatters_port")}/{os.environ.get("internshipMatters_db_name")}')
     DATABASES['default'].update(db_from_env)
 
 STATIC_URL = 'static/'
