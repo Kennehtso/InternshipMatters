@@ -122,12 +122,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 if not DEBUG:
+    import environ
+    env = environ.Env()
+    # reading .env file
+    environ.Env.read_env()
+    #print(f"env.db(): {env.db()}")
+
     ALLOWED_HOSTS= ['*']
     import dj_database_url
     #format as: postgress://user:password@HOST:port/Database。
-    db_from_env = dj_database_url.config(default=
-    f'postgress://{os.environ.get("internshipMatters_user")}:{os.environ.get("internshipMatters_pw")}@{os.environ.get("internshipMatters_db")}:{os.environ.get("internshipMatters_port")}/{os.environ.get("internshipMatters_db_name")}')
-    DATABASES['default'].update(db_from_env)
+    #defaulturl = f'postgres://{os.environ.get("internshipMatters_user")}:{os.environ.get("internshipMatters_pw")}@{os.environ.get("internshipMatters_db")}:{os.environ.get("internshipMatters_port")}/{os.environ.get("internshipMatters_db_name")}'
+    #print(F"defaulturl: {defaulturl}")
+    #db_from_env = dj_database_url.config(env = defaulturl, default=defaulturl)
+    #print(F"DATABASE_URL: {db_from_env}")
+    DATABASES['default'].update(env.db())
 
 STATIC_URL = 'static/'
 MEDIA_URL = 'img/profile/'
