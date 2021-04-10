@@ -19,7 +19,7 @@ class CreateUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
     def __init__(self, *args, **kwargs):
         super(CreateUserForm, self).__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs['placeholder'] = '你/妳的稱呼'
+        self.fields['username'].widget.attrs['placeholder'] = '你/妳的稱呼(不分大小寫)'
         self.fields['email'].widget.attrs['placeholder'] = '電郵地址（找回密碼用）'
         self.fields['password1'].widget.attrs['placeholder'] = '密碼'
         self.fields['password2'].widget.attrs['placeholder'] = '密碼確認'

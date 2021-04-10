@@ -19,7 +19,13 @@ from .decorators import *
 def register(request):
     form = CreateUserForm()
     if request.method == 'POST':
-        form = CreateUserForm(request.POST)
+        username = request.POST['username']
+        if User.objects.filter(username__iexact=username).exists():
+            messages.error(request, f"伙伴 '{username}' 已經被註冊過了～請使用別的稱呼")
+            return redirect('register')
+        tmp = request.POST.copy()
+        tmp['username'] = tmp['username'].lower()
+        form = CreateUserForm(tmp)
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
@@ -35,8 +41,8 @@ def loginPage(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password1']
-        user = authenticate(request,username=username, password=password)
-        if not User.objects.filter(username=username).exists():
+        user = authenticate(request,username=username.lower(), password=password)
+        if not User.objects.filter(username__iexact=username).exists():
             messages.error(request, f"稱呼 '{username}' 不存在，請先註冊。")
             return redirect('login')
         elif user is None:
