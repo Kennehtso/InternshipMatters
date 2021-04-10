@@ -1,0 +1,91 @@
+# 	Deploy django project to heroku server
+# 	Before going live for db, due to I'm going to deploy django project to heroku,
+	in order to integrate with live db in heroku, I'll deploy the the django project first
+#	I decided to use heroku due to for side project only, refer setup guide as following.
+	1. Use heroku postgres as live database
+		1. login to heroku, create an account if dont have one
+		2. Login to 'dashboard', click 'create new app'
+		3. Enter a name for this 'app', click 'create app'
+		4. once created, click on 'open app' on the top left to view the default layout
+
+	2. upload our project in a git project
+		1. Login to git, create one if dont have one,
+		2. create a new repository, upload it.
+		3. clone this repository with git provide
+			1. Click 'Code', i'll simply use 'https' to clone this project to my local store
+
+	3. Connect github in Heroku
+		1. Click on our 'app'
+		2. Click on 'Deploy' in tab
+		3. In deployment section, select github, 
+		4. in 'App connected to GitHub' login and authorize with github
+		5. Search our repository and click 'connect'
+
+	4. Install Heroku CLI
+		# This CLI will be able to access our website with command line, to deploy or update setting, etc.
+		1. Download Heroku cli
+			https://devcenter.heroku.com/articles/heroku-cli#download-and-install
+		2. Install with default installation setting, once, completed, open your window command prompt
+		3. In the command prompt, input 'heroku login'
+		4. press any key to open a page, and click 'login'
+			once login, we can access with cmd
+		5. type 'cd {project directory clone from git}' to set our current location
+		6. type 'git remote -v' to check there should list out our project with 'origin' and 'heroku'
+		7. type 'heroku git:remote -a {App name}' to access to our app
+	
+	
+	5. Define buildpack
+		# to tell which language our project is using
+		1. Click on our 'app' > click 'settings'
+		2. In 'Buildpacks' section, click 'Add buildpack'
+		3. select 'python', click 'save changes'
+
+	6. besides, we nned to install some resources for the deployment
+		1. do 'pip install gunicorn whitenoise'
+			gunicorn: 
+			whitenoise: 
+
+		2. pip freeze > requirements.txt
+			requirements.txt will collect all reliable pip install apps one the list,
+			to tell the heroku deployment system to install these several apps if missed in our project in server.
+
+		3. create a txt file name 'runtime.txt' and type the following statment in it:
+			python-{put your version here}
+			# you can check your python version in command prompt with 'python -V
+
+		4. create a file with no extension name 'Procfile'
+			Procfile will executed by app on startup, can declare variety of process types
+			just type: web: gunicorn app-name.wsgi --log-file -
+
+	7. update setting.py for the deployment
+		1. update 'ALLOWED_HOSTS'
+			'ALLOWED_HOSTS = ['app-name-in-heroku.herokuapp.com', '127.0.0.1']
+		2. update 'DEBUG'
+			DEBUG = False
+	
+	8. Upload our changes by git,
+		# we can push our updates with git gui software or just upload with github wesite.
+	
+	9. Deploy to heroku:
+		1. Make sure the branches with update our project. (eg: dev)
+		2. In 'Manual Deploy', select the branches. (eg: dev) and click 'Deploy Branch'
+		3. Wait untill process is Completed
+		#** There might be some common error during the deployment:
+			1. Collectstatic error: 
+				- heroku defaultly using collectstatic to deploy our static files like js, css
+				- due to I'm using S3 to store my static files, just simply disable this process
+					- Click on our 'app', > click 'settings'
+					- In 'Config Vars' section, click 'Reveal Config Vars'
+					- Click 'Edit on 'DISABLE_COLLECTSTATIC' and set the value as '1'
+					- Due to I've apply to email action with email Credentials, 
+						so apply the user, password with the following key
+							- EMAIL_HOST_USER 
+							- EMAIL_HOST_PASSWORD
+					- Update settings.py in our django project
+						- Apply 'STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')'
+						- Apply  'whitenoise.middleware.WhiteNoiseMiddleware' to middleware
+						- Upload the changes of 'settings.py' by Git
+		4. in our command prompt
+			- type 'heroku run python manage.py makemigraions' 
+			- type 'heroku run python manage.py migrate' 
+	10. Done, Clck 'View' to access our website in heroku

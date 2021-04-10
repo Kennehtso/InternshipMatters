@@ -1,0 +1,50 @@
+# Trace error with heroku cli
+1. In our settings.py, paste
+	import logging
+	from logging.handlers import SysLogHandler
+	LOGGING = {
+		'version': 1,
+		'disable_existing_loggers': False,
+		'filters': {
+			'require_debug_false': {
+				'()': 'django.utils.log.RequireDebugFalse'
+			}
+		},
+		'formatters': {
+			'verbose': {
+				'format': '[contactor] %(levelname)s %(asctime)s %(message)s'
+			},
+		},
+		'handlers': {
+			# Send all messages to console
+			'console': {
+				'level': 'DEBUG',
+				'class': 'logging.StreamHandler',
+			},
+			# Warning messages are sent to admin emails
+			'mail_admins': {
+				'level': 'WARNING',
+				'filters': ['require_debug_false'],
+				'class': 'logging.StreamHandler',
+			},
+			# critical errors are logged to sentry
+			'sentry': {
+				'level': 'ERROR',
+				'filters': ['require_debug_false'],
+				'class': 'logging.StreamHandler',
+			},
+		},
+		'loggers': {
+			# This is the "catch all" logger
+			'': {
+				'handlers': ['console', 'mail_admins', 'sentry'],
+				'level': 'DEBUG',
+				'propagate': False,
+			},
+		}
+	}
+2. upload to git and deploy in heroku
+3. Once deploy, login to heroku cli,
+4. jump to our git directory
+5. type 'heroku logs -t
+6. Now we can track the error in command prompt instantly

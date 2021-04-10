@@ -1,0 +1,66 @@
+Pre install for PostgreSQL For Local
+1.  Due to static file not be able to write in heroku server,
+	I'm going to maintain my static files with AWS S3 Service
+	1. Login to AWS, create one if dont have one, should be free for limited service
+	2. Search 'S3', click 'Create Bucket'
+	3. Input name for bucket,
+	4. set the region of this bucket
+	5. than go with the default for the rest, and save
+	6. click on the bucket, got to Pemission, slide down to CORS configuration, paste and save:
+		[
+			{
+				"AllowedHeaders": [
+					"*"
+				],
+				"AllowedMethods": [
+					"GET",
+					"HEAD",
+					"POST",
+					"PUT"
+				],
+				"AllowedOrigins": [
+					"*"
+				],
+				"ExposeHeaders": []
+			}
+		]
+	7. Back to the AWS Main page, search for 'IAM'
+		to create a user that allow my website to access with a user that can handle the staticfiles in AWS bucket
+		- Create 'user'
+		- set a name for it
+		- In attachment policy, Search for 'S3', select AmazonS3FullAccess, and completed the creation.
+		- ***Important***, In the success page, record the Access Key ID, and the 'Secret access key'
+			** AWARE THAT Secret access key will no longer find out when you leave this page **
+			** you will need to create a pair of keys later if you missing this **
+		- Set the key the scret key to .env file of our django project 
+		- and in settings.py, paste
+			AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+			AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+		- is better to also keep our bucket name in .env file
+			AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')  
+	
+	8. futher basic setting:
+		- pip install django-storages
+		- pip install boto3 
+		# In short these are what we need to work with AWS service with python during development
+		- paste 'storages' in 'INSTALLED_APPS' in settings.py
+		- 	paste the following code to settings.py
+				AWS_S3_REGION_NAME ="{the region you choose for bucket}" # can find in amazon bucket instance page
+				AWS_S3_FILE_OVERWRITE = False # prevent overwrite
+				AWS_DEFAULT_ACL = None
+				DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage' # To upload media files to S3 (Write action)
+				STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage' 
+				# To allow django-admin.py collectstatic to auto put static files to bucket (But I disable collectstatic currently)
+		- Upload all static files to S3 bucket
+
+	9. pip freeze > requirements.txt to update the requirement list due to django-storages & boto3 is new
+
+	10. Upload the changes of 'settings.py' and 'requirement.txt' by Git
+	11. Once upload, deploy our changes to heroku server.
+	12. Set our new .env setting to heroku 'Config Vars'
+	13. Login to heroku cli
+	14. run following commands
+		- heroku run python manage.py makemigraions
+		- heroku run python manage.py migrate
+	15. open app in heroku, now we should be able to view the upload static files with S3 !!
+	
