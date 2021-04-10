@@ -24,10 +24,10 @@ env = environ.Env()
 environ.Env.read_env() # reading .env file
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = 'grr+&ow&z62lq+d($0d+2)y3uwrnd58_lwi3%cs@bvu6#gcm61'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = True
 
 ALLOWED_HOSTS = ['internships-matters.herokuapp.com', '127.0.0.1']
 
