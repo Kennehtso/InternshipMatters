@@ -50,7 +50,7 @@ def loginPage(request):
             return redirect('login')
         elif user.is_active:
             login(request, user)
-            return render(request,'general/home.html')
+            return redirect('home')
 
 
     context = {'form':form}
