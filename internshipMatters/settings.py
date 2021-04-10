@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'grr+&ow&z62lq+d($0d+2)y3uwrnd58_lwi3%cs@bvu6#gcm61'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['internships-matters.herokuapp.com', '127.0.0.1']
 
@@ -110,23 +110,26 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'Asia/Shanghai'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
+import environ
+env = environ.Env()
+environ.Env.read_env() # reading .env file
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
+STATIC_URL = 'static/'
+MEDIA_URL = 'media/'
+#Static Root for collectstatic
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
 if not DEBUG:
-    import environ
-    env = environ.Env()
-    # reading .env file
-    environ.Env.read_env()
     #print(f"env.db(): {env.db()}")
     ALLOWED_HOSTS= ['*']
     #import dj_database_url
@@ -137,24 +140,19 @@ if not DEBUG:
     #print(F"DATABASE_URL: {db_from_env}")
     DATABASES['default'].update(env.db())
 
-#AWS S3 Connetction
-AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
-AWS_S3_REGION_NAME ="ap-northeast-3"
+    #AWS S3 Connetction
+    AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+    STATIC_URL = 'http://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/' #'static/'
+    AWS_S3_REGION_NAME ="ap-northeast-3"
 
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-STATIC_URL = 'http://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/' #'static/'
-ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
-
-MEDIA_URL = 'media/'
-#Static Root for collectstatic
-MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_DEFAULT_ACL = None
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    STATIC_URL = 'http://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/' #'static/'
+    ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
 # Customize Added
 STATICFILES_DIRS = [
