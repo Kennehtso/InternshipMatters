@@ -75,9 +75,10 @@ color: white;
 margin-left: 4px;
 }
 
-.loginSecton, .registerSection{
-    padding:10%;
+.loginOrSettingSecton {
+    padding:8%;
 }
+
 .login_btn, .register_btn {
     float: right;
     width: 100px;
