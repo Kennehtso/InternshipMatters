@@ -83,11 +83,11 @@ WSGI_APPLICATION = 'internshipMatters.wsgi.application'
 DATABASES = {
     'default': {
      'ENGINE': 'django.db.backends.postgresql',
-     'NAME': os.environ.get('internshipMatters_db_name'), #Find in pg admin
-     'USER': os.environ.get('internshipMatters_user'), 
-     'PASSWORD':os.environ.get('internshipMatters_pw'),
-     'HOST': os.environ.get('internshipMatters_db'),
-     'PORT':os.environ.get('internshipMatters_port'),
+     'NAME': env('postgres_db_dev'),
+     'USER': env('postgres_user_dev'),
+     'PASSWORD':env('postgres_pw_dev'),
+     'HOST': env('postgres_host_dev'),
+     'PORT': env('postgres_port_dev'),
     }
    }
 
