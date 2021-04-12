@@ -133,16 +133,13 @@ def createComment(request, orgId):
     internPerson = InternPerson.objects.get(user=request.user)
     form = CommentForm(initial={'organization':orgId, 'intern':internPerson.id})
     if request.method =='POST':
-        print(F"Post!! {request.POST}")
-        print(F"request.POST['hashTags']: {request.POST['hashTags']}")
-        """
         form = CommentForm(request.POST)
         if form.is_valid():
             form.save()
             orgId = request.POST["organization"]
             updateRelatedFieldForOrganization(orgId)
             return redirect(f'../detail/{orgId}')
-"""
+
     context = {"form" : form, 'internPerson': internPerson }
     return render(request,'general/commentForm.html', context)
 
@@ -220,13 +217,6 @@ def addOrganization(request):
     chkList = {}
     cnt = 0
     maxCnt = 25
-    """
-    organizationsInDB = Organization.objects.all()
-    for org in organizationsInDB:
-        if org.name not in chkList:
-            chkList[org.name] = org.name
-    print(f"chkList: {chkList}")
-    """
     for org_name, orgInfo in organization_dev['Organization'].items():
         if cnt == maxCnt: break
         name = orgInfo['1. 機構名稱：']
@@ -243,10 +233,7 @@ def addOrganization(request):
             org.subsidy= orgInfo['實習津貼']
             org.internshipContent= orgInfo['2. 實習內容：']
             org.detailInfoFromExtUrl = ''
-            org.save()
+            #org.save()
             print(f"------------")
         cnt += 1
     return redirect('login')
-    """
-    
-    """

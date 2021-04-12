@@ -53,7 +53,7 @@
 
           
             <div class="form-row" style="padding-top: 10px; padding-bottom: 50px;">
-                <div class="form-group col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0">
+                <div class="form-group searchCustomBorder col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0">
                     <div class="row">
                         <label for="score_input" class="col-sm-3 col-form-label">分數：<br/><span id="scoreValue"></span> 分或以上</label>
                         <div class=" col-md-3 col-lg-3 col-xl-3 mb-3 mb-md-0">
@@ -79,7 +79,7 @@
                     </div>
                   </div>
                 <!--Search Button -->
-                <div class="form-group col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0">
+                <div class="form-group searchCustomBorder col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0">
                     <div class="row">
                         <label for="commentsCount_input" class="col-sm-3 col-form-label">評論人數：<br/> <span id="commentsCountValue"></span> 人或以上</label>
                         <div class="col-sm-9">
@@ -88,271 +88,43 @@
                     </div>
                  </div>
             </div>
-
         </form>
       </div>
     </div>
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" style="margin: auto;">
+          台灣輔導與諮商學會 - 審查通過的諮商心理實習機構</a>
+      </nav>
+    </div>
     <div id="columns">
-      <figure>
-        <h3>環球技術學院</h3>
-        <p>彰化縣學生心理諮商中心</p>
-        <div class="rating">
-            <input type="radio" name="rating" id="r1">
-            <label for="r1"></label>
-          
-            <input type="radio" name="rating" id="r2">
-            <label for="r2"></label>
-          
-            <input type="radio" name="rating" id="r3">
-            <label for="r3"></label>
-          
-            <input type="radio" name="rating" id="r4">
-            <label for="r4"></label>
-          
-            <input type="radio" name="rating" id="r5">
-            <label for="r5"></label>
+      {% for item in organizations %}
+      <figure class="resultFigures" id="{{item.id}}">
+        <h3>{{ item.name }}</h3>
+        <p>{{ item.unitName }}</p>
+        <p>{{ item.unitType }}</p>
+        <p>津貼：{{ item.subsidy }}</p>
+        <div class="ratingResult"> <!--TODO : item.score -->
+            {% for i in '12345'|make_list %}
+            {% if item.score >= forloop.counter %}
+                <label  style='color: #138496; text-shadow: 0 0 20px #17a2b8;'>★</label>
+              {% else %}
+                <label style='color: #444;text-shadow: 0 0 20px #444;'>☆</label>
+            {% endif %}
+            {% endfor %}
         </div>
-      <figcaption>實習內容：個別諮商與心理治療 ,團體諮商與心理治療 ,心理衡鑑（含心理測驗的施測與解釋） ,心理諮詢、心理衛生教育與預防推廣工作 ,實習機構的專業行政工作</figcaption>
+        <input style="display: none;" id="score_{{item.id}}" value ="{{item.score}}">
+      <figcaption>實習內容：{{ item.internshipContent }}</figcaption>
       <div>
-        <button class="btn btn-xs btn-info">專業</button>
-        <button class="btn btn-xs btn-info">環境很好</button>
-        <button class="btn btn-xs btn-info">福利不錯</button>
-        <button class="btn btn-xs btn-info">有給薪水</button>
-        <button class="btn btn-xs btn-info">常常加班</button>
+        {% for hashTag in item.hashTags.all %}
+          <button class="btn btn-xs btn-info">{{hashTag.name}}</button>
+        {% endfor%}
       </div>
       </figure>
-      
-      <figure>
-        <h3>嶺東科技大學</h3>
-        <p>輔導室</p>
-        <div class="rating">
-            <input type="radio" name="rating" id="r1">
-            <label for="r1"></label>
-          
-            <input type="radio" name="rating" id="r2">
-            <label for="r2"></label>
-          
-            <input type="radio" name="rating" id="r3">
-            <label for="r3"></label>
-          
-            <input type="radio" name="rating" id="r4">
-            <label for="r4"></label>
-          
-            <input type="radio" name="rating" id="r5">
-            <label for="r5"></label>
-        </div>
-      <figcaption>實習內容：個別諮商與心理治療 ,團體諮商與心理治療 ,心理諮詢、心理衛生教育與預防推廣工作 ,實習機構的專業行政工作</figcaption>
-      <div>
-        <button class="btn btn-xs btn-info">專業</button>
-        <button class="btn btn-xs btn-info">環境很好</button>
-        <button class="btn btn-xs btn-info">工時很長</button>
-        <button class="btn btn-xs btn-info">常常加班</button>
-        <button class="btn btn-xs btn-info">導師人很好</button>
-        <button class="btn btn-xs btn-info">福利不錯</button>
-        <button class="btn btn-xs btn-info">東西好吃</button>
-      </div>
-      </figure>
-      
-      <figure>
-        <h3>臺南市學生諮商暨個案管理中心</h3>
-        <p>精神科</p>
-        <div class="rating">
-            <input type="radio" name="rating" id="r1">
-            <label for="r1"></label>
-          
-            <input type="radio" name="rating" id="r2">
-            <label for="r2"></label>
-          
-            <input type="radio" name="rating" id="r3">
-            <label for="r3"></label>
-          
-            <input type="radio" name="rating" id="r4">
-            <label for="r4"></label>
-          
-            <input type="radio" name="rating" id="r5">
-            <label for="r5"></label>
-        </div>
-      <figcaption>實習內容：個別諮商與心理治療 ,團體諮商與心理治療 ,心理衡鑑（含心理測驗的施測與解釋） ,心理諮詢、心理衛生教育與預防推廣工作 ,實習機構的專業行政工作 ,</figcaption>
-      <div>
-        <button class="btn btn-xs btn-info">專業</button>
-        <button class="btn btn-xs btn-info">東西好吃</button>
-        <button class="btn btn-xs btn-info">工時很長</button>
-          <button class="btn btn-xs btn-info">有給薪水</button>
-        <button class="btn btn-xs btn-info">常常加班</button>
-      </div>
-      </figure>
-      
-      <figure>
-        <h3>嶺東科技大學</h3>
-        <p>學務處心理就業輔導組</p>
-        <div class="rating">
-            <input type="radio" name="rating" id="r1">
-            <label for="r1"></label>
-          
-            <input type="radio" name="rating" id="r2">
-            <label for="r2"></label>
-          
-            <input type="radio" name="rating" id="r3">
-            <label for="r3"></label>
-          
-            <input type="radio" name="rating" id="r4">
-            <label for="r4"></label>
-          
-            <input type="radio" name="rating" id="r5">
-            <label for="r5"></label>
-        </div>
-      <figcaption>實習內容：個別諮商與心理治療 ,團體諮商與心理治療 ,心理諮詢、心理衛生教育與預防推廣工作 ,實習機構的專業行政工作</figcaption>
-      <div>
-        <button class="btn btn-xs btn-info">福利不錯</button>
-        <button class="btn btn-xs btn-info">東西好吃</button>
-        <button class="btn btn-xs btn-info">有給薪水</button>
-      </div>
-      </figure>
-      
-       <figure>
-        <h3>頭陀心理諮商所</h3>
-        <p>臺北市學生諮商中心</p>
-        <div class="rating">
-            <input type="radio" name="rating" id="r1">
-            <label for="r1"></label>
-          
-            <input type="radio" name="rating" id="r2">
-            <label for="r2"></label>
-          
-            <input type="radio" name="rating" id="r3">
-            <label for="r3"></label>
-          
-            <input type="radio" name="rating" id="r4">
-            <label for="r4"></label>
-          
-            <input type="radio" name="rating" id="r5">
-            <label for="r5"></label>
-        </div>
-      <figcaption>實習內容：個別諮商與心理治療 ,團體諮商與心理治療 ,心理衡鑑（含心理測驗的施測與解釋） ,心理諮詢、心理衛生教育與預防推廣工作 ,實習機構的專業行政工作</figcaption>
-      <div>
-        <button class="btn btn-xs btn-info">專業</button>
-        <button class="btn btn-xs btn-info">環境很好</button>
-        <button class="btn btn-xs btn-info">福利不錯</button>
-        <button class="btn btn-xs btn-info">東西好吃</button>
-      </div>
-      </figure>
-      
-       <figure>
-        <h3>臺南市學生諮商暨個案管理中心</h3>
-        <p>精神科暨心理衛生中心</p>
-        <div class="rating">
-            <input type="radio" name="rating" id="r1">
-            <label for="r1"></label>
-          
-            <input type="radio" name="rating" id="r2">
-            <label for="r2"></label>
-          
-            <input type="radio" name="rating" id="r3">
-            <label for="r3"></label>
-          
-            <input type="radio" name="rating" id="r4">
-            <label for="r4"></label>
-          
-            <input type="radio" name="rating" id="r5">
-            <label for="r5"></label>
-        </div>
-      <figcaption>實習內容：個別諮商與心理治療 ,團體諮商與心理治療 ,心理衡鑑（含心理測驗的施測與解釋） ,心理諮詢、心理衛生教育與預防推廣工作 ,實習機構的專業行政工作</figcaption>
-      <div>
-        <button class="btn btn-xs btn-info">專業</button>
-        <button class="btn btn-xs btn-info">環境很好</button>
-        <button class="btn btn-xs btn-info">工時很長</button>
-        <button class="btn btn-xs btn-info">常常加班</button>
-        <button class="btn btn-xs btn-info">導師人很好</button>
-        <button class="btn btn-xs btn-info">福利不錯</button>
-        <button class="btn btn-xs btn-info">東西好吃</button>
-      </div>
-      </figure>
-      
-      <figure>
-        <h3>頭陀心理諮商所</h3>
-        <p>臺南市學生諮商暨個案管理中心</p>
-        <div class="rating">
-            <input type="radio" name="rating" id="r1">
-            <label for="r1"></label>
-          
-            <input type="radio" name="rating" id="r2">
-            <label for="r2"></label>
-          
-            <input type="radio" name="rating" id="r3">
-            <label for="r3"></label>
-          
-            <input type="radio" name="rating" id="r4">
-            <label for="r4"></label>
-          
-            <input type="radio" name="rating" id="r5">
-            <label for="r5"></label>
-        </div>
-      <figcaption>實習內容：個別諮商與心理治療 ,團體諮商與心理治療 ,心理衡鑑（含心理測驗的施測與解釋） ,心理諮詢、心理衛生教育與預防推廣工作 ,實習機構的專業行政工作</figcaption>
-      <div>
-        <button class="btn btn-xs btn-info">工時很長</button>
-        <button class="btn btn-xs btn-info">常常加班</button>
-        <button class="btn btn-xs btn-info">東西好吃</button>
-      </div>
-      </figure>	
-      
-       <figure>
-        <h3>輔英科技大學</h3>
-        <p>諮商輔導中心</p>
-        <div class="rating">
-            <input type="radio" name="rating" id="r1">
-            <label for="r1"></label>
-          
-            <input type="radio" name="rating" id="r2">
-            <label for="r2"></label>
-          
-            <input type="radio" name="rating" id="r3">
-            <label for="r3"></label>
-          
-            <input type="radio" name="rating" id="r4">
-            <label for="r4"></label>
-          
-            <input type="radio" name="rating" id="r5">
-            <label for="r5"></label>
-        </div>
-      <figcaption>實習內容：個別諮商與心理治療 ,團體諮商與心理治療 ,心理衡鑑（含心理測驗的施測與解釋） ,心理諮詢、心理衛生教育與預防推廣工作 ,實習機構的專業行政工作</figcaption>
-      <div>
-        <button class="btn btn-xs btn-info">專業</button>
-        <button class="btn btn-xs btn-info">福利不錯</button>
-        <button class="btn btn-xs btn-info">有給薪水</button>
-        <button class="btn btn-xs btn-info">常常加班</button>
-      </div>
-      </figure>
-      
-        <figure>
-          <h3>頭陀心理諮商所</h3>
-          <p>輔英科技大學學生事務處諮商輔導中心</p>
-          <div class="rating">
-              <input type="radio" name="rating" id="r1">
-              <label for="r1"></label>
-            
-              <input type="radio" name="rating" id="r2">
-              <label for="r2"></label>
-            
-              <input type="radio" name="rating" id="r3">
-              <label for="r3"></label>
-            
-              <input type="radio" name="rating" id="r4">
-              <label for="r4"></label>
-            
-              <input type="radio" name="rating" id="r5">
-              <label for="r5"></label>
-          </div>
-        <figcaption>實習內容：團體諮商與心理治療 ,心理衡鑑（含心理測驗的施測與解釋） ,心理諮詢、心理衛生教育與預防推廣工作 ,實習機構的專業行政工作</figcaption>
-        <div>
-          <button class="btn btn-xs btn-info">環境很好</button>
-          <button class="btn btn-xs btn-info">福利不錯</button>
-          <button class="btn btn-xs btn-info">東西好吃</button>
-          <button class="btn btn-xs btn-info">導師人很好</button>
-        </div>
-      </figure>	
+    {% endfor%}
       </div>
 
-    <table class="table results">
+    <table style="display:none;"class="table results">
         <thead>
         <tr>
             <th>機構名稱</th>
@@ -379,7 +151,7 @@
 {% block contentJs%}
 
 <script>
-  let resultsRow = document.getElementsByClassName('resultsRow');
+  let resultsRow = document.getElementsByClassName('resultFigures');
   
   for (let i = 0; i < resultsRow.length; i++) {
       resultsRow[i].addEventListener("click", () => {
