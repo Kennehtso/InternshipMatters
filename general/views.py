@@ -136,8 +136,9 @@ def createComment(request, orgId):
         form = CommentForm(request.POST)
         if form.is_valid():
             form.save()
+            hashTags = form.cleaned_data.get('hashTags')
             orgId = request.POST["organization"]
-            updateRelatedFieldForOrganization(orgId)
+            updateRelatedFieldForOrganization(orgId, hashTags)
             return redirect(f'../detail/{orgId}')
 
     context = {"form" : form, 'internPerson': internPerson }
@@ -153,8 +154,9 @@ def updateComment(request, pk):
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             form.save()
+            hashTags = form.cleaned_data.get('hashTags')
             orgId = request.POST["organization"]
-            updateRelatedFieldForOrganization(orgId)
+            updateRelatedFieldForOrganization(orgId, hashTags)
             return redirect(f'../detail/{orgId}')
 
     context = {"form" : form, 'internPerson':internPerson }
@@ -171,12 +173,17 @@ def deleteComment(request):
         data = {'success': f" Success delete id ='{ cmtId }' comment !!" }
         return JsonResponse(data)
 
-def updateRelatedFieldForOrganization(orgId):
+def updateRelatedFieldForOrganization(orgId, hashTags):
+    print(F"hashTags: {hashTags}")
     organization = Organization.objects.get(id=orgId)
     comments = Comment.objects.filter(organization__id=orgId)
     organization.commentsCount = comments.count()
     avgScore = comments.aggregate(Avg('score'))["score__avg"]
     organization.score = 0 if avgScore is None else round(avgScore,1)
+    
+    for h in hashTags.all():
+        organization.hashTags.add(h)
+        print(F"{h.name}: {h.id}")
     organization.save()
 
 # Maintainance Purpose
