@@ -13,7 +13,7 @@ import operator
 from .models import *
 from .form import *
 from .decorators import *
-
+ 
 # Create your views here.
 @isLoginRedirect
 def register(request):
@@ -133,14 +133,16 @@ def createComment(request, orgId):
     internPerson = InternPerson.objects.get(user=request.user)
     form = CommentForm(initial={'organization':orgId, 'intern':internPerson.id})
     if request.method =='POST':
-        #print(F"Post!! {request.POST}")
+        print(F"Post!! {request.POST}")
+        print(F"request.POST['hashTags']: {request.POST['hashTags']}")
+        """
         form = CommentForm(request.POST)
         if form.is_valid():
             form.save()
             orgId = request.POST["organization"]
             updateRelatedFieldForOrganization(orgId)
             return redirect(f'../detail/{orgId}')
-
+"""
     context = {"form" : form, 'internPerson': internPerson }
     return render(request,'general/commentForm.html', context)
 
@@ -179,3 +181,82 @@ def updateRelatedFieldForOrganization(orgId):
     avgScore = comments.aggregate(Avg('score'))["score__avg"]
     organization.score = 0 if avgScore is None else round(avgScore,1)
     organization.save()
+
+# Maintainance Purpose
+import random
+from .tests import test_names, user_pw_dev
+def randomAddUser(request):
+    if not request.user.is_staff:
+        messages.error(request, f"伙伴 '{request.user}' 不是管理者，無權限進行此操作")
+        return redirect('home')
+    chkList = {}
+    cnt = 0
+    maxCnt = 25
+    while cnt < maxCnt:
+        index = random.randint(0,len(test_names)-1)
+        name = test_names[index] +'_dev'
+        if name not in chkList:
+            cnt += 1
+            chkList[name] =  {
+                'username': name, 
+                'email': name + '@testInternship1234.com', 
+                'password1': user_pw_dev,
+                'password2': user_pw_dev
+            }
+            print(F"chkList[name]: {chkList[name]}")
+            form = CreateUserForm(chkList[name])
+            if form.is_valid():
+                print(F"form.is_valid: {name}")
+                #print(F"form: {form}")
+                #user = form.save()
+    return redirect('login')
+
+import json
+from .tests import organization_dev
+def addOrganization(request):
+    if not request.user.is_staff:
+        messages.error(request, f"伙伴 '{request.user}' 不是管理者，無權限進行此操作")
+        return redirect('home')
+    chkList = {}
+    cnt = 0
+    maxCnt = 1
+  
+    for org_name, orgInfo in organization_dev['Organization'].items():
+        if cnt == maxCnt:
+            break
+        if org_name not in chkList:
+            chkList[org_name] =  {
+                'name': org_name, 
+                'area': orgInfo['2. 地址：'], 
+                #'organizationType': orgInfo['1. 機構名稱：'], 
+                'score': 0, 
+                'commentsCount':0, 
+                'unitName': orgInfo['3. 實習單位名稱：'], 
+                'unitType': orgInfo['8. 實習機構類別：'], 
+                'subsidy': orgInfo['實習津貼'], 
+                'internshipContent': orgInfo['2. 實習內容：'], 
+                #'hashTags': [], Cannot directly assign
+                'detailInfoFromExtUrl': '',
+            }
+            print(F"chkList[org_name]: {chkList[org_name]}")
+            org = Organization.objects.create(name=org_name)
+            org.area= orgInfo['2. 地址：']
+            #'organizationType': orgInfo['1. 機構名稱：']
+            org.score=  0
+            org.commentsCount= 0
+            org.unitName= orgInfo['3. 實習單位名稱：']
+            org.unitType= orgInfo['8. 實習機構類別：']
+            org.subsidy= orgInfo['實習津貼']
+            org.internshipContent= orgInfo['2. 實習內容：']
+            org.detailInfoFromExtUrl = ''
+            org.save()
+            #form = OrganizationForm(chkList[org_name])
+            #if form.is_valid():
+                #print(F"form.is_valid: {org_name}")
+                #print(F"form: {form}")
+                #user = form.save()
+            #else:
+            #    print(form.errors.as_json())
+            print(f"------------")
+            cnt += 1
+    return redirect('login')

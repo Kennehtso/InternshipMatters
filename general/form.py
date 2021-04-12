@@ -1,6 +1,6 @@
 from django.db.models import fields
 from django.forms import ModelForm, ValidationError, TextInput
-from .models import Comment, InternPerson
+from .models import Comment, InternPerson, Organization
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -57,5 +57,11 @@ class CommentForm(ModelForm):
         # Specify 2 fields for basic model
         # need to know which model we are going to build the form for
         model = Comment
+        # which fields are allow, use '__all__' to allow all
+        fields = '__all__'
+
+class OrganizationForm(ModelForm):
+    class Meta:
+        model = Organization
         # which fields are allow, use '__all__' to allow all
         fields = '__all__'

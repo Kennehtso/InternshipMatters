@@ -29,6 +29,7 @@
           <a class="btn btn-outline-danger" href="{% url 'logout' %}">登出</a>
           {% if request.user.is_staff %}
               <a class="btn btn-outline-primary" href="{% url 'randomAddUser' %}">產出用戶(dev)</a>
+              <a class="btn btn-outline-primary" href="{% url 'addOrganization' %}">產出組織(dev)</a>
           {% endif %}
       {% endif %}
     </div> 

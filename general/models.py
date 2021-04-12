@@ -16,6 +16,11 @@ class InternPerson(models.Model):
     def __str__(self):
         return self.name
 
+class HashTags(models.Model):
+    name = models.CharField(max_length=200, null=False)
+    def __str__(self):
+        return self.name
+
 ORGANIZATIONTYPE = (
     ('各級學校諮商','各級學校諮商'),
     ('社區性心理衛生中心或諮商機構','社區性心理衛生中心或諮商機構'),
@@ -31,6 +36,13 @@ class Organization(models.Model):
     organizationType = models.CharField(null=True, max_length=200, choices=ORGANIZATIONTYPE)
     score = models.FloatField(default=0, null=True, validators=[MaxValueValidator(5), MinValueValidator(0)])
     commentsCount = models.IntegerField(default=0, null=True, validators=[MinValueValidator(0)])
+    unitName = models.CharField(max_length=200, null=True)
+    unitType = models.CharField(max_length=200, null=True)
+    subsidy = models.CharField(max_length=200, null=True)
+    internshipContent = models.CharField(max_length=200, null=True)
+    hashTags = models.ManyToManyField(HashTags, blank=True)
+    detailInfoFromExtUrl = models.CharField(max_length=200, blank=True, null=True)
+    
     """
     def getScore(self):
         comments = Comment.objects.filter(organization__id=self.id)
@@ -41,11 +53,6 @@ class Organization(models.Model):
     def getCommentsCount(self):
         return self.commentsCount()
     """
-    def __str__(self):
-        return self.name
-
-class HashTags(models.Model):
-    name = models.CharField(max_length=200, null=False)
     def __str__(self):
         return self.name
 

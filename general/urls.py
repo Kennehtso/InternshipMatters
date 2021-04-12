@@ -23,5 +23,6 @@ urlpatterns = [
 
     #Dev
     path('randomAddUser/',views.randomAddUser, name='randomAddUser'),
+    path('addOrganization/',views.addOrganization, name='addOrganization'),
     
 ]
