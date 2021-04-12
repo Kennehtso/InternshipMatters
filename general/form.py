@@ -59,9 +59,3 @@ class CommentForm(ModelForm):
         model = Comment
         # which fields are allow, use '__all__' to allow all
         fields = '__all__'
-
-class OrganizationForm(ModelForm):
-    class Meta:
-        model = Organization
-        # which fields are allow, use '__all__' to allow all
-        fields = '__all__'

@@ -219,29 +219,23 @@ def addOrganization(request):
         return redirect('home')
     chkList = {}
     cnt = 0
-    maxCnt = 1
-  
+    maxCnt = 25
+    """
+    organizationsInDB = Organization.objects.all()
+    for org in organizationsInDB:
+        if org.name not in chkList:
+            chkList[org.name] = org.name
+    print(f"chkList: {chkList}")
+    """
     for org_name, orgInfo in organization_dev['Organization'].items():
-        if cnt == maxCnt:
-            break
-        if org_name not in chkList:
-            chkList[org_name] =  {
-                'name': org_name, 
-                'area': orgInfo['2. 地址：'], 
-                #'organizationType': orgInfo['1. 機構名稱：'], 
-                'score': 0, 
-                'commentsCount':0, 
-                'unitName': orgInfo['3. 實習單位名稱：'], 
-                'unitType': orgInfo['8. 實習機構類別：'], 
-                'subsidy': orgInfo['實習津貼'], 
-                'internshipContent': orgInfo['2. 實習內容：'], 
-                #'hashTags': [], Cannot directly assign
-                'detailInfoFromExtUrl': '',
-            }
-            print(F"chkList[org_name]: {chkList[org_name]}")
-            org = Organization.objects.create(name=org_name)
+        if cnt == maxCnt: break
+        name = orgInfo['1. 機構名稱：']
+        if name not in chkList:
+            chkList[name] =  name
+            print(F"chkList[org_name]: {chkList[name]}")
+            org = Organization.objects.create(name=name)
             org.area= orgInfo['2. 地址：']
-            #'organizationType': orgInfo['1. 機構名稱：']
+            org.organizationType = orgInfo['8. 實習機構類別：']
             org.score=  0
             org.commentsCount= 0
             org.unitName= orgInfo['3. 實習單位名稱：']
@@ -250,13 +244,9 @@ def addOrganization(request):
             org.internshipContent= orgInfo['2. 實習內容：']
             org.detailInfoFromExtUrl = ''
             org.save()
-            #form = OrganizationForm(chkList[org_name])
-            #if form.is_valid():
-                #print(F"form.is_valid: {org_name}")
-                #print(F"form: {form}")
-                #user = form.save()
-            #else:
-            #    print(form.errors.as_json())
             print(f"------------")
-            cnt += 1
+        cnt += 1
     return redirect('login')
+    """
+    
+    """
