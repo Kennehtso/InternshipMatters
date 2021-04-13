@@ -92,19 +92,13 @@ def result(request):
     if request.method =='POST':
         #print(f"*********　request.POST: {request.POST} ********** ")
         queryList = []
-        # Get Data
-        bannerSearch = request.POST['bannerSearch']
-        location = request.POST['location_list']
-        organizationType = request.POST['organizationType_list']
-        score_input = None
-        commentsCount = None
         # Combine Filter option
-        if bannerSearch and bannerSearch != '': 
-            queryList.append(Q(name__icontains=bannerSearch))
-        if location and location != '': 
-            queryList.append(Q(area__icontains=location))
-        if organizationType and organizationType != '': 
-            queryList.append(Q(organizationType=organizationType))
+        if 'bannerSearch' in request.POST and request.POST['bannerSearch'] != '': 
+            queryList.append(Q(name__icontains=request.POST['bannerSearch']))
+        if 'location_list' in request.POST and request.POST['location_list'] != '': 
+            queryList.append(Q(area__icontains=request.POST['location_list']))
+        if 'organizationType_list' in request.POST and request.POST['organizationType_list'] != '': 
+            queryList.append(Q(organizationType=request.POST['organizationType_list']))
         if 'score_input' in request.POST and request.POST['score_input']!= 0 : 
             queryList.append(Q(score__gte=request.POST['score_input']))
         if 'commentsCount_input' in request.POST and request.POST['commentsCount_input']!= 0 : 
