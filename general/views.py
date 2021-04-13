@@ -154,6 +154,7 @@ def updateComment(request, pk):
     if request.method =='POST':
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
+            orgId = request.POST["organization"]
             form.save()
             hashTags = form.cleaned_data.get('hashTags')
             orgId = request.POST["organization"]
@@ -171,10 +172,11 @@ def deleteComment(request):
 
         comment = Comment.objects.get(id=cmtId)
         comment.delete()
+        updateRelatedFieldForOrganization(orgId)
         data = {'success': f" Success delete id ='{ cmtId }' comment !!" }
         return JsonResponse(data)
 
-def updateRelatedFieldForOrganization(orgId, hashTags):
+def updateRelatedFieldForOrganization(orgId, hashTags=None):
     print(F"hashTags: {hashTags}")
     organization = Organization.objects.get(id=orgId)
     comments = Comment.objects.filter(organization__id=orgId)
@@ -182,9 +184,12 @@ def updateRelatedFieldForOrganization(orgId, hashTags):
     avgScore = comments.aggregate(Avg('score'))["score__avg"]
     organization.score = 0 if avgScore is None else round(avgScore,1)
     
-    for h in hashTags.all():
+    hashTag_u = hashTags if hashTags is not None else HashTags.objects.none()
+    for cmt in comments:
+        hashTag_u = hashTag_u.union(cmt.hashTags.all())
+    organization.hashTags.clear()
+    for h in hashTag_u.all():
         organization.hashTags.add(h)
-        print(F"{h.name}: {h.id}")
     organization.save()
 
 # Maintainance Purpose
