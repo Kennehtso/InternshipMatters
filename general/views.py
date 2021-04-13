@@ -121,10 +121,11 @@ def result(request):
 #@allowed_user_groups(allowed_roles=['admin'])
 def detail(request, orgId):
     internPerson = InternPerson.objects.get(user=request.user)
+    organizations = Organization.objects.all()
     organization = Organization.objects.get(id=orgId)
     comments = organization.comment_set.all()
     comments_count = comments.count()
-    context = {'organization':organization,'internPerson':internPerson, 'comments':comments, 'comments_count':comments_count}
+    context = {'organizations':organizations, 'organization':organization,'internPerson':internPerson, 'comments':comments, 'comments_count':comments_count}
     return render(request,'general/detail.html',context)
 
 @login_required(login_url='login')

@@ -1,7 +1,21 @@
 {% extends 'general/main.html'%}
 
 {% block content %}
-
+<div class="row" style="padding-top: 10px; padding-bottom: 20px;" >
+    <div class="col-md-10 col-lg-10 col-xl-10 mx-auto" style="left: 8%;">
+    <form id="searchForm" method="post" action="/result/">{% csrf_token %}
+        <div class="form-row" >
+            <div class="btn-group col-md-8 col-lg-8 col-xl-8 mb-8 mb-md-0">
+                <input name="bannerSearch" id="bannerSearch" type="search" class="form-control form-control-lg" placeholder="機構名稱 / 類型">
+            </div>
+            <!--Search Button -->
+            <div class="btn-group col-md-2 col-lg-2 col-xl-2 mb-2 mb-md-0">
+                <button type="submit" class="btn btn-lg btn-info">搜尋</button>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
     <!-- Testimonials -->
     {% include './component/circleBoxes.html'%}
     
@@ -19,6 +33,13 @@
     $(document).ready(function () {
         $('#indicator').hide();
         $('#spinnerMsg').hide();
+        
+        var countries = [
+            {% for item in organizations %}
+                "{{item.name}}",
+            {% endfor %}
+        ];
+        autocomplete(document.getElementById("bannerSearch"), countries);
     });
 
     $(document).on('click', '.comment-delete', function () {
