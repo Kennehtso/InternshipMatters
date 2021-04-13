@@ -378,6 +378,7 @@ input[type=submit] {
    display: inline-block;
    break-inside: avoid-column;
    width: 300px;
+   border-radius: 1em;
  }
  
  div#columns figure h3 {

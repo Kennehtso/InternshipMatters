@@ -1,6 +1,12 @@
 {% load static %}
 {% include './deleteModal.html'%}
 <div id="commentsSection" class="table-responsive text-nowrap">
+    <div id="spinnerMsg"class="text-info" style="margin-left: 15%;padding-bottom: 10px;padding-top: 10px;">
+        <strong>頁面即將刷新...</strong>
+    </div>
+    <div id="indicator" class="text-info" style="margin-left: 15%;padding-bottom: 10px;padding-top: 10px;">
+        <div class="spinner-border" role="status"></div>
+    </div>
     <table class="table comments">
         <thead>
             <tr style="background-color: #343a40; color:white">
