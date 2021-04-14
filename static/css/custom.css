@@ -428,7 +428,11 @@ div#columns figure div.rating label::after{
  div#columns:hover figure:not(:hover) {
    opacity: 0.4;
  }
- 
+ div#columns figure:hover {
+ box-shadow: 2px 2px 4px gray;
+ transition: box-shadow 0.2s ease-in-out;
+}
+
  @media screen and (max-width: 750px) { 
    #columns { column-gap: 0px; }
    #columns figure { width: 100%; }
