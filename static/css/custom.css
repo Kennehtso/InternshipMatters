@@ -433,3 +433,10 @@ div#columns figure div.rating label::after{
    #columns { column-gap: 0px; }
    #columns figure { width: 100%; }
  }
+ .loader{
+  position: fixed;
+  right: 2%;
+  bottom: 2%;
+  height: 50PX;
+  z-index: 9999;
+}

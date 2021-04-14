@@ -1,156 +1,163 @@
 {% extends 'general/main.html'%}
 {% block content %}
 
-<div class="row" style="padding-top: 10px; padding-bottom: 20px;" >
-    <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
-      <form id="searchForm" method="post" action="/result/">{% csrf_token %}
-        <div class="form-row" >
-          <div class="btn-group col-md-10 col-lg-10 col-xl-10 mb-5 mb-md-0">
-            <input name="bannerSearch" id="bannerSearch" type="search" class="form-control form-control-lg" placeholder="機構名稱 / 類型">
-            </div>
-            <!--Search Button -->
-            <div class="btn-group col-md-2 col-lg-2 col-xl-2 mb-2 mb-md-0">
-              <button type="submit" class="btn btn-lg btn-info">搜尋</button>
-            </div>
-          </div>
-          
-          <div class="form-row" style="padding-top: 10px;">
-            <!--地區-->
-            <select id="location_list" name="location_list" data-style="btn-outline-info" 
-              class="selectpicker col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0" aria-label="全部地區" data-live-search="true">
-              <option value='' selected>全部地區</option>
-              <option data-divider="true"></option>
-              <option value='臺北市'>臺北市</option>
-              <option value='基隆市'>基隆市</option>
-              <option value='新北市'>新北市</option>
-              <option value='宜蘭縣'>宜蘭縣</option>
-              <option value='新竹市'>新竹市</option>
-              <option value='新竹縣'>新竹縣</option>
-              <option value='桃園市'>桃園市</option>
-              <option value='苗栗縣'>苗栗縣</option>
-              <option value='臺中市'>臺中市</option>
-              <option value='雲林縣'>雲林縣</option>
-              <option value='臺南市'>臺南市</option>
-              <option value='高雄市'>高雄市</option>
-              <option value='屏東縣'>屏東縣</option>
-              <option value='臺東縣'>臺東縣</option>
-              <option value='花蓮縣'>花蓮縣</option>
-            </select>
-             <!--機構類型-->
-              <select id="organizationType_list" name="organizationType_list" data-style="btn-outline-info" 
-              class="selectpicker col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0" aria-label="全部機構類型" data-live-search="true">
-              <option value=''selected>全部機構類型</option>
-              <option data-divider="true"></option>
-              <option value="大專校院諮商(輔導)中心(處、室、組)">大專校院諮商(輔導)中心(處、室、組)</option>
-              <option value="心理諮商所">心理諮商所</option>
-              <option value="公、私立高中、職、中小學輔導室（處）、教育局處學生諮商中心">公、私立高中、職、中小學輔導室（處）、教育局處學生諮商中心</option>
-              <option value="醫療機構">醫療機構</option>
-              <option value="社區性心理衛生中心">社區性心理衛生中心</option>
-              <option value="政府及事業單位設有心理治療或諮商業務之單位">政府及事業單位設有心理治療或諮商業務之單位</option>
-              <option value="財團法人基金會">財團法人基金會</option>
-            </select>
-          </div>
+{% block otherCSS %}
+{% endblock otherCSS %}
 
-          
-            <div class="form-row" style="padding-top: 10px; padding-bottom: 50px;">
-                <div class="form-group searchCustomBorder col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0">
-                    <div class="row">
-                        <label for="score_input" class="col-sm-3 col-form-label">分數：<br/><span id="scoreValue"></span> 分或以上</label>
-                        <div class=" col-md-3 col-lg-3 col-xl-3 mb-3 mb-md-0">
-                          <a id="clearRate" class="btn btn-md btn-outline-danger">重設評分</a>
-                        </div>
-                        <div class="rating">
-                            <input type="radio" name="rating" id="r1">
-                            <label for="r1"></label>
-                          
-                            <input type="radio" name="rating" id="r2">
-                            <label for="r2"></label>
-                          
-                            <input type="radio" name="rating" id="r3">
-                            <label for="r3"></label>
-                          
-                            <input type="radio" name="rating" id="r4">
-                            <label for="r4"></label>
-                          
-                            <input type="radio" name="rating" id="r5">
-                            <label for="r5"></label>
-                        </div>
-                        <input style="display: none;" id="score_input" name="score_input" type="range" class="form-range" value ="0" min="0" max="5" step="1" >
-                    </div>
-                  </div>
-                <!--Search Button -->
-                <div class="form-group searchCustomBorder col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0">
-                    <div class="row">
-                        <label for="commentsCount_input" class="col-sm-3 col-form-label">評論人數：<br/> <span id="commentsCountValue"></span> 人或以上</label>
-                        <div class="col-sm-9">
-                            <input id="commentsCount_input" name="commentsCount_input" type="range" value ="0" class="form-range" min="0" max="99" >
-                        </div>
-                    </div>
-                 </div>
-            </div>
-        </form>
-      </div>
-    </div>
-    <div class="container">
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-radius: 0.75em;">
-        <a class="navbar-brand" style="margin: auto; padding-top: 0px; padding-bottom: 0px;">
-          台灣輔導與諮商學會 - 審查通過的諮商心理實習機構</a>
-      </nav>
-    </div>
-    <div id="columns">
-      {% for item in organizations %}
-      <figure class="resultFigures" id="{{item.id}}">
-        <h3>{{ item.name }}</h3>
-        <p>{{ item.unitName }}</p>
-        <p>{{ item.unitType }}</p>
-        <p>津貼：{{ item.subsidy }}</p>
-        <div class="ratingResult"> <!--TODO : item.score -->
-            {% for i in '12345'|make_list %}
-            {% if item.score >= forloop.counter %}
-                <label  style='color: #138496; text-shadow: 0 0 20px #17a2b8;'>★</label>
-              {% else %}
-                <label style='color: #444;text-shadow: 0 0 20px #444;'>☆</label>
-            {% endif %}
-            {% endfor %}
+<div class="row" style="padding-top: 10px; padding-bottom: 20px;">
+  <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
+    <form id="searchForm" method="post" action="/result/">{% csrf_token %}
+      <div class="form-row">
+        <div class="btn-group col-md-10 col-lg-10 col-xl-10 mb-5 mb-md-0">
+          <input name="bannerSearch" id="bannerSearch" type="search" class="form-control form-control-lg" placeholder="機構名稱 / 類型">
+          </div>
+          <!--Search Button -->
+          <div class="btn-group col-md-2 col-lg-2 col-xl-2 mb-2 mb-md-0">
+            <button type="submit" class="btn btn-lg btn-info">搜尋</button>
+          </div>
         </div>
-        <input style="display: none;" id="score_{{item.id}}" value ="{{item.score}}">
-      <figcaption>實習內容：{{ item.internshipContent }}</figcaption>
-      <div>
-        {% for hashTag in item.hashTags.all %}
-          <button class="btn btn-xs btn-info">{{hashTag.name}}</button>
-        {% endfor%}
-      </div>
-      </figure>
-    {% endfor%}
-      </div>
 
-    <table style="display:none;"class="table results">
-        <thead>
-        <tr>
-            <th>機構名稱</th>
-            <th>地區</th>
-            <th>機構類型</th>
-            <th>綜合評分</th>
-            <th>評論人數</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for item in organizations %}
-            <tr class="resultsRow" id="{{ item.id}}">
-                <td>{{ item.name }}</td>
-                <td>{{ item.area }}</td>
-                <td>{{ item.organizationType }}</td>
-                <td>{{ item.score }}</td>
-                <td>{{ item.commentsCount }}</td>
-            </tr>
-        {% endfor%}
-        </tbody>
-    </table>
+        <div class="form-row" style="padding-top: 10px;">
+          <!--地區-->
+          <select id="location_list" name="location_list" data-style="btn-outline-info" class="selectpicker col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0" aria-label="全部地區" data-live-search="true">
+            <option value='' selected>全部地區</option>
+<option data-divider="true"></option>
+            <option value='臺北市'>臺北市</option>
+            <option value='基隆市'>基隆市</option>
+            <option value='新北市'>新北市</option>
+            <option value='宜蘭縣'>宜蘭縣</option>
+            <option value='新竹市'>新竹市</option>
+            <option value='新竹縣'>新竹縣</option>
+            <option value='桃園市'>桃園市</option>
+            <option value='苗栗縣'>苗栗縣</option>
+            <option value='臺中市'>臺中市</option>
+            <option value='雲林縣'>雲林縣</option>
+            <option value='臺南市'>臺南市</option>
+            <option value='高雄市'>高雄市</option>
+            <option value='屏東縣'>屏東縣</option>
+            <option value='臺東縣'>臺東縣</option>
+            <option value='花蓮縣'>花蓮縣</option>
+          </select>
+          <!--機構類型-->
+          <select id="organizationType_list" name="organizationType_list" data-style="btn-outline-info" class="selectpicker col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0" aria-label="全部機構類型" data-live-search="true">
+            <option value=''selected>全部機構類型</option>
+<option data-divider="true"></option>
+            <option value="大專校院諮商(輔導)中心(處、室、組)">大專校院諮商(輔導)中心(處、室、組)</option>
+            <option value="心理諮商所">心理諮商所</option>
+            <option value="公、私立高中、職、中小學輔導室（處）、教育局處學生諮商中心">公、私立高中、職、中小學輔導室（處）、教育局處學生諮商中心</option>
+            <option value="醫療機構">醫療機構</option>
+            <option value="社區性心理衛生中心">社區性心理衛生中心</option>
+            <option value="政府及事業單位設有心理治療或諮商業務之單位">政府及事業單位設有心理治療或諮商業務之單位</option>
+            <option value="財團法人基金會">財團法人基金會</option>
+          </select>
+        </div>
+
+
+        <div class="form-row" style="padding-top: 10px; padding-bottom: 50px;">
+          <div class="form-group searchCustomBorder col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0">
+            <div class="row">
+              <label for="score_input" class="col-sm-3 col-form-label">分數：                <br/>
+                <span id="scoreValue"></span> 分或以上
+              </label>
+              <div class=" col-md-3 col-lg-3 col-xl-3 mb-3 mb-md-0">
+                <a id="clearRate" class="btn btn-md btn-outline-danger">重設評分</a>
+              </div>
+              <div class="rating">
+                <input type="radio" name="rating" id="r1">
+                  <label for="r1"></label>
+
+                  <input type="radio" name="rating" id="r2">
+                    <label for="r2"></label>
+
+                    <input type="radio" name="rating" id="r3">
+                      <label for="r3"></label>
+
+                      <input type="radio" name="rating" id="r4">
+                        <label for="r4"></label>
+
+                        <input type="radio" name="rating" id="r5">
+                          <label for="r5"></label>
+                        </div>
+                        <input style="display: none;" id="score_input" name="score_input" type="range" class="form-range" value ="0" min="0" max="5" step="1">
+                        </div>
+                      </div>
+                      <!--Search Button -->
+                      <div class="form-group searchCustomBorder col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0">
+                        <div class="row">
+                          <label for="commentsCount_input" class="col-sm-3 col-form-label">評論人數：                            <br/>
+                            <span id="commentsCountValue"></span> 人或以上
+                          </label>
+                          <div class="col-sm-9">
+                            <input id="commentsCount_input" name="commentsCount_input" type="range" value ="0" class="form-range" min="0" max="99">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="container">
+                  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-radius: 0.75em;">
+                    <a class="navbar-brand" style="margin: auto; padding-top: 0px; padding-bottom: 0px;">
+          台灣輔導與諮商學會 - 審查通過的諮商心理實習機構</a>
+                  </nav>
+                </div>
+
+            <!--  RESULT LIST-->
+            <div id="columns" class="infinite-container">
+              {% for item in page_obj %}
+                <figure class="resultFigures infinite-item" id="{{item.id}}">
+                  <h3>{{ item.name }}</h3>
+                  <p>{{ item.unitName }}</p>
+                  <p>{{ item.unitType }}</p>
+                  <p>津貼：{{ item.subsidy }}</p>
+                  <div class="ratingResult">                      
+                    {% for i in '12345'|make_list %}
+                      {% if item.score >= forloop.counter %}
+                    <label style='color: #138496; text-shadow: 0 0 20px #17a2b8;'>★</label>
+                      {% else %}
+                    <label style='color: #444;text-shadow: 0 0 20px #444;'>☆</label>
+                     {% endif %}
+                    {% endfor %}
+                  </div>
+                  <input style="display: none;" id="score_{{item.id}}" value ="{{item.score}}">
+                    <figcaption>實習內容：{{ item.internshipContent }}</figcaption>
+                    <div>
+                {% for hashTag in item.hashTags.all %}
+                      <button class="btn btn-xs btn-info">{{hashTag.name}}</button>
+                {% endfor%}
+                    </div>
+                  </figure>
+            {% endfor%}
+                </div>
+
+              <!-- infinite  paging -->
+                {% if page_obj.has_next %}
+                    <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">更多</a>
+                {% endif %}
+                
+                <div class="loader text-info" style="display: none;"> 
+                  <div class="spinner-border " role="status"></div> 
+                   取得資料中...
+               </div>
+
 {% endblock %}
 
 {% block contentJs%}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js" integrity="sha512-CEiA+78TpP9KAIPzqBvxUv8hy41jyI3f2uHi7DGp/Y/Ka973qgSdybNegWFciqh6GrN2UePx2KkflnQUbUhNIA==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/shortcuts/infinite.min.js" integrity="sha512-m3kH21aSkKrGeoqdb7IP7rlu1VcQee5VrjLQepeSOp5M05Wl6HwqJ1Jwo14EHOuBg77pkAlBtQuVMPVeXzfueg==" crossorigin="anonymous"></script>
 
-<script>
+  <script>
+    
+  var infinite = new Waypoint.Infinite({
+    element: $('.infinite-container')[0],
+    onBeforePageLoad: function () {
+      $('.loader').show();
+    },
+    onAfterPageLoad: function ($items) {
+      $('.loader').hide();
+    }
+  });
   let resultsRow = document.getElementsByClassName('resultFigures');
   
   for (let i = 0; i < resultsRow.length; i++) {
@@ -177,7 +184,6 @@
   commentsCount_input.oninput = function() {
       commentsCountValue.innerHTML = this.value;
   } 
-
 
   $('#r1').click(function (e) {$('#score_input').val(5);scoreValue.innerHTML = 5;});
   $('#r2').click(function (e) {$('#score_input').val(4);scoreValue.innerHTML = 4;});

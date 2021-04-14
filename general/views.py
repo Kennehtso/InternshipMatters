@@ -1,3 +1,4 @@
+from django.db.models.expressions import OrderBy
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
@@ -6,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.views.generic.list import ListView
+from django.core.paginator import Paginator
 
 #Other import
 from functools import reduce
@@ -107,9 +110,16 @@ def result(request):
         # Fetch actopm
         if queryList: 
             organizations = Organization.objects.filter(reduce(operator.and_, queryList))
-        
-    context = {'organizations':organizations, 'internPerson':internPerson}
+    
+    #Implement paginator
+    paginator = Paginator(organizations.order_by('name'), 12) # Show 25 contacts per page.
+    
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {'internPerson':internPerson,'page_obj': page_obj}
     return render(request, 'general/result.html', context)
+
 
 @isAuthenticated_detail
 #@allowed_user_groups(allowed_roles=['admin'])
