@@ -223,9 +223,9 @@ def addOrganization(request):
         return redirect('home')
     chkList = {}
     cnt = 0
-    maxCnt = 25
+    maxCnt = 30
     for org_name, orgInfo in organization_dev['Organization'].items():
-        if cnt == maxCnt: break
+        #if cnt == maxCnt: break
         name = orgInfo['1. 機構名稱：']
         if name not in chkList:
             chkList[name] =  name
@@ -239,8 +239,9 @@ def addOrganization(request):
             org.unitType= orgInfo['8. 實習機構類別：']
             org.subsidy= orgInfo['實習津貼']
             org.internshipContent= orgInfo['2. 實習內容：']
-            org.detailInfoFromExtUrl = ''
-            #org.save()
+            org.detailInfoFromExtUrl = orgInfo['資料來源']
+            org.save()
+            print(F"{chkList[name]}: Save success")
             print(f"------------")
-        cnt += 1
+        #cnt += 1
     return redirect('login')
