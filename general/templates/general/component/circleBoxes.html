@@ -1,6 +1,6 @@
 {% load static %}
 
-<section class="testimonials text-center bg_grad1" 
+<section class="testimonials text-center "  data-style="btn-outline-info"
 style="width: 70%;margin: auto;border-radius: 1em;padding-top:2em;padding-bottom: 2em; margin-bottom: 1em;">
 	<div class="container">
 		<h2 class="mb-5" style="text-shadow: 2px 2px 4px #000000;">{{ organization.name }}</h2>
@@ -32,17 +32,12 @@ style="width: 70%;margin: auto;border-radius: 1em;padding-top:2em;padding-bottom
 										</a>
 									</div>
 								</div>
-                <div class="col-md-4 col-lg-4 col-xl-4 mb-2 mb-md-0">
-									<div class="ih-item circle colored effect10 bottom_to_top">
-										<a href="#">
-											<div class="img">
-												<img src="{% static '/img/YODA3.jpg'%}" alt="img"></div>
-												<div class="info">
-													<h3>TODO</h3>
-													<p>熱門標籤</p>
-												</div>
-											</a>
-										</div>
+                				<div class="col-md-4 col-lg-4 col-xl-4 mb-2 mb-md-0">
+									<div class="tags">  
+										{% for hashTag in organization.hashTags.all %}
+											<a href="#" style="height: 100%;font-size: inherit;">{{hashTag.name}}</a>
+										{% endfor%}
+									</div>  
 									</div>
 								</div>
 							</form>
