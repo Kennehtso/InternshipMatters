@@ -1,8 +1,17 @@
 $(window).resize(function () {
+   console.log("window width: "+ $(window).width());
+   console.log("window.innerWidth: "+ window.innerWidth);
    if (window.innerWidth < 750) {
       $('.ih-item').removeClass('effect10 bottom_to_top').addClass('effect4 left_to_right');
    } else {
       $('.ih-item').removeClass('effect4 left_to_right').addClass('effect10 bottom_to_top');
+   }
+   if (window.innerWidth <= 1068) {
+      $('.comments-info').css({"display": "block", "width": "100%"});
+      $('#commentsSection').css({"padding-top": "10px","margin-left": "0px"});
+   } else {
+      $('.comments-info').css({"display": "table-cell", "width": "30%"});
+      $('#commentsSection').css({"padding-top": "0px","margin-left": "1%"});
    }
 }).resize();
 
@@ -155,3 +164,6 @@ function autocomplete(inp, arr) {
  });
  } 
  /* auto completed js end */
+
+ /* window resize action */
+ 
