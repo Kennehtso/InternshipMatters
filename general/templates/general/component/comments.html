@@ -1,6 +1,7 @@
 {% load static %}
 {% include './deleteModal.html'%}
-<div id="commentsSection" class="table-responsive text-center">
+
+<div id="commentsSection" class="table-responsive" style="margin-left:1%; position: relative;">
     <div id="spinnerMsg"class="text-info" style="margin-left: 15%;padding-bottom: 10px;padding-top: 10px;">
         <strong>頁面即將刷新...</strong>
     </div>
@@ -10,46 +11,64 @@
     <table class="table comments">
         <thead>
             <tr style="background-color: #343a40; color:white">
-                <th style="width:10%">實習類型</th>
-                <th style="width:10%">伙伴稱呼</th>
-                <th style="width:10%">標籤</th>
-                <th style="width:50%">心得分享</th>
-                <th style="width:5%">創立日期</th>
-                <th style="width:4%" >評分</th>
-                <th style="width:6%" ></th>
-                <th style="width:6%" ></th>
+                <th>伙伴稱呼</th>
+                <th>評分</th>
+                <th>心得分享</th>
+                <th style="width:10px"></th>
+                <th style="width:10px"></th>
             </tr>
         </thead>
         <tbody>
             {% for item in comments %}
             <tr>
-                <td >{{ item.internshipType }}</td>
-                <td >
+                <td style="max-width: 50px;">
                     {% if item.intern.profilePic %}
-                        <img style="width:30px; height: 30px; border-radius: 50%;" src='{{ item.intern.profilePic.url }}'>
+                    <img style="width:30px; height: 30px; border-radius: 50%;" src='{{ item.intern.profilePic.url }}'/>
                     {% endif %}
                     {{ item.intern.name }}
                 </td>
-                <td >{{ item.hashTags_names }}</td>
-                <td id="comment-{{item.id}}">{{ item.comments }}</td>
-                <td >{{ item.createDate | date:"Y-m-d H:i" }}</td>
-                <td >{{ item.score }}</td>
+                <td style="max-width: 50px;">{{ item.score }}</td>
+                <td style="max-width: 400px;" id="comment-{{item.id}}">
+                    <div>
+                        <div style="display:inline;">
+                            <a class="comment-more btn btn-outline-info" id="{{item.id}}">
+                                <i class="fas fa-info-circle recent-link">
+                                    <span class="hovercard">
+                                        <div class="tooltiptext">
+                                            <p >實習類型: {{ item.internshipType }}</p>
+                                            <p >標籤: {{ item.hashTags_names }}</p>
+                                            <p >創立日期: {{ item.createDate | date:"Y-m-d H:i" }}</p>
+                                        </div>
+                                    </span>
+                                </i>
+                            </a>
+                        </div>
+                        <div class="comment-comments">
+                            <p >{{ item.comments }}</p>
+                        </div>
+                    </div>
+                </td>
                 <td >
                     {% if request.user == item.intern.user %}
-                        <a class="btn btn-info" href="{% url 'updateComment' item.id %}">修改</a>
+                    <a class="comment-edit btn btn-outline-secondary" title="修改分享" href="{% url 'updateComment' item.id %}">
+                        <i class="far fa-edit"></i>
+                    </a>
                     {% endif %}
                 </td>
                 <td >
                     {% if request.user == item.intern.user %}
-                        <a class="comment-delete btn btn-danger" title="Delete" data-toggle="modal" data-target="#confirmDeleteModal" id="{{item.id}}">刪除</a>
-                        <!--a class="btn btn-danger" onclick="deleteComment('{{item.id}}')">刪除</a-->
+                    <a class="comment-delete btn btn-outline-danger" title="刪除分享" data-toggle="modal" data-target="#confirmDeleteModal" id="{{item.id}}">
+                        <i class="far fa-trash-alt"></i>
+                    </a>
+                    <!--a class="btn btn-danger" onclick="deleteComment('{{item.id}}')">刪除</a-->
                     {% endif %}
                 </td>
+
             </tr>
             {% endfor%}
         </tbody>
     </table>
-</div>
-<div class="shareComment">
-    <a style="width: 100%;" class="shareCommentBtn btn btn-info" href="{% url 'createComment' organization.id %}">我想分享</a>
+    <div class="shareComment">
+        <a style="width: 100%;" class="shareCommentBtn btn btn-info" href="{% url 'createComment' organization.id %}">我想分享</a>
+    </div>
 </div>

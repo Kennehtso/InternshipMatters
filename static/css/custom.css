@@ -119,8 +119,10 @@ ul li a:hover {
 
 tbody tr:hover {
   background-color: whitesmoke;
+  border-radius: 0.75em;
   box-shadow: 0px 1px 10px 0px #17a2b8;
   cursor: pointer;
+  transition: 0.5s;
 }
 
 .bg_grad1 {
@@ -191,14 +193,16 @@ input[type=submit] {
 
 /* comments component start */
 .comments{
+  /*
   width:70%; 
-  margin-left:15%; 
+  margin-left:2%; 
   margin-right:15%;
+  */
 }
 .shareComment{
-  width:40%; 
-  margin-left:30%; 
-  margin-right:30%;
+  width: 70%;
+  margin-left:15%; 
+  margin-right:15%;
   padding-bottom: 20px;
 }
 
@@ -517,3 +521,58 @@ div#columns figure div.rating label::after{
   color: #FFF;  
   text-shadow: -1px -1px 0 rgba(153,102,51,0.3);  
 }  
+
+/* Custom tooltip*/
+.recent-link {
+  position: relative;
+}
+.hovercard { 
+  position: absolute; 
+  opacity: 0; 
+  z-index: 1;
+  left: 50%;
+  top: -90px;
+  transform: translateX(-50%);
+}
+
+.recent-link:hover .hovercard { 
+  opacity: 1; 
+  transition: 0.5s;
+  transition-delay: 0.1s;
+}
+.tooltiptext {
+  display: flex; 
+  flex-direction: column; 
+  justify-content: flex-start; 
+  background-color: white;
+  padding: 18px; 
+  border-radius: 5px; 
+  color: #138496; 
+  line-height: 15px;
+  transition: 1s;
+  width: 200px;
+}
+.comment-edit:hover {
+  border-radius: 0.5em;
+}
+.comment-delete:hover {
+  border-radius: 0.5em;
+}
+.comment-more:hover {
+  border-radius: 0.5em;
+}
+ /* Hide scrollbar for Chrome, Safari and Opera */
+ .comments::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.comment-comments {
+  display:inline; 
+  float:right; 
+  width: 90%;
+  background: #f7f7f7;
+  border: 2px solid #fcfcfc;
+  box-shadow: 1PX 3px 2px rgba(34, 25, 25, 0.4);
+  padding: 5px;
+} 

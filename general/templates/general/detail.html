@@ -16,16 +16,18 @@
     </form>
 </div>
 </div>
+<section
+    data-style="btn-outline-info"
+    style="width: 70%; border-radius: 1em; padding-top:2em; padding-bottom: 2em; margin-bottom: 1em;display: table;margin-left: 16%;">
     <!-- Testimonials -->
     {% include './component/circleBoxes.html'%}
     
     <!-- Icons Grid -->
-    {% include './component/descriptionBox.html'%}
-
-    <!-- Icons Grid -->
     {% include './component/comments.html'%}
-
-{% endblock %} 
+    <!-- Icons Grid -->
+    {% include './component/descriptionBox.html'%}
+</section>
+{% endblock content %} 
 
 
 {% block contentJs%}
