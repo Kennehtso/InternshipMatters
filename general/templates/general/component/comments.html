@@ -2,12 +2,6 @@
 {% include './deleteModal.html'%}
 
 <div id="commentsSection" class="table-responsive" style="margin-left:1%; position: relative;">
-    <div id="spinnerMsg"class="text-info" style="margin-left: 15%;padding-bottom: 10px;padding-top: 10px;">
-        <strong>頁面即將刷新...</strong>
-    </div>
-    <div id="indicator" class="text-info" style="margin-left: 15%;padding-bottom: 10px;padding-top: 10px;">
-        <div class="spinner-border" role="status"></div>
-    </div>
     <table class="table comments">
         <thead>
             <tr style="background-color: #343a40; color:white">
@@ -20,7 +14,7 @@
         </thead>
         <tbody>
             {% for item in comments %}
-            <tr>
+            <tr id="comment-row-{{item.id}}">
                 <td style="max-width: 50px;">
                     {% if item.intern.profilePic %}
                     <img style="width:30px; height: 30px; border-radius: 50%;" src='{{ item.intern.profilePic.url }}'/>
@@ -43,7 +37,7 @@
                                 </i>
                             </a>
                         </div>
-                        <div class="comment-comments">
+                        <div class="comment-comments-{{item.id}}">
                             <p >{{ item.comments }}</p>
                         </div>
                     </div>

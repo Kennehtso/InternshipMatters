@@ -33,8 +33,6 @@
 {% block contentJs%}
 <script>
     $(document).ready(function () {
-        $('#indicator').hide();
-        $('#spinnerMsg').hide();
         
         var countries = [
             {% for item in organizations %}
@@ -47,11 +45,11 @@
     $(document).on('click', '.comment-delete', function () {
         var cmtId = $(this).attr("id");
         $("#confirmDeleteModal").attr("comment-id", cmtId);
-        $(".modal-comment").text($("#comment-"+cmtId).html());
+        $(".modal-comment").text($(".comment-comments-"+cmtId +" p").html());
     });
 
     $(document).on('click', '#confirmDeleteButtonModal', function () {
-        $('#indicator').show(1000);
+      $('#commentsSection').parent().append('<div class="loader text-center" style="color:red;"></div>').append('<div class="loader-text text-center" style="color:red;">稍等片刻...</div>')
         var cmtId = $("#confirmDeleteButtonModal").closest(".modal").attr("comment-id");
         //alert(cmtId);
         $.ajax({
@@ -63,12 +61,12 @@
             },
         success: function(response){
             //alert(response.success);
-            window.location.href = '/detail/{{organization.id}}'
+            $('#comment-row-'+cmtId).remove();
+            //window.location.href = '/detail/{{organization.id}}'
             },
         complete : function(response){
             //alert(response.success);
-                $('#spinnerMsg').show(500);
-                $('#indicator').hide(500);
+            $('.loader, .loader-text').remove();
             }
         });
     });

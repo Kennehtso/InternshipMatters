@@ -136,10 +136,6 @@
                     <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">更多</a>
                 {% endif %}
                 
-                <div class="loader text-info" style="display: none;"> 
-                  <div class="spinner-border " role="status"></div> 
-                   取得資料中...
-               </div>
 
 {% endblock %}
 
@@ -148,14 +144,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/shortcuts/infinite.min.js" integrity="sha512-m3kH21aSkKrGeoqdb7IP7rlu1VcQee5VrjLQepeSOp5M05Wl6HwqJ1Jwo14EHOuBg77pkAlBtQuVMPVeXzfueg==" crossorigin="anonymous"></script>
 
   <script>
-    
+  var loader = $('.lodaer')
   var infinite = new Waypoint.Infinite({
     element: $('.infinite-container')[0],
     onBeforePageLoad: function () {
-      $('.loader').show();
+      $('#columns').parent().append('<div class="loader text-center"></div>').append('<div class="loader-text text-center">稍等片刻</div>')
     },
     onAfterPageLoad: function ($items) {
-      $('.loader').hide();
+      $('.loader, .loader-text').remove();
     }
   });
   let resultsRow = document.getElementsByClassName('resultFigures');

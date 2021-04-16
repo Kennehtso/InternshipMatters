@@ -1,7 +1,7 @@
 {% extends 'general/main.html'%}
 {% load static %}
 {% block content %}
-    <form id="commentForm" method="POST" action="" class="comments">
+    <form id="commentForm" method="POST" action="" class="comments-edit">
         {% csrf_token %}
         <div class="form-row" style="padding-top: 20px;">
             <div class="fieldWrapper col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0">
@@ -71,7 +71,7 @@
 
 {% block contentJs%}
 <script>
-    $(".comments div input, .comments div select, .comments div textarea").addClass("form-control");
+    $(".comments-edit div input, .comments-edit div select, .comments-edit div textarea").addClass("form-control");
     $('#commentForm').submit(function(){
         $("#commentForm :disabled").removeAttr('disabled');
     });
