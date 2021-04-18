@@ -668,3 +668,48 @@ div#columns figure div.rating label::after{
     transform: rotate(360deg);
   }
 }
+/* Back to top*/
+#backToTop {
+  display: inline-block;
+  background-color: #17a2b8;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  border-radius: 4px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  transition: background-color .3s, 
+    opacity .5s, visibility .5s;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
+}
+#backToTop::after {
+  content: "\f077";
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 2em;
+  line-height: 50px;
+  color: #fff;
+}
+#backToTop:hover {
+  color: 1;
+  background-color: #17a2b8;
+  cursor: pointer;
+  text-decoration: none;
+}
+#backToTop:active {
+  background-color: #555;
+}
+#backToTop.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (min-width: 500px) {
+  #backToTop {
+    margin: 30px;
+  }
+}

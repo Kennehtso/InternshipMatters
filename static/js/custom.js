@@ -165,5 +165,18 @@ function autocomplete(inp, arr) {
  } 
  /* auto completed js end */
 
- /* window resize action */
- 
+ /** */
+ var backToTopBtn = $('#backToTop');
+
+$(window).scroll(function() {
+  if ($(window).scrollTop() > 300) {
+   backToTopBtn.addClass('show');
+  } else {
+   backToTopBtn.removeClass('show');
+  }
+});
+
+backToTopBtn.on('click', function(e) {
+  e.preventDefault();
+  $('html, body').animate({scrollTop:0}, '300');
+});
