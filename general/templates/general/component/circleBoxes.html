@@ -5,19 +5,17 @@
 	<div class="row">
 		<div class="col-md-12 col-lg-12 col-xl-12 mx-auto">
 			<form>
-				<div>
-					<div class="col-md-4 col-lg-4 col-xl-4 mb-2 mb-md-0">
-						<div class="ih-item circle colored effect10 bottom_to_top">
-							<a href="#">
-								<div class="img">
-									<img src="{% static '/img/YODA2.gif'%}" alt="img"/>
-								</div>
-								<div class="info">
-									<h3 style="font-size: 40px;">{{ organization.score }}</h3>
-									<p>整體評分</p>
-								</div>
-							</a>
-						</div>
+				<div style="margin: auto;display: grid;justify-content: center;">
+					<div style="left: 0%;" class="ih-item circle colored effect10 bottom_to_top">
+						<a href="#">
+							<div class="img">
+								<img src="{% static '/img/YODA2.gif'%}" alt="img"/>
+							</div>
+							<div class="info">
+								<h3 style="font-size: 40px;">{{ organization.score }}</h3>
+								<p>整體評分</p>
+							</div>
+						</a>
 					</div>
 				</div>
 			</form>
