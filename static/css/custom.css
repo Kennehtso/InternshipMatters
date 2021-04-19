@@ -301,7 +301,9 @@ input[type=submit] {
   -webkit-animation-delay: 0.05s;
           animation-delay: 0.05s;
 }
-
+.added-class{
+  content:block
+}
 .added-class:after {
   content:none
 }
@@ -576,7 +578,17 @@ div#columns figure div.rating label::after{
   box-shadow: 1PX 3px 2px rgba(34, 25, 25, 0.4);
   padding: 5px;
 } 
-
+.comment-general {
+  display: block;
+}
+.comment-info {
+  display: none;
+}
+.comments-thead th {
+  background-color: #343a40; 
+  position: sticky;
+  top: 0;
+}
 /* loader */
 .loader {
   color: #17a2b8;

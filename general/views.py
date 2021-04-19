@@ -185,6 +185,8 @@ def detail(request, orgId):
         'internshipContent' : organizationDetail['2. 實習內容：'],
         'superviser' : organizationDetail['4. 實習單位主管：'],
         'officer' : organizationDetail['5. 承辦人：'],
+        'supervise' : organizationDetail['諮商心理師提供之督導'],
+        'groupSupervise' : organizationDetail['團體督導或研習'],
     }
     comments = organization.comment_set.all()
     comments_count = comments.count()

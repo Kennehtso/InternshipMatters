@@ -1,15 +1,13 @@
 $(window).resize(function () {
-   console.log("window width: "+ $(window).width());
-   console.log("window.innerWidth: "+ window.innerWidth);
-   if (window.innerWidth < 750) {
-      $('.ih-item').removeClass('effect10 bottom_to_top').addClass('effect4 left_to_right');
-   } else {
-      $('.ih-item').removeClass('effect4 left_to_right').addClass('effect10 bottom_to_top');
-   }
+   //console.log("window width: "+ $(window).width());
+   //console.log("window.innerWidth: "+ window.innerWidth);
    if (window.innerWidth <= 1068) {
+      $('.ih-item').removeClass('effect10 bottom_to_top').addClass('effect4 left_to_right');
       $('.comments-info').css({"display": "block", "width": "100%"});
       $('#commentsSection').css({"padding-top": "10px","margin-left": "0px"});
+      $('#scoreCircle').css({"padding-top": "10px"});
    } else {
+      $('.ih-item').removeClass('effect4 left_to_right').addClass('effect10 bottom_to_top');
       $('.comments-info').css({"display": "table-cell", "width": "30%"});
       $('#commentsSection').css({"padding-top": "0px","margin-left": "1%"});
    }
@@ -180,3 +178,34 @@ backToTopBtn.on('click', function(e) {
   e.preventDefault();
   $('html, body').animate({scrollTop:0}, '300');
 });
+
+$(".comment-more").mouseenter(function() {
+   var id = $(this).attr('id');
+   $('#comment-general_' + id).css({
+      'opacity': 0.5, 
+      'display':'none',
+      'transition': '0.5s',
+      'transition-delay': '0.1s'
+   });
+   $('#comment-info_' + id).css({
+      'opacity': 0.9, 
+      'display':'block',
+      'transition': '0.5s',
+      'transition-delay': '0.1s'
+   });
+ })
+ $('.outer_comments').mouseleave(function() {
+   var id = $(this).attr('id').split('_')[1]
+   $('#comment-general_' + id).css({
+      'opacity': 1, 
+      'display':'block',
+      'transition': '0.5s',
+      'transition-delay': '0.1s'
+   });
+   $('#comment-info_' + id).css({
+      'opacity': 0, 
+      'display':'none',
+      'transition': '0.5s',
+      'transition-delay': '0.1s'
+   });
+ })

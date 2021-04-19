@@ -1,10 +1,10 @@
 {% load static %}
 {% include './deleteModal.html'%}
 
-<div id="commentsSection" class="table-responsive" style="margin-left:1%; position: relative; border-radius: 0em 1em 0em 0em;">
+<div id="commentsSection" class="table-responsive" style="margin-left:1%; position: relative; border-radius: 0em 1em 0em 0em;max-height: 500px;overflow: auto;">
     <table class="table comments">
         <thead>
-            <tr style="background-color: #343a40; color:white">
+            <tr class="comments-thead" style="background-color: #343a40; color:white">
                 <th>伙伴稱呼</th>
                 <th>評分</th>
                 <th>心得分享</th>
@@ -24,21 +24,26 @@
                 <td style="max-width: 50px;">{{ item.score }}</td>
                 <td style="max-width: 400px;" id="comment-{{item.id}}">
                     <div>
-                        <div style="display:inline;">
-                            <a class="comment-more btn btn-outline-info" id="{{item.id}}">
+                        <div id="outer_{{item.id}}" class="outer_comments" style="display:flex;flex-direction: row;">
+                            <a style="max-height: 40px; margin:10px;" class="comment-more btn btn-outline-info" id="{{item.id}}">
                                 <i class="fas fa-info-circle recent-link">
-                                    <span class="hovercard">
+                                    <!--span id="hovercard_{{item.id}}" class="hovercard">
                                         <div class="tooltiptext">
-                                            <p >實習類型: {{ item.internshipType }}</p>
-                                            <p >標籤: {{ item.hashTags_names }}</p>
-                                            <p >創立日期: {{ item.createDate | date:"Y-m-d H:i" }}</p>
+                                            
                                         </div>
-                                    </span>
+                                    </span-->
                                 </i>
                             </a>
-                        </div>
-                        <div class="comment-comments-{{item.id}}">
-                            <p >{{ item.comments }}</p>
+                            <div style="margin:10px;" id="comment-general_{{item.id}}" class="comment-general comment-comments-{{item.id}}">
+                                <p >{{ item.comments }}</p>
+                            </div>
+                            <div style="margin:10px;" id="comment-info_{{item.id}}" class="comment-info comment-comments-{{item.id}}">
+                                <p >實習類型: {{ item.internshipType }}</p>
+                                <p > {% for hashTag in item.hashTags.all %}
+                                    <button class="btn btn-xs btn-info">{{hashTag.name}}</button>
+                                {% endfor%}</p>
+                                <p >創立日期: {{ item.createDate | date:"Y-m-d H:i" }}</p>
+                            </div>
                         </div>
                     </div>
                 </td>
@@ -62,6 +67,8 @@
             {% endfor%}
         </tbody>
     </table>
+</div>
+<div id="commentsSection" class="table-responsive" style="margin-left:1%; position: relative; border-radius: 0em 1em 0em 0em;">
     <div class="shareComment">
         <a style="width: 100%;" class="shareCommentBtn btn btn-info" href="{% url 'createComment' organization.id %}">我想分享</a>
     </div>

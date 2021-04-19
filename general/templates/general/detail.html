@@ -1,7 +1,7 @@
 {% extends 'general/main.html'%}
 
 {% block content %}
-<div class="row" style="padding-top: 10px; padding-bottom: 20px;" >
+<div class="row" style="padding-top: 2em; padding-bottom: 20px;" >
     <div class="col-md-10 col-lg-10 col-xl-10 mx-auto" style="left: 8%;">
     <form id="searchForm" method="post" action="/result/">{% csrf_token %}
         <div class="form-row" >
@@ -16,18 +16,18 @@
     </form>
 </div>
 </div>
-<section
+<section id="scoreAndCommentSection"
     data-style="btn-outline-info"
-    style="width: 70%; padding-top:2em; padding-bottom: 0.5em; display: table;margin-left: 16%;">
+    style="width: 70%; padding-top:1em; padding-bottom: 0.5em; display: table;margin-left: 16%;">
     <!-- Testimonials -->
     {% include './component/circleBoxes.html'%}
     
     <!-- Icons Grid -->
     {% include './component/comments.html'%}
 </section>
-<section
+<section id="organizationDetailSection"
     data-style="btn-outline-info"
-    style="width: 70%; padding-bottom: 2em; margin-bottom: 1em;display: table;margin-left: 16%;">
+    style="width: 70%; padding-bottom: 2em; display: table;margin-left: 16%;">
     
     <!-- Organization Detail -->
     {% include './component/descriptionBox.html'%}

@@ -1,25 +1,35 @@
 {% load static %}
-
 <div class="comments-info container" style="border-radius: 1em 0em 0em 0em; color:white;width:30%; position:relative;background-color: #343a40;display: table-cell;">
-	<h2 class="mb-5" style="text-shadow: 2px 2px 4px #000000;">{{ organization.name }}</h2>
-	<div class="row">
-		<div class="col-md-12 col-lg-12 col-xl-12 mx-auto">
-			<form>
-				<div style="margin: auto;display: grid;justify-content: center;">
-					<div style="left: 0%;" class="ih-item circle colored effect10 bottom_to_top">
-						<a href="#">
-							<div class="img">
-								<img src="{% static '/img/YODA2.gif'%}" alt="img"/>
-							</div>
-							<div class="info">
-								<h3 style="font-size: 40px;">{{ organization.score }}</h3>
-								<p>整體評分</p>
-							</div>
-						</a>
+	<div style="display: inline-flex; max-height: 250px;">
+		<h2 class="mb-5" style="text-shadow: 2px 2px 4px #000000; margin:auto;writing-mode: tb-rl;">{{ organization.name }}</h2>
+		<div id="scoreCircle" style="float: left;">
+			<div class="col-md-12 col-lg-12 col-xl-12 mx-auto">
+				<form>
+					<div style="margin: auto;display: grid;justify-content: center;">
+						<div style="left: 0%;" class="ih-item circle colored effect10 bottom_to_top">
+							<a href="#">
+								<div class="img">
+									<img src="{% static '/img/YODA2.gif'%}" alt="img"/>
+								</div>
+								<div class="info">
+									<h3 style="font-size: 40px;">{{ organization.score }}</h3>
+									<p>整體評分</p>
+								</div>
+							</a>
+						</div>
 					</div>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
 	</div>
+	<div class="card-body" style="color:white; text-align: right;">
+		<h5 class="card-title">{{organizationDetailObj.unitName}}</h5>
+		<h4 class="card-title">{{organizationDetailObj.internshipType}}</h4>
+		<div class="tags" style="margin-bottom: 0.5em; text-align: center;">
+		{% for hashTag in organization.hashTags.all %}
+		  <a href="#" style="height: 100%;font-size: inherit;">{{hashTag.name}}</a>
+		{% endfor%}
+		</div>
+	  </div>
 </div>
 		
