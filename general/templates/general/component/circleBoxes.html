@@ -1,6 +1,6 @@
 {% load static %}
 
-<div class="comments-info container" style="width:30%; position:relative;/*! float: left; */background-color: #343a40;/*! min-height: 550px; *//*! flex: 8px; */display: table-cell;/*! left: 15%; *//*! margin-left: 15%; */">
+<div class="comments-info container" style="border-radius: 1em 0em 0em 0em; color:white;width:30%; position:relative;background-color: #343a40;display: table-cell;">
 	<h2 class="mb-5" style="text-shadow: 2px 2px 4px #000000;">{{ organization.name }}</h2>
 	<div class="row">
 		<div class="col-md-12 col-lg-12 col-xl-12 mx-auto">
@@ -17,13 +17,6 @@
 									<p>整體評分</p>
 								</div>
 							</a>
-						</div>
-					</div>
-					<div>
-						<div class="tags">  
-										{% for hashTag in organization.hashTags.all %}
-							<a href="#" style="height: 100%;font-size: inherit;">{{hashTag.name}}</a>
-										{% endfor%}
 						</div>
 					</div>
 				</div>

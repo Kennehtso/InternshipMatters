@@ -16,7 +16,9 @@ import operator
 from .models import *
 from .form import *
 from .decorators import *
- 
+from bs4 import BeautifulSoup
+import requests
+import re
 # Create your views here.
 @isLoginRedirect
 def register(request):
@@ -106,20 +108,59 @@ def result(request):
             queryList.append(Q(score__gte=request.POST['score_input']))
         if 'commentsCount_input' in request.POST and request.POST['commentsCount_input']!= 0 : 
             queryList.append(Q(commentsCount__gte=request.POST['commentsCount_input']))
+        #print(F"request.POST['isApprove_input']: {request.POST['isApprove_input']}")
+        if 'isApprove_input' in request.POST and request.POST['isApprove_input'] == 'true' : 
+            queryList.append(Q(isApprove=True))
+        elif 'isApprove_input' in request.POST and request.POST['isApprove_input'] == 'false' : 
+            queryList.append(Q(isApprove=False))
 
+            
         # Fetch actopm
         if queryList: 
             organizations = Organization.objects.filter(reduce(operator.and_, queryList))
-    
+    organizations_count = organizations.count()
     #Implement paginator
     paginator = Paginator(organizations.order_by('name'), 12) # Show 25 contacts per page.
     
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    context = {'internPerson':internPerson,'page_obj': page_obj}
+    context = {'internPerson':internPerson,'page_obj': page_obj,'organizations_count': organizations_count}
     return render(request, 'general/result.html', context)
 
+def getElementsByUrl(url):
+    try:
+        resp = requests.get(url,headers={"User-Agent": "curl/7.61.0"})
+        resp.encoding = 'big5'
+        soup = BeautifulSoup(resp.text,"html.parser")
+        return soup
+    except:
+        return None
+
+def getDetailData(url_detail, name=None ):
+    data = {}
+    detailPage = url_detail #f"http://internship.guidance.org.tw/internship_sheet.php{url_detail}"
+    data['資料來源'] = detailPage
+    soup = getElementsByUrl(detailPage)
+    if soup is None:
+        return None
+    table = soup.find('table', attrs={'id':'table2'})
+    rows = table.find_all('tr')
+    for row in rows:
+        cols = row.find_all('td')
+        if len(cols) < 2:
+            continue
+        if len(cols) == 2:
+            f0 = re.sub(r"\s+"," ", re.sub(r"^\s+|\s+$", "", re.sub(r'(\u3000)|(\xa0)', '', re.sub(r'(\t)|(\n)|(\r)', '', cols[0].text))))  
+            f1 = re.sub(r"\s+"," ", re.sub(r"^\s+|\s+$", "", re.sub(r'(\u3000)|(\xa0)', '', re.sub(r'(\t)|(\n)|(\r)', '', cols[1].text))))
+            data[f0]  = f1
+            #if f0 == "2. 地址：":
+            #    data["坐標"] = getGeoByHERE(name, f1)
+        elif len(cols) == 3:
+            f1 = re.sub(r"\s+"," ", re.sub(r"^\s+|\s+$", "", re.sub(r'(\u3000)|(\xa0)', '', re.sub(r'(\t)|(\n)|(\r)', '', cols[1].text))))
+            f2 =re.sub(r"\s+"," ", re.sub(r"^\s+|\s+$", "", re.sub(r'(\u3000)|(\xa0)', '', re.sub(r'(\t)|(\n)|(\r)', '', cols[2].text))))
+            data[f1]  = f2 
+    return data
 
 @isAuthenticated_detail
 #@allowed_user_groups(allowed_roles=['admin'])
@@ -127,9 +168,27 @@ def detail(request, orgId):
     internPerson = InternPerson.objects.get(user=request.user)
     organizations = Organization.objects.all()
     organization = Organization.objects.get(id=orgId)
+    organizationDetail = getDetailData(organization.detailInfoFromExtUrl)
+    organizationDetailObj = {
+        'unitName' : organizationDetail['3. 實習單位名稱：'],
+        'address' : organizationDetail['2. 地址：'],
+        'telephone' : organizationDetail['6. 聯絡電話：'],
+        'email' : organizationDetail['7. 電子信箱：'],
+        'internshipType' : organizationDetail['8. 實習機構類別：'],
+        'subsidy' : organizationDetail['實習津貼'],
+        'personalSupervise' : organizationDetail['個別督導'],
+        'consultingRoom' : organizationDetail['個諮室'],
+        'consultingRoomForGroup' : organizationDetail['團輔室'],
+        'numbersOfCases' : organizationDetail['每位全職實習生平均每週接案人數'],
+        'numbersOffullTime' : organizationDetail['專任心理師人數'],
+        'facilities' : organizationDetail['辦公室（桌椅）'],
+        'internshipContent' : organizationDetail['2. 實習內容：'],
+        'superviser' : organizationDetail['4. 實習單位主管：'],
+        'officer' : organizationDetail['5. 承辦人：'],
+    }
     comments = organization.comment_set.all()
     comments_count = comments.count()
-    context = {'organizations':organizations, 'organization':organization,'internPerson':internPerson, 'comments':comments, 'comments_count':comments_count}
+    context = {'organizations':organizations, 'organization':organization,'internPerson':internPerson, 'comments':comments, 'comments_count':comments_count, 'organizationDetailObj':organizationDetailObj}
     return render(request,'general/detail.html',context)
 
 @login_required(login_url='login')

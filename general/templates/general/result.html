@@ -91,6 +91,16 @@
                             <input id="commentsCount_input" name="commentsCount_input" type="range" value ="0" class="form-range" min="0" max="99">
                             </div>
                           </div>
+                          <div class="row">
+                          <label for="isApprove_label" class="col-sm-3 col-form-label">審核類型：
+                          </label>
+                          <div id="isApprove_radio" class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-outline-info" for="info-outlined"> <input style="display: none;" type="radio" class="btn-check isApprove_all" name="options-outlined" id="info-outlined" autocomplete="off" checked> 全部 </label>
+                            <label class="btn btn-outline-success" for="success-outlined"> <input style="display: none;" type="radio" class="btn-check isApprove_true" name="options-outlined" id="success-outlined" autocomplete="off"> 已審核 </label>
+                            <label class="btn btn-outline-danger" for="danger-outlined"><input style="display: none;" type="radio" class="btn-check isApprove_false" name="options-outlined" id="danger-outlined" autocomplete="off"> 非審核 </label>
+                            <input style="display: none;" id="isApprove_input" name="isApprove_input" type="text" >
+                          </div>
+                        </div>
                         </div>
                       </div>
                     </form>
@@ -99,7 +109,7 @@
                 <div class="container" >
                   <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-radius: 0.75em; box-shadow: 3px 3px 5px gray;">
                     <a class="navbar-brand" style="margin: auto; padding-top: 0px; padding-bottom: 0px;">
-          台灣輔導與諮商學會 - 審查通過的諮商心理實習機構</a>
+          心理實習機構 - 符合條件為：<span style="color:teal">{{organizations_count}}</span> 筆</a>
                   </nav>
                 </div>
 
@@ -111,6 +121,13 @@
                   <p>{{ item.unitName }}</p>
                   <p>{{ item.unitType }}</p>
                   <p>津貼：{{ item.subsidy }}</p>
+                  <p>審核類型：
+                    {% if item.isApprove %}
+                      <label class="btn btn-outline-success"> 已審核 </label>
+                      {% else %}
+                      <label class="btn btn-outline-danger"> 未審核 </label>
+                    {% endif %}
+                  </p>
                   <div class="ratingResult">                      
                     {% for i in '12345'|make_list %}
                       {% if item.score >= forloop.counter %}
@@ -192,5 +209,10 @@
     $('#score_input').val(0);
     scoreValue.innerHTML = 0;
     });
+
+  $("#isApprove_radio input:radio").change(function() {
+      var optionValue = $(this).attr('class').split(" ")[1].split('_')[1];
+      $('#isApprove_input').val(optionValue);
+  });
 </script>
 {% endblock contentJs%}

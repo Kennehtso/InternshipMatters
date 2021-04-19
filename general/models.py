@@ -43,6 +43,7 @@ class Organization(models.Model):
     internshipContent = models.CharField(max_length=200, null=True)
     hashTags = models.ManyToManyField(HashTags, blank=True)
     detailInfoFromExtUrl = models.CharField(max_length=200, blank=True, null=True)
+    isApprove = models.BooleanField(default=False, blank=True, null=True)
     
     """
     def getScore(self):

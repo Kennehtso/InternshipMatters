@@ -1,6 +1,59 @@
 {% load static %}
-<!--section class="features-icons text-center" 
-style="background-color:azure ;width: 70%;margin: auto;border-radius: 1em;padding-top:2em;padding-bottom: 2em;">
+<div class="card" style="width: 101%; border-radius: 0em 0em 1em 1em">
+  <img src="..." class="card-img-top" alt="...">
+    <div class="card-body" style="color:white">
+      <h5 class="card-title">{{organizationDetailObj.unitName}}</h5>
+      <h4 class="card-title">{{organizationDetailObj.internshipType}}</h4>
+      <div class="tags" style="margin-bottom: 0.5em;">
+      {% for hashTag in organization.hashTags.all %}
+        <a href="#" style="height: 100%;font-size: inherit;">{{hashTag.name}}</a>
+      {% endfor%}
+      </div>
+      <p class="card-text">{{organizationDetailObj.internshipContent}}</p>
+    </div>
+    <ul style="display: block;" class="list-group list-group-flush">
+
+      <div class="card" style="float: left; color:white; width: 30%; margin: 1em; border-radius: 0.5em 0.5em 0.5em 0.5em">
+        <div class="card-body">實習津貼：{{ organizationDetailObj.subsidy }}</li>
+        </div>
+      </div>
+
+      <div class="card" style="float: left; color:white; width: 30%; margin: 1em; border-radius: 0.5em 0.5em 0.5em 0.5em">
+        <div class="card-body">個別督導：{{ organizationDetailObj.personalSupervise }}</li>
+        </div>
+      </div>
+
+      <div class="card" style="float: left; color:white; width: 30%; margin: 1em; border-radius: 0.5em 0.5em 0.5em 0.5em">
+        <div class="card-body">平均每週接案人數(全職實習生)：{{ organizationDetailObj.numbersOfCases }}</li>
+        </div>
+      </div>
+
+      <div class="card" style="float: left; color:white; width: 30%; margin: 1em; border-radius: 0.5em 0.5em 0.5em 0.5em">
+        <div class="card-body">辦公室（桌椅）：{{ organizationDetailObj.facilities }}</li>
+        </div>
+      </div>
+
+      <div class="card" style="float: left; color:white; width: 30%; margin: 1em; border-radius: 0.5em 0.5em 0.5em 0.5em">
+        <div class="card-body">個諮室/團輔室：：{{ organizationDetailObj.consultingRoom }}/{{ organizationDetailObj.consultingRoomForGroup }}</li>
+        </div>
+      </div>
+
+      <div class="card" style="float: left; color:white; width: 30%; margin: 1em; border-radius: 0.5em 0.5em 0.5em 0.5em">
+        <div class="card-body">實習單位主管/承辦人：：{{ organizationDetailObj.superviser }}/{{ organizationDetailObj.officer }}</li>
+        </div>
+      </div>
+      <div class="card" style="float: left; color:white; width: 90%; margin: 1em; border-radius: 0.5em 0.5em 0.5em 0.5em">
+        <div class="card-body">專任心理師人數：{{ organizationDetailObj.numbersOffullTime }}</li>
+        </div>
+      </div>
+    </ul>
+    <div class="card-body">
+      <a href="http://maps.google.com/?q={{organizationDetailObj.address}}" class="card-link" target="_blank">地址：{{ organizationDetailObj.address }}</li>
+      <a href="mailto:{{organizationDetailObj.email}}" class="card-link">{{ organizationDetailObj.email }}</a>
+      <a href="tel:{{organizationDetailObj.telephone}}" class="card-link">{{ organizationDetailObj.telephone }}</a>
+    </div>
+  </div>
+  <!--section class="features-icons text-center" style="background-color:azure ;width: 70%;margin: auto;border-radius: 1em;padding-top:2em;padding-bottom: 2em;">
   <div class="container">
     <div class="row">
       <div class="col-lg-4">
