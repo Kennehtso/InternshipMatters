@@ -8,13 +8,16 @@
   <div class="col-md-10 col-lg-8 col-xl-6 mx-auto" style="box-shadow: 3px 3px 5px gray;">
     <form id="searchForm" method="post" action="/result/">{% csrf_token %}
       <div class="form-row">
-        <div class="btn-group col-md-10 col-lg-10 col-xl-10 mb-5 mb-md-0">
+        <div class="btn-group col-md-8 col-lg-8 col-xl-8 mb-3 mb-md-0">
           <input name="bannerSearch" id="bannerSearch" type="search" class="form-control form-control-lg"
             placeholder="機構名稱 / 類型">
         </div>
         <!--Search Button -->
         <div class="btn-group col-md-2 col-lg-2 col-xl-2 mb-2 mb-md-0">
           <button type="submit" class="btn btn-lg btn-info">搜尋</button>
+        </div>
+        <div class="btn-group col-md-2 col-lg-2 col-xl-2 mb-2 mb-md-0">
+          <button type="button" onclick="resetCondition()" class="btn btn-lg btn-danger">重設</button>
         </div>
       </div>
 
@@ -104,7 +107,7 @@
             </label>
             <div id="isApprove_radio" class="btn-group" data-toggle="buttons">
               <label class="btn btn-outline-info" for="info-outlined"> <input style="display: none;" type="radio"
-                  class="btn-check isApprove_all" name="options-outlined" id="info-outlined" autocomplete="off" checked>
+                  class="btn-check isApprove_all" name="options-outlined" id="info-outlined" autocomplete="off">
                 全部 </label>
               <label class="btn btn-outline-success" for="success-outlined"> <input style="display: none;" type="radio"
                   class="btn-check isApprove_true" name="options-outlined" id="success-outlined" autocomplete="off"> 已審核
@@ -181,7 +184,38 @@
 <script>
   $('#r6').hide();
   $('#r6').next().hide();
-  var loader = $('.lodaer')
+  bannerSearch='{{bannerSearch}}';
+  location_list='{{location_list}}';
+  organizationType_list='{{organizationType_list}}';
+  score_input={{score_input}};
+  commentsCount_input={{commentsCount_input}};
+  isApprove_input='{{isApprove_input}}';
+
+  $('#bannerSearch').val(bannerSearch)
+  $('#location_list').val(location_list)
+  $('#organizationType_list').val(organizationType_list)
+  $('#score_input').val(score_input)
+  $('#commentsCount_input').val(commentsCount_input)
+  $('#isApprove_input').val(isApprove_input)
+  switch (isApprove_input) {
+    case "true": $('#success-outlined').trigger('click'); break;
+    case "false": $('#danger-outlined').trigger('click'); break;
+    default: $('#info-outlined').attr( "checked" )
+  }
+  function resetCondition(){
+    //$('#searchForm')[0].reset();
+    $("#location_list").val('');
+    $("#location_list").selectpicker("refresh");
+    $('#organizationType_list').val('');
+    $("#organizationType_list").selectpicker("refresh");
+    $('#clearRate').trigger('click');
+    $('#commentsCountValue').val(0);
+    document.getElementById("commentsCountValue").innerHTML = 0;
+    $('#commentsCount_input').val(0);
+    $('#info-outlined').trigger('click');
+  }
+  
+  var loader = $('.lodaer');
   var infinite = new Waypoint.Infinite({
     element: $('.infinite-container')[0],
     onBeforePageLoad: function () {

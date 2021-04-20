@@ -588,6 +588,7 @@ div#columns figure div.rating label::after{
   background-color: #343a40; 
   position: sticky;
   top: 0;
+  z-index: 99;
 }
 /* loader */
 .loader {

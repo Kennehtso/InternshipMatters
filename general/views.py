@@ -94,38 +94,154 @@ def result(request):
     if request.user.is_authenticated:
         internPerson = InternPerson.objects.get(user=request.user)
     organizations = Organization.objects.all()
+    bannerSearch = ''
+    location_list = ''
+    organizationType_list = ''
+    score_input = 0
+    commentsCount_input = 0
+    isApprove_input = 'all'
+    print('------------------------------request.session before ------------------------------')
+    if "bannerSearch" in request.session:
+        bannerSearch = request.session["bannerSearch"]
+        print(F'------------------------------request.session["bannerSearch"]: {request.session["bannerSearch"]}-------------------------')
+    
+    if "location_list" in request.session:
+        location_list = request.session["location_list"]
+        print(F'------------------------------request.session["location_list"]: {request.session["location_list"]}-------------------------')
+    
+    if "organizationType_list" in request.session:
+        organizationType_list = request.session["organizationType_list"]
+        print(F'------------------------------request.session["organizationType_list"]: {request.session["organizationType_list"]}-------------------------')
+    
+    if "score_input" in request.session:
+        score_input = request.session["score_input"]
+        print(F'------------------------------request.session["score_input"]: {request.session["score_input"]}-------------------------')
+    
+    if "commentsCount_input" in request.session:
+        commentsCount_input = request.session["commentsCount_input"]
+        print(F'------------------------------request.session["commentsCount_input"]: {request.session["commentsCount_input"]}-------------------------')
+    
+    if "isApprove_input" in request.session:
+        isApprove_input = request.session["isApprove_input"]
+        print(F'------------------------------request.session["isApprove_input"]: {request.session["isApprove_input"]}-------------------------')
+    
     if request.method =='POST':
+        print(F"----------------- GET INTO POST =================")
+        request.session["bannerSearch"] =''
+        request.session["location_list"] =''
+        request.session["organizationType_list"] = ''
+        request.session["score_input"] = 0
+        request.session["commentsCount_input"] = 0
+        request.session["isApprove_input"] ='all'
         #print(f"*********　request.POST: {request.POST} ********** ")
         queryList = []
         # Combine Filter option
         if 'bannerSearch' in request.POST and request.POST['bannerSearch'] != '': 
             queryList.append(Q(name__icontains=request.POST['bannerSearch']))
+            bannerSearch = request.POST['bannerSearch']
+            request.session["bannerSearch"] = bannerSearch
+
         if 'location_list' in request.POST and request.POST['location_list'] != '': 
             queryList.append(Q(area__icontains=request.POST['location_list']))
+            location_list = request.POST['location_list']
+            request.session["location_list"] = location_list
+
         if 'organizationType_list' in request.POST and request.POST['organizationType_list'] != '': 
             queryList.append(Q(organizationType=request.POST['organizationType_list']))
+            organizationType_list = request.POST['organizationType_list']
+            request.session["organizationType_list"] = organizationType_list
+
         if 'score_input' in request.POST and request.POST['score_input']!= 0 : 
             queryList.append(Q(score__gte=request.POST['score_input']))
+            score_input = request.POST['score_input']
+            request.session["score_input"] = score_input
+
         if 'commentsCount_input' in request.POST and request.POST['commentsCount_input']!= 0 : 
             queryList.append(Q(commentsCount__gte=request.POST['commentsCount_input']))
+            commentsCount_input = request.POST['commentsCount_input']
+            request.session["commentsCount_input"] = commentsCount_input
+
         #print(F"request.POST['isApprove_input']: {request.POST['isApprove_input']}")
         if 'isApprove_input' in request.POST and request.POST['isApprove_input'] == 'true' : 
             queryList.append(Q(isApprove=True))
+            isApprove_input = 'true'
+            request.session["isApprove_input"] = isApprove_input
         elif 'isApprove_input' in request.POST and request.POST['isApprove_input'] == 'false' : 
             queryList.append(Q(isApprove=False))
+            isApprove_input = 'false'
+            request.session["isApprove_input"] = isApprove_input
 
-            
         # Fetch actopm
         if queryList: 
             organizations = Organization.objects.filter(reduce(operator.and_, queryList))
+    else:
+        print(F"----------------- GET INTO INFINITE, USE SESSION =================")
+        #print(f"*********　request.POST: {request.POST} ********** ")
+        queryList = []
+        # Combine Filter option
+        if 'bannerSearch' in request.session and request.session['bannerSearch'] != '': 
+            queryList.append(Q(name__icontains=request.session['bannerSearch']))
+
+        if 'location_list' in request.session and request.session['location_list'] != '': 
+            queryList.append(Q(area__icontains=request.session['location_list']))
+
+        if 'organizationType_list' in request.session and request.session['organizationType_list'] != '': 
+            queryList.append(Q(organizationType=request.session['organizationType_list']))
+
+        if 'score_input' in request.session and request.session['score_input']!= 0 : 
+            queryList.append(Q(score__gte=request.session['score_input']))
+
+        if 'commentsCount_input' in request.session and request.session['commentsCount_input']!= 0 : 
+            queryList.append(Q(commentsCount__gte=request.session['commentsCount_input']))
+
+        #print(F"request.POST['isApprove_input']: {request.POST['isApprove_input']}")
+        if 'isApprove_input' in request.session and request.session['isApprove_input'] == 'true' : 
+            queryList.append(Q(isApprove=True))
+        elif 'isApprove_input' in request.session and request.session['isApprove_input'] == 'false' : 
+            queryList.append(Q(isApprove=False))
+
+        # Fetch actopm
+        if queryList: 
+            organizations = Organization.objects.filter(reduce(operator.and_, queryList))
+
+    print('=============================== request.session After ===============================')
+    if "bannerSearch" in request.session:
+        bannerSearch = request.session["bannerSearch"]
+        print(F'------------------------------request.session["bannerSearch"]: {request.session["bannerSearch"]}-------------------------')
+    
+    if "location_list" in request.session:
+        location_list = request.session["location_list"]
+        print(F'------------------------------request.session["location_list"]: {request.session["location_list"]}-------------------------')
+    
+    if "organizationType_list" in request.session:
+        organizationType_list = request.session["organizationType_list"]
+        print(F'------------------------------request.session["organizationType_list"]: {request.session["organizationType_list"]}-------------------------')
+    
+    if "score_input" in request.session:
+        score_input = request.session["score_input"]
+        print(F'------------------------------request.session["score_input"]: {request.session["score_input"]}-------------------------')
+    
+    if "commentsCount_input" in request.session:
+        commentsCount_input = request.session["commentsCount_input"]
+        print(F'------------------------------request.session["commentsCount_input"]: {request.session["commentsCount_input"]}-------------------------')
+    
+    if "isApprove_input" in request.session:
+        isApprove_input = request.session["isApprove_input"]
+        print(F'------------------------------request.session["isApprove_input"]: {request.session["isApprove_input"]}-------------------------')
+    
     organizations_count = organizations.count()
     #Implement paginator
     paginator = Paginator(organizations.order_by('name'), 12) # Show 25 contacts per page.
     
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    print(f"@@@@@@@@@@@@@@@@ request.GET.get('page') :{request.GET.get('page')} @@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    print(f"@@@@@@@@@@@@@@@@ paginator.num_pages :{paginator.num_pages} @@@@@@@@@@@@@@@@@@@@@@@@@@@")
 
-    context = {'internPerson':internPerson,'page_obj': page_obj,'organizations_count': organizations_count}
+    context = {'internPerson':internPerson,'page_obj': page_obj,'organizations_count': organizations_count,
+    'bannerSearch':bannerSearch,'location_list':location_list,'organizationType_list':organizationType_list,'score_input':score_input,
+    'commentsCount_input':commentsCount_input,'isApprove_input':isApprove_input,
+    }
     return render(request, 'general/result.html', context)
 
 def getElementsByUrl(url):
