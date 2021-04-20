@@ -108,13 +108,13 @@
             <label for="isApprove_label" class="col-sm-3 col-form-label">審核類型：
             </label>
             <div id="isApprove_radio" class="btn-group" data-toggle="buttons">
-              <label class="btn btn-outline-info" for="info-outlined"> <input style="display: none;" type="radio"
+              <label style="width: 5em;border-radius: 0.75em 0em 0em 0.75em;" class="btn btn-outline-info" for="info-outlined"> <input style="display: none;" type="radio"
                   class="btn-check isApprove_all" name="options-outlined" id="info-outlined" autocomplete="off">
                 全部 </label>
-              <label class="btn btn-outline-success" for="success-outlined"> <input style="display: none;" type="radio"
+              <label style="width: 5em;" class="btn btn-outline-success" for="success-outlined"> <input style="display: none;" type="radio"
                   class="btn-check isApprove_true" name="options-outlined" id="success-outlined" autocomplete="off"> 已審核
               </label>
-              <label class="btn btn-outline-danger" for="danger-outlined"><input style="display: none;" type="radio"
+              <label style="width: 5em;border-radius: 0em 0.75em 0.75em 0em;" class="btn btn-outline-danger" for="danger-outlined"><input style="display: none;" type="radio"
                   class="btn-check isApprove_false" name="options-outlined" id="danger-outlined" autocomplete="off"> 非審核
               </label>
               <input style="display: none;" id="isApprove_input" name="isApprove_input" type="text">
@@ -202,7 +202,7 @@
   switch (isApprove_input) {
     case "true": $('#success-outlined').trigger('click'); break;
     case "false": $('#danger-outlined').trigger('click'); break;
-    default: $('#info-outlined').attr( "checked" )
+    default: $('#info-outlined').trigger('click'); $('#info-outlined').attr("checked"); break;
   }
   function resetCondition(){
     //$('#searchForm')[0].reset();

@@ -721,11 +721,6 @@ div#columns figure div.rating label::after{
   visibility: visible;
 }
 
-@media (min-width: 500px) {
-  #backToTop {
-    margin: 30px;
-  }
-}
 /* Back to top*/
 #pagerDisplay {
   background-color: #1d2124;
@@ -735,8 +730,8 @@ div#columns figure div.rating label::after{
   text-align: center;
   border-radius: 4px;
   position: fixed;
-  bottom: 60px;
-  right: 129px;
+  bottom: 100px;
+  right: 30px;
   transition: background-color .3s, opacity .5s, visibility .5s;
   opacity: 0;
   visibility: hidden;
@@ -763,4 +758,14 @@ div#columns figure div.rating label::after{
 #pagerDisplay.show {
   opacity: 1;
   visibility: visible;
+}
+
+@media (min-width: 500px) {
+  #backToTop {
+    margin: 30px;
+  }
+  #pagerDisplay {
+    bottom: 60px;
+    right: 129px;
+  }
 }
