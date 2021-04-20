@@ -3,7 +3,9 @@
 
 {% block otherCSS %}
 {% endblock otherCSS %}
-
+<a id="pagerDisplay">
+  第 <span id="currentPage">1</span> / {{ page_obj.paginator.num_pages }} 頁
+</a>
 <div class="row" style="padding-top: 10px; padding-bottom: 20px;">
   <div class="col-md-10 col-lg-8 col-xl-6 mx-auto" style="box-shadow: 3px 3px 5px gray;">
     <form id="searchForm" method="post" action="/result/">{% csrf_token %}
@@ -163,8 +165,8 @@
     </div>
   </figure>
   {% endfor%}
+  
 </div>
-
 <!-- infinite  paging -->
 {% if page_obj.has_next %}
 <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">更多</a>
@@ -219,10 +221,11 @@
   var infinite = new Waypoint.Infinite({
     element: $('.infinite-container')[0],
     onBeforePageLoad: function () {
-      $('#columns').parent().append('<div class="loader text-center"></div>').append('<div class="loader-text text-center">稍等片刻</div>')
+      $('#columns').parent().append('<div class="loader text-center"></div>').append('<div class="loader-text text-center">稍等片刻</div>');
     },
     onAfterPageLoad: function ($items) {
       $('.loader, .loader-text').remove();
+      $('#currentPage').html(parseInt($('#currentPage').html(),10) + 1);
     }
   });
   let resultsRow = document.getElementsByClassName('resultFigures');

@@ -726,3 +726,41 @@ div#columns figure div.rating label::after{
     margin: 30px;
   }
 }
+/* Back to top*/
+#pagerDisplay {
+  background-color: #1d2124;
+  display: inline-block;
+  width: 110px;
+  height: 49px;
+  text-align: center;
+  border-radius: 4px;
+  position: fixed;
+  bottom: 60px;
+  right: 129px;
+  transition: background-color .3s, opacity .5s, visibility .5s;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
+  padding-top: 15px;
+}
+#pagerDisplay::after {
+  font-weight: normal;
+  font-style: normal;
+  font-size: 2em;
+  line-height: 50px;
+  color: #fff;
+}
+#pagerDisplay:hover {
+  color: #17a2b8;
+  text-shadow: 0 0 5px #17a2b8;
+  background-color: #1d2124 ;
+  cursor: pointer;
+  text-decoration: none;
+}
+#pagerDisplay:active {
+  background-color: #555;
+}
+#pagerDisplay.show {
+  opacity: 1;
+  visibility: visible;
+}

@@ -165,12 +165,15 @@ function autocomplete(inp, arr) {
 
  /** */
  var backToTopBtn = $('#backToTop');
+ var pagerDisplay = $('#pagerDisplay');
 
 $(window).scroll(function() {
   if ($(window).scrollTop() > 300) {
    backToTopBtn.addClass('show');
+   pagerDisplay.addClass('show');
   } else {
    backToTopBtn.removeClass('show');
+   pagerDisplay.removeClass('show');
   }
 });
 

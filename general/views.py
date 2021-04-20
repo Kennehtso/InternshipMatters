@@ -101,29 +101,12 @@ def result(request):
     commentsCount_input = 0
     isApprove_input = 'all'
     print('------------------------------request.session before ------------------------------')
-    if "bannerSearch" in request.session:
-        bannerSearch = request.session["bannerSearch"]
-        print(F'------------------------------request.session["bannerSearch"]: {request.session["bannerSearch"]}-------------------------')
-    
-    if "location_list" in request.session:
-        location_list = request.session["location_list"]
-        print(F'------------------------------request.session["location_list"]: {request.session["location_list"]}-------------------------')
-    
-    if "organizationType_list" in request.session:
-        organizationType_list = request.session["organizationType_list"]
-        print(F'------------------------------request.session["organizationType_list"]: {request.session["organizationType_list"]}-------------------------')
-    
-    if "score_input" in request.session:
-        score_input = request.session["score_input"]
-        print(F'------------------------------request.session["score_input"]: {request.session["score_input"]}-------------------------')
-    
-    if "commentsCount_input" in request.session:
-        commentsCount_input = request.session["commentsCount_input"]
-        print(F'------------------------------request.session["commentsCount_input"]: {request.session["commentsCount_input"]}-------------------------')
-    
-    if "isApprove_input" in request.session:
-        isApprove_input = request.session["isApprove_input"]
-        print(F'------------------------------request.session["isApprove_input"]: {request.session["isApprove_input"]}-------------------------')
+    if "bannerSearch" in request.session: bannerSearch = request.session["bannerSearch"]
+    if "location_list" in request.session: location_list = request.session["location_list"] 
+    if "organizationType_list" in request.session: organizationType_list = request.session["organizationType_list"] 
+    if "score_input" in request.session: score_input = request.session["score_input"]  
+    if "commentsCount_input" in request.session: commentsCount_input = request.session["commentsCount_input"]
+    if "isApprove_input" in request.session: isApprove_input = request.session["isApprove_input"]
     
     if request.method =='POST':
         print(F"----------------- GET INTO POST =================")
@@ -194,7 +177,6 @@ def result(request):
         if 'commentsCount_input' in request.session and request.session['commentsCount_input']!= 0 : 
             queryList.append(Q(commentsCount__gte=request.session['commentsCount_input']))
 
-        #print(F"request.POST['isApprove_input']: {request.POST['isApprove_input']}")
         if 'isApprove_input' in request.session and request.session['isApprove_input'] == 'true' : 
             queryList.append(Q(isApprove=True))
         elif 'isApprove_input' in request.session and request.session['isApprove_input'] == 'false' : 
@@ -204,39 +186,12 @@ def result(request):
         if queryList: 
             organizations = Organization.objects.filter(reduce(operator.and_, queryList))
 
-    print('=============================== request.session After ===============================')
-    if "bannerSearch" in request.session:
-        bannerSearch = request.session["bannerSearch"]
-        print(F'------------------------------request.session["bannerSearch"]: {request.session["bannerSearch"]}-------------------------')
-    
-    if "location_list" in request.session:
-        location_list = request.session["location_list"]
-        print(F'------------------------------request.session["location_list"]: {request.session["location_list"]}-------------------------')
-    
-    if "organizationType_list" in request.session:
-        organizationType_list = request.session["organizationType_list"]
-        print(F'------------------------------request.session["organizationType_list"]: {request.session["organizationType_list"]}-------------------------')
-    
-    if "score_input" in request.session:
-        score_input = request.session["score_input"]
-        print(F'------------------------------request.session["score_input"]: {request.session["score_input"]}-------------------------')
-    
-    if "commentsCount_input" in request.session:
-        commentsCount_input = request.session["commentsCount_input"]
-        print(F'------------------------------request.session["commentsCount_input"]: {request.session["commentsCount_input"]}-------------------------')
-    
-    if "isApprove_input" in request.session:
-        isApprove_input = request.session["isApprove_input"]
-        print(F'------------------------------request.session["isApprove_input"]: {request.session["isApprove_input"]}-------------------------')
-    
     organizations_count = organizations.count()
     #Implement paginator
     paginator = Paginator(organizations.order_by('name'), 12) # Show 25 contacts per page.
     
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    print(f"@@@@@@@@@@@@@@@@ request.GET.get('page') :{request.GET.get('page')} @@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    print(f"@@@@@@@@@@@@@@@@ paginator.num_pages :{paginator.num_pages} @@@@@@@@@@@@@@@@@@@@@@@@@@@")
 
     context = {'internPerson':internPerson,'page_obj': page_obj,'organizations_count': organizations_count,
     'bannerSearch':bannerSearch,'location_list':location_list,'organizationType_list':organizationType_list,'score_input':score_input,
