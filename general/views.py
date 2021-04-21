@@ -354,9 +354,11 @@ def updateRelatedFieldForOrganization(orgId, hashTags=None):
     organization.save()
 
 # Maintainance Purpose
-import random
-from .tests import test_names, user_pw_dev
+
+#import random
+#from .tests import test_names, user_pw_dev
 def randomAddUser(request):
+    """
     if not request.user.is_staff:
         messages.error(request, f"伙伴 '{request.user}' 不是管理者，無權限進行此操作")
         return redirect('home')
@@ -380,11 +382,13 @@ def randomAddUser(request):
                 print(F"form.is_valid: {name}")
                 #print(F"form: {form}")
                 #user = form.save()
+    """
     return redirect('login')
 
-import json
-from .tests import organization_dev
+#import json
+#from .tests import organization_dev
 def addOrganization(request):
+    """
     if not request.user.is_staff:
         messages.error(request, f"伙伴 '{request.user}' 不是管理者，無權限進行此操作")
         return redirect('home')
@@ -411,4 +415,6 @@ def addOrganization(request):
             print(F"{chkList[name]}: Save success")
             print(f"------------")
         #cnt += 1
+    """
     return redirect('login')
+    

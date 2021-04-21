@@ -27,7 +27,7 @@ environ.Env.read_env() # reading .env file
 SECRET_KEY = 'grr+&ow&z62lq+d($0d+2)y3uwrnd58_lwi3%cs@bvu6#gcm61'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['internships-matters.herokuapp.com', '127.0.0.1']
 
@@ -83,14 +83,9 @@ WSGI_APPLICATION = 'internshipMatters.wsgi.application'
 DATABASES = {
     'default': {
      'ENGINE': 'django.db.backends.postgresql',
-     'NAME': env('postgres_db_dev'),
-     'USER': env('postgres_user_dev'),
-     'PASSWORD':env('postgres_pw_dev'),
-     'HOST': env('postgres_host_dev'),
-     'PORT': env('postgres_port_dev'),
     }
    }
-
+DATABASES['default'].update(env.db())
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
