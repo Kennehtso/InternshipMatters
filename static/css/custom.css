@@ -588,6 +588,18 @@ div#columns figure div.rating label::after{
 .comment-info {
   display: none;
 }
+.comments-info {
+    border-radius: 1em 0em 0em 0em; 
+    color:white;
+    width:30%;
+    position:relative;
+    background-color: #343a40;
+    display: table-cell;
+    border: 10px solid;
+    border-image-slice: 1;
+    border-width: 5px; 
+    border-image-source: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+}
 .comments-thead th {
   background-color: #343a40; 
   position: sticky;

@@ -1,5 +1,5 @@
 {% load static %}
-<div class="comments-info container" style="border-radius: 1em 0em 0em 0em; color:white;width:30%; position:relative;background-color: #343a40;display: table-cell;">
+<div class="comments-info container">
 	<div style="display: inline-flex; max-height: 250px;">
 		<h2 class="mb-5" style="text-shadow: 2px 2px 4px #000000; margin:auto;writing-mode: tb-rl;">{{ organization.name }}</h2>
 		<div id="scoreCircle" style="float: left;">
@@ -13,7 +13,7 @@
 								</div>
 								<div class="info">
 									<h3 style="font-size: 40px;">{{ organization.score }}</h3>
-									<p>整體評分</p>
+									<p>‘{{comments_count}}’則評分</p>
 								</div>
 							</a>
 						</div>

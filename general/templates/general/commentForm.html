@@ -68,10 +68,12 @@
     </div>
     <div class="form-row" style="padding-top: 20px; padding-bottom: 20px;">
         <div class="fieldWrapper col-md-12 col-lg-6 col-xl-6 mb-6 mb-md-0">
-            {{ form.hashTags.errors }}
             {{ form.hashTags.label_tag }}
             {{ form.hashTags }}
             
+            <label for="customHashTags">自訂義標籤</label>
+            <select name="customHashTags" id="customHashTags" multiple="" class="form-control">
+            </select>
             <div style="display: flex; ;margin-top: 10px; margin-left: -10px;">
                 <input style="margin-left: 10px;" name="hashTagInput" id="hashTagInput" type="input" class="form-control col-md-6 col-lg-6 col-xl-6 mb-6 mb-md-0" placeholder="自定義標籤">
                 <a style="margin-left: 10px;" class="comment-add btn btn-outline-info" title="新增自定義標籤" onclick="addHasTags()">
@@ -88,6 +90,8 @@
             <div style="width: 100%;" id="hashTagsDeleteSuccess" class="alert alert-danger alert-dismissible fade show" role="alert">
                 <strong>刪除成功</strong>
             </div>
+            
+            {{ form.hashTags.errors }}
         </div>
 
     
@@ -106,17 +110,16 @@
         autocomplete(document.getElementById("hashTagInput"), hasTags);
 
         $('select').selectpicker();
-        $('#id_hashTags').append('<option data-divider="true"></option>');
-        $("#id_hashTags").selectpicker("refresh");
         $('#hashTagsAddSuccess').hide();
         $('#hashTagsDeleteSuccess').hide();
 
         
     });
     function addHasTags(){
-        var optionValue = $('#hashTagInput').val();
+        var optionValue = $('#hashTagInput').val().toLowerCase();
         var isExist = $.map($('#id_hashTags option'), function(e) { return e.text; }).indexOf(optionValue) != -1;
-        if(isExist){
+        var isExist_custom = $.map($('#customHashTags option'), function(e) { return e.text.toLowerCase(); }).indexOf(optionValue) != -1;
+        if(isExist || isExist_custom){
             $('#hashTagsDeleteSuccess').html('<strong>已存在標籤</strong>');
             $('#hashTagsDeleteSuccess').show();
             $("#hashTagsDeleteSuccess").fadeTo(2000, 500).slideUp(500, function(){
@@ -124,9 +127,9 @@
             });
             return ;
         }
-        $('#id_hashTags').append('<option value="'+optionValue+'" selected="">'+optionValue+'</option>');
+        $('#customHashTags').append('<option value="'+optionValue+'" selected="">'+optionValue+'</option>');
         hasTags.push(optionValue);
-        $("#id_hashTags").selectpicker("refresh");
+        $("#customHashTags").selectpicker("refresh");
         $('#hashTagInput').val('');
         $('#hashTagsAddSuccess').show();
         $("#hashTagsAddSuccess").fadeTo(2000, 500).slideUp(500, function(){
@@ -134,13 +137,13 @@
         });
     }
     function deleteCustomHasTags(){
-        var optionValue = $('#hashTagInput').val();
+        var optionValue = $('#hashTagInput').val().toLowerCase();
         var index = hasTags.indexOf(optionValue)
         if ( index != -1)
         {
-            $('#id_hashTags').find('[value='+optionValue+']').remove();
+            $('#customHashTags').find('[value='+optionValue+']').remove();
             hasTags.splice(index, 1)
-            $('#id_hashTags').selectpicker('refresh');
+            $('#customHashTags').selectpicker('refresh');
             $('#hashTagsDeleteSuccess').html('<strong>刪除成功</strong>');
             $('#hashTagsDeleteSuccess').show();
             $("#hashTagsDeleteSuccess").fadeTo(2000, 500).slideUp(500, function(){

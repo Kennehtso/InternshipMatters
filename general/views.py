@@ -270,9 +270,22 @@ def createComment(request, orgId):
     internPerson = InternPerson.objects.get(user=request.user)
     form = CommentForm(initial={'organization':orgId, 'intern':internPerson.id})
     if request.method =='POST':
+        print(F"-----{request.POST}-----")
         form = CommentForm(request.POST)
         if form.is_valid():
-            form.save()
+            f = form.save()
+            comment = Comment.objects.get(id=f.id)
+            #Update hashtags
+            hashTags_all = HashTags.objects.all()
+            for text in request.POST.getlist('customHashTags'):
+                if text.isnumeric():
+                    continue
+                if not hashTags_all.filter(name__iexact=text).exists():
+                    tmpTag = HashTags(name=text)
+                    tmpTag.save()
+                    comment.hashTags.add(tmpTag)
+                    
+            #Update Organization
             hashTags = form.cleaned_data.get('hashTags')
             orgId = request.POST["organization"]
             updateRelatedFieldForOrganization(orgId, hashTags)
@@ -285,19 +298,31 @@ def createComment(request, orgId):
 def updateComment(request, pk):
     internPerson = InternPerson.objects.get(user=request.user)
     comment = Comment.objects.get(id=pk)
+    if internPerson.id != comment.intern.id:
+        messages.error(request, f"伙伴 '{request.user.username}' 沒有該評論的修改權限哦。")
+        return redirect(f'../detail/{comment.organization.id}')
     form  = CommentForm(instance=comment)
-    hashTags = HashTags.objects.all()
     if request.method =='POST':
-        print(F"-----{comment.hashTags.all()}-----")
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             form.save()
+            #Update hashtags
+            hashTags_all = HashTags.objects.all()
+            for text in request.POST.getlist('customHashTags'):
+                if text.isnumeric():
+                    continue
+                if not hashTags_all.filter(name__iexact=text).exists():
+                    tmpTag = HashTags(name=text)
+                    tmpTag.save()
+                    comment.hashTags.add(tmpTag)
+
+            #Update Organization
             hashTags = form.cleaned_data.get('hashTags')
             orgId = request.POST["organization"]
             updateRelatedFieldForOrganization(orgId, hashTags)
             return redirect(f'../detail/{orgId}')
 
-    context = {"form" : form, 'internPerson':internPerson, 'hashTags': hashTags}
+    context = {"form" : form, 'internPerson':internPerson }
     return render(request,'general/commentForm.html', context)
 
 @login_required(login_url='login')

@@ -7,9 +7,7 @@
             <tr class="comments-thead" style="background-color: #343a40; color:white">
                 <th>伙伴稱呼</th>
                 <th>評分</th>
-                <th>心得分享</th>
-                <th style="width:10px"></th>
-                <th style="width:10px"></th>
+                <th colspan="3">心得分享<span style="float: right;"><span style="color:#17a2b8; text-decoration: underline;">{{comments_count}}</span> 則心得</span></th>
             </tr>
         </thead>
         <tbody>
@@ -39,9 +37,11 @@
                             </div>
                             <div style="margin:10px;" id="comment-info_{{item.id}}" class="comment-info comment-comments-{{item.id}}">
                                 <p >實習類型: {{ item.internshipType }}</p>
-                                <p > {% for hashTag in item.hashTags.all %}
-                                    <button class="btn btn-xs btn-info">{{hashTag.name}}</button>
-                                {% endfor%}</p>
+                                <div class="tags" style="margin-bottom: 0.5em; text-align: center;">
+                                    {% for hashTag in item.hashTags.all %}
+                                      <a href="javascript:;" style="height: 100%;font-size: inherit;">{{hashTag.name}}</a>
+                                    {% endfor%}
+                                </div>
                                 <p >創立日期: {{ item.createDate | date:"Y-m-d H:i" }}</p>
                             </div>
                         </div>
