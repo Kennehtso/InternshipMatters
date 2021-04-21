@@ -67,13 +67,31 @@
         </div>
     </div>
     <div class="form-row" style="padding-top: 20px; padding-bottom: 20px;">
-        <div class="fieldWrapper col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0">
+        <div class="fieldWrapper col-md-12 col-lg-6 col-xl-6 mb-6 mb-md-0">
             {{ form.hashTags.errors }}
             {{ form.hashTags.label_tag }}
             {{ form.hashTags }}
+            
+            <div style="display: flex; ;margin-top: 10px; margin-left: -10px;">
+                <input style="margin-left: 10px;" name="hashTagInput" id="hashTagInput" type="input" class="form-control col-md-6 col-lg-6 col-xl-6 mb-6 mb-md-0" placeholder="自定義標籤">
+                <a style="margin-left: 10px;" class="comment-add btn btn-outline-info" title="新增自定義標籤" onclick="addHasTags()">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </a>
+                <a style="margin-left: 10px;" class="comment-add btn btn-outline-danger" title="刪除自定義標籤" onclick="deleteCustomHasTags()">
+                    <i class="fa fa-minus" aria-hidden="true"></i>
+                </a>
+            </div>
+            
+            <div style="width: 100%;" id="hashTagsAddSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>新增成功</strong> 
+              </div>
+            <div style="width: 100%;" id="hashTagsDeleteSuccess" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>刪除成功</strong>
+            </div>
         </div>
 
-        <div class="col-md-6 col-lg-6 col-xl-6 mb-6 mb-md-0">
+    
+        <div class="col-md-12 col-lg-6 col-xl-6 mb-6 mb-md-0">
             <input type="submit" name="submit" class="btn btn-info" value="送出"
                 style="width: 50%; margin-left: 25%; margin-top: 7%;" />
         </div>
@@ -83,6 +101,54 @@
 
 {% block contentJs%}
 <script>
+    var hasTags = [];
+     $(function () {
+        autocomplete(document.getElementById("hashTagInput"), hasTags);
+
+        $('select').selectpicker();
+        $('#id_hashTags').append('<option data-divider="true"></option>');
+        $("#id_hashTags").selectpicker("refresh");
+        $('#hashTagsAddSuccess').hide();
+        $('#hashTagsDeleteSuccess').hide();
+
+        
+    });
+    function addHasTags(){
+        var optionValue = $('#hashTagInput').val();
+        var isExist = $.map($('#id_hashTags option'), function(e) { return e.text; }).indexOf(optionValue) != -1;
+        if(isExist){
+            $('#hashTagsDeleteSuccess').html('<strong>已存在標籤</strong>');
+            $('#hashTagsDeleteSuccess').show();
+            $("#hashTagsDeleteSuccess").fadeTo(2000, 500).slideUp(500, function(){
+                $("#hashTagsDeleteSuccess").slideUp(500);
+            });
+            return ;
+        }
+        $('#id_hashTags').append('<option value="'+optionValue+'" selected="">'+optionValue+'</option>');
+        hasTags.push(optionValue);
+        $("#id_hashTags").selectpicker("refresh");
+        $('#hashTagInput').val('');
+        $('#hashTagsAddSuccess').show();
+        $("#hashTagsAddSuccess").fadeTo(2000, 500).slideUp(500, function(){
+            $("#hashTagsAddSuccess").slideUp(500);
+        });
+    }
+    function deleteCustomHasTags(){
+        var optionValue = $('#hashTagInput').val();
+        var index = hasTags.indexOf(optionValue)
+        if ( index != -1)
+        {
+            $('#id_hashTags').find('[value='+optionValue+']').remove();
+            hasTags.splice(index, 1)
+            $('#id_hashTags').selectpicker('refresh');
+            $('#hashTagsDeleteSuccess').html('<strong>刪除成功</strong>');
+            $('#hashTagsDeleteSuccess').show();
+            $("#hashTagsDeleteSuccess").fadeTo(2000, 500).slideUp(500, function(){
+                $("#hashTagsDeleteSuccess").slideUp(500);
+            });
+        }
+    }
+    
     $('#r6').hide();
     $('#r6').next().hide();
     $(".comments-edit div input, .comments-edit div select, .comments-edit div textarea").addClass("form-control");

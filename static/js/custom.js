@@ -82,7 +82,7 @@ function autocomplete(inp, arr) {
          /*check if the item starts with the same letters as the text field value:*/
          //let condition = arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase();
          let condition = arr[i].toUpperCase().indexOf(val.toUpperCase());
-         if (condition != -1) {
+         if (condition != -1 || val == '*') {
            const regex =  new RegExp(val.toUpperCase(),'g'); // correct way
            var newstr = arr[i].replace(regex,"<strong class='searchHighlight'>" + val.toUpperCase() + "</strong>");
            /*create a DIV element for each matching element:*/

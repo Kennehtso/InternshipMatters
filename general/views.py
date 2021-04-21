@@ -286,18 +286,18 @@ def updateComment(request, pk):
     internPerson = InternPerson.objects.get(user=request.user)
     comment = Comment.objects.get(id=pk)
     form  = CommentForm(instance=comment)
-
+    hashTags = HashTags.objects.all()
     if request.method =='POST':
+        print(F"-----{comment.hashTags.all()}-----")
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
-            orgId = request.POST["organization"]
             form.save()
             hashTags = form.cleaned_data.get('hashTags')
             orgId = request.POST["organization"]
             updateRelatedFieldForOrganization(orgId, hashTags)
             return redirect(f'../detail/{orgId}')
 
-    context = {"form" : form, 'internPerson':internPerson }
+    context = {"form" : form, 'internPerson':internPerson, 'hashTags': hashTags}
     return render(request,'general/commentForm.html', context)
 
 @login_required(login_url='login')

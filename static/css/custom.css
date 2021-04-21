@@ -170,6 +170,7 @@ input[type=submit] {
   top: 100%;
   left: 0;
   right: 0;
+  width: inherit;
 }
 .autocomplete-items div {
   padding: 10px;
@@ -553,6 +554,9 @@ div#columns figure div.rating label::after{
   line-height: 15px;
   transition: 1s;
   width: 200px;
+}
+.comment-add:hover {
+  border-radius: 0.5em;
 }
 .comment-edit:hover {
   border-radius: 0.5em;
