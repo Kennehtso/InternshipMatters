@@ -1,8 +1,15 @@
 $(window).resize(function () {
-   if (window.innerWidth < 750) {
+   //console.log("window width: "+ $(window).width());
+   //console.log("window.innerWidth: "+ window.innerWidth);
+   if (window.innerWidth <= 1068) {
       $('.ih-item').removeClass('effect10 bottom_to_top').addClass('effect4 left_to_right');
+      $('.comments-info').css({"display": "block", "width": "100%"});
+      $('#commentsSection').css({"padding-top": "10px","margin-left": "0px"});
+      $('#scoreCircle').css({"padding-top": "10px"});
    } else {
       $('.ih-item').removeClass('effect4 left_to_right').addClass('effect10 bottom_to_top');
+      $('.comments-info').css({"display": "table-cell", "width": "30%"});
+      $('#commentsSection').css({"padding-top": "0px","margin-left": "1%"});
    }
 }).resize();
 
@@ -75,7 +82,7 @@ function autocomplete(inp, arr) {
          /*check if the item starts with the same letters as the text field value:*/
          //let condition = arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase();
          let condition = arr[i].toUpperCase().indexOf(val.toUpperCase());
-         if (condition != -1) {
+         if (condition != -1 || val == '*') {
            const regex =  new RegExp(val.toUpperCase(),'g'); // correct way
            var newstr = arr[i].replace(regex,"<strong class='searchHighlight'>" + val.toUpperCase() + "</strong>");
            /*create a DIV element for each matching element:*/
@@ -155,3 +162,53 @@ function autocomplete(inp, arr) {
  });
  } 
  /* auto completed js end */
+
+ /** */
+ var backToTopBtn = $('#backToTop');
+ var pagerDisplay = $('#pagerDisplay');
+
+$(window).scroll(function() {
+  if ($(window).scrollTop() > 300) {
+   backToTopBtn.addClass('show');
+   pagerDisplay.addClass('show');
+  } else {
+   backToTopBtn.removeClass('show');
+   pagerDisplay.removeClass('show');
+  }
+});
+
+backToTopBtn.on('click', function(e) {
+  e.preventDefault();
+  $('html, body').animate({scrollTop:0}, '300');
+});
+
+$(".comment-more").mouseenter(function() {
+   var id = $(this).attr('id');
+   $('#comment-general_' + id).css({
+      'opacity': 0.5, 
+      'display':'none',
+      'transition': '0.5s',
+      'transition-delay': '0.1s'
+   });
+   $('#comment-info_' + id).css({
+      'opacity': 0.9, 
+      'display':'block',
+      'transition': '0.5s',
+      'transition-delay': '0.1s'
+   });
+ })
+ $('.outer_comments').mouseleave(function() {
+   var id = $(this).attr('id').split('_')[1]
+   $('#comment-general_' + id).css({
+      'opacity': 1, 
+      'display':'block',
+      'transition': '0.5s',
+      'transition-delay': '0.1s'
+   });
+   $('#comment-info_' + id).css({
+      'opacity': 0, 
+      'display':'none',
+      'transition': '0.5s',
+      'transition-delay': '0.1s'
+   });
+ })
