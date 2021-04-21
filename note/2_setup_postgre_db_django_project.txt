@@ -30,6 +30,8 @@
 		4. press any key to open a page, and click 'login'
 			once login, we can access with cmd
 		5. type 'cd {project directory clone from git}' to set our current location
+		5.1 type 'heroku apps' to find out my accounts have what apps
+		5.2 heroku git:remote -a {app name} to set current remote
 		6. type 'git remote -v' to check there should list out our project with 'origin' and 'heroku'
 		7. type 'heroku git:remote -a {App name}' to access to our app
 	
