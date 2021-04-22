@@ -3,6 +3,17 @@
 
 {% block otherCSS %}
 {% endblock otherCSS %}
+<!--Success / Error Messages -->
+{% for msg in messages %}
+    {% if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <div id='{{msg}}' class="text-center alert alert-success alert-dismissible fade show">
+    {% elif msg.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <div id='{{msg}}' class="text-center alert alert-danger alert-dismissible fade show">
+    {% endif %}
+        <strong>{{msg}}</strong>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+{% endfor %}
 <a id="pagerDisplay">
   第 <span id="currentPage">1</span> / {{ page_obj.paginator.num_pages }} 頁
 </a>
@@ -125,11 +136,34 @@
     </form>
   </div>
 </div>
+
 <div class="container">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-radius: 0.75em; box-shadow: 3px 3px 5px gray;">
     <a class="navbar-brand" style="margin: auto; padding-top: 0px; padding-bottom: 0px;">
       心理實習機構 - 符合條件為：<span style="color:teal">{{organizations_count}}</span> 筆</a>
   </nav>
+</div>
+
+<!-- Send Org apply -->
+<div class="row" style="padding-top: 10px; padding-bottom: 20px;">
+  <div class="col-md-10 col-lg-8 col-xl-6 mx-auto" style="padding:10px; box-shadow: 3px 3px 5px gray;">
+    <form id="searchForm" method="post" action="/sendmailApply/">{% csrf_token %}
+      <div class="form-row">
+        <div class="btn-group col-md-5 col-lg-5 col-xl-5 mb-5 mb-md-0">
+          <input name="organization_new" id="organization_new" type="input" class="form-control form-control-lg"
+            placeholder="機構名稱">
+        </div>
+        <div class="btn-group col-md-5 col-lg-5 col-xl-5 mb-5 mb-md-0">
+          <input name="address_new" id="address_new" type="input" class="form-control form-control-lg"
+            placeholder="機構地址">
+        </div>
+        <!--Send mail Button -->
+        <div class="btn-group col-md-2 col-lg-2 col-xl-2 mb-2 mb-md-0">
+          <button type="submit" class="btn btn-lg btn-info">發送提議</button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 
 <!--  RESULT LIST-->
@@ -206,6 +240,7 @@
   }
   function resetCondition(){
     //$('#searchForm')[0].reset();
+    $("#bannerSearch").val('');
     $("#location_list").val('');
     $("#location_list").selectpicker("refresh");
     $('#organizationType_list').val('');

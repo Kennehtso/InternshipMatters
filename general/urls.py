@@ -9,6 +9,7 @@ urlpatterns = [
 
     path('',views.home, name='home'),
     path('result/',views.result, name='result'),
+    path('sendmailApply/',views.sendmailApplyNewOrganization, name='sendmailApply'),
     path('detail/<str:orgId>/',views.detail, name='detail'),
 
     path('createComment/<str:orgId>',views.createComment, name='createComment'),

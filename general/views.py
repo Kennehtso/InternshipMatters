@@ -353,6 +353,35 @@ def updateRelatedFieldForOrganization(orgId, hashTags=None):
         organization.hashTags.add(h)
     organization.save()
 
+
+def getEmailTemplate(username, orgName, orgAddress):
+    return f"<div style=\"margin:0;padding:0\" bgcolor=\"#FFFFFF\"> <table width=\"100%\" height=\"100%\" style=\"min-width:348px\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" lang=\"en\"> <tbody> <tr height=\"32\" style=\"height:32px\"> <td></td> </tr> <tr align=\"center\"> <td> <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"padding-bottom:20px;max-width:516px;min-width:220px\"> <tbody> <tr> <td width=\"8\" style=\"width:8px\"></td> <td> <div style=\"border-radius:8px;padding:40px 20px; border: 10px solid; border-image-slice: 1;border-width: 5px;border-image-source: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);\" align=\"center\" > <div style=\"font-family:\'Google Sans\',Roboto,RobotoDraft,Helvetica,Arial,sans-serif;border-bottom:thin solid #dadce0;color:rgba(0,0,0,0.87);line-height:32px;padding-bottom:24px;padding-bottom:32px;text-align:center;word-break:break-word\"> <div style=\"font-size:24px\"> <table style=\"font-family:\'Google Sans\',Roboto,RobotoDraft,Helvetica,Arial,sans-serif;font-size:24px;line-height:28px;text-align:center;width:100%\"> <tbody> <img src=\"https://upload.wikimedia.org/wikipedia/commons/d/d5/InternshipMatters_Logo.png\" width=\"74\" height=\"24\" aria-hidden=\"true\" style=\"margin-bottom:16px;background-color: #17a2b8;width: auto;height: 2em;border-radius: 0.25em;padding: 10px;\" alt=\"Google\" class=\"CToWUd\"> <tr> <td style=\"font-family:inherit\">感謝 {username}，我們已經收到你的提議！</td> </tr> </tbody> </table> </div> <table align=\"center\" style=\"margin-top:8px\"> <tbody> <tr style=\"line-height:normal\"> <td><a style=\"font-family:\'Google Sans\',Roboto,RobotoDraft,Helvetica,Arial,sans-serif;color:rgba(0,0,0,0.87);font-size:14px;line-height:20px\">「{orgName}」({orgAddress}) </a> </td> </tr> </tbody> </table> </div> <div style=\"font-family:Roboto-Regular,Helvetica,Arial,sans-serif;font-size:14px;color:rgba(0,0,0,0.87);line-height:20px;padding-top:20px;text-align:left\"> <table style=\"font-size:14px;letter-spacing:0.2;line-height:20px;text-align:center\"> <tbody> <tr> <td style=\"padding-bottom:24px;text-align:center\"> 屆時我們將收集相關的資訊， <div style=\"height:13px\"></div> 經確認無誤後便會把「{orgName}」加入至系統。 <div style=\"height:13px\"></div> 待更新完成後會發信通知，之後便可以進行討論跟分享了！ <div style=\"height:13px\"></div> 這段時間再麻煩你耐心等候，謝謝 </td> </tr> </tbody> </table> </div> </div> <div style=\"text-align:center\"> <div style=\"font-family:Roboto-Regular,Helvetica,Arial,sans-serif;color:rgba(0,0,0,0.54);font-size:11px;line-height:18px;padding-top:12px;text-align:center\"> <div>這是系統發出的通知，請不要回覆此信件</div> <div style=\"direction:ltr\">© Internship Matters! 2021. All Rights Reserved. <a href=\"mailto:internshipsmatters@gmail.com\" style=\"font-family:Roboto-Regular,Helvetica,Arial,sans-serif;color:rgba(0,0,0,0.54);font-size:11px;line-height:18px;padding-top:12px;text-align:center\">internshipsmatters@gmail.com </a></div> </div> </div> </td> <td width=\"8\" style=\"width:8px\"></td> </tr> </tbody> </table> </td> </tr> <tr height=\"32\" style=\"height:32px\"> <td></td> </tr> </tbody> </table> </div>"
+
+from django.conf import settings
+from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+def sendmailApplyNewOrganization(request):
+    if request.method =='POST':
+        orgName = request.POST["organization_new"]
+        orgAddress = request.POST["address_new"]
+        if orgName =='' or orgAddress == '':
+            messages.warning(request, f"提議加入的機構名稱及地均不能是空的哦")
+            return redirect('result')
+
+        subject, from_email, toList = F'InternshipMatters-提議新增-{orgName}',settings.EMAIL_HOST_USER , [request.user.email, settings.EMAIL_HOST_USER]
+        text_content = '感謝你的提議.'
+        html_content = getEmailTemplate(request.user.username, orgName, orgAddress)
+       
+        try:
+            msg = EmailMultiAlternatives(subject, text_content, from_email, to=toList)
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
+            messages.success(request, f"機構 '{orgName}' 新增的提議已經發送嚕，經過確認後會再更新至系統，謝謝你的提議～")
+        except Exception as e:
+            print(f'[Exception Send mail] - ({type(e)}): {e.message}')
+            messages.error(request, f"系統異常，機構 '{orgName}'新增的提議未能發送至信箱，請稍後再試。如屢次發送失敗或可以透過Email與我們聯繫。")
+        
+        return redirect('result')
 # Maintainance Purpose
 
 #import random
