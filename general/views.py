@@ -304,8 +304,7 @@ def createComment(request, orgId):
             #Update hashtags
             hashTags_all = HashTags.objects.all()
             for text in request.POST.getlist('customHashTags'):
-                if text.isnumeric():
-                    continue
+                #if text.isnumeric(): continue
                 if not hashTags_all.filter(name__iexact=text).exists():
                     tmpTag = HashTags(name=text)
                     tmpTag.save()
@@ -335,8 +334,7 @@ def updateComment(request, pk):
             #Update hashtags
             hashTags_all = HashTags.objects.all()
             for text in request.POST.getlist('customHashTags'):
-                if text.isnumeric():
-                    continue
+                #if text.isnumeric(): continue
                 if not hashTags_all.filter(name__iexact=text).exists():
                     tmpTag = HashTags(name=text)
                     tmpTag.save()

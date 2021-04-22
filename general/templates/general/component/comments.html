@@ -36,7 +36,7 @@
                                 <p >{{ item.comments }}</p>
                             </div>
                             <div style="margin:10px;" id="comment-info_{{item.id}}" class="comment-info comment-comments-{{item.id}}">
-                                <p >實習類型: {{ item.internshipType }}</p>
+                                <!--p >實習類型: {{ item.internshipType }}</p-->
                                 <div class="tags" style="margin-bottom: 0.5em; text-align: center;">
                                     {% for hashTag in item.hashTags.all %}
                                       <a href="javascript:;" style="height: 100%;font-size: inherit;">{{hashTag.name}}</a>

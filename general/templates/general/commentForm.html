@@ -4,21 +4,31 @@
 <form id="commentForm" method="POST" action="" class="comments-edit">
     {% csrf_token %}
     <div class="form-row" style="padding-top: 20px;">
-        <div class="fieldWrapper col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0">
-            {{ form.organization.errors }}
-            {{ form.organization.label_tag }}
-            {{ form.organization }}
+        <div style="opacity: 0.5;" class="fieldWrapper col-md-12 col-lg-12 col-xl-4 mb-4 mb-md-0">
+            <div>
+                <!--div class="fieldWrapper col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0"-->
+                {{ form.intern.errors }}
+                {{ form.intern.label_tag }}
+                {{ form.intern }}
+            </div>
+            <div>
+                <!--div class="fieldWrapper col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0"-->
+                {{ form.organization.errors }}
+                {{ form.organization.label_tag }}
+                {{ form.organization }}
+            </div>
         </div>
-        <div class="fieldWrapper col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0">
-            {{ form.intern.errors }}
-            {{ form.intern.label_tag }}
-            {{ form.intern }}
+
+        <div class="fieldWrapper col-md-12 col-lg-12 col-xl-8 mb-8 mb-md-0">
+            {{ form.comments.errors }}
+            {{ form.comments.label_tag }}
+            {{ form.comments }}
         </div>
-        <div class="fieldWrapper col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0">
+        <!--div class="fieldWrapper col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0">
             {{ form.internshipType.errors }}
             {{ form.internshipType.label_tag }}
             {{ form.internshipType }}
-        </div>
+        </div-->
     </div>
     <div class="form-row" style="padding-top: 20px;">
         <!--div class="fieldWrapper col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0">
@@ -26,9 +36,11 @@
                 {{ form.score.label_tag }}
                 {{ form.score }}
             </div-->
-        <div class="form-group searchCustomBorder col-md-12 col-lg-12 col-xl-4 mb-2 mb-md-0">
+
+        <div class="form-group searchCustomBorder col-md-12 col-lg-12 col-xl-4 mb-4 mb-md-0">
             <div class="row">
-                <label for="score_input" class="col-md-2 col-lg-2 col-xl-3 mb-3 mb-md-3 col-form-label col-form-label">分數： <br />
+                <label for="score_input"
+                    class="col-md-2 col-lg-2 col-xl-3 mb-3 mb-md-3 col-form-label col-form-label">分數： <br />
                     <span id="scoreValue"></span> 分或以上
                 </label>
                 <div class="col-md-3 col-lg-3 col-xl-4 mb-3 mb-md-4">
@@ -58,46 +70,42 @@
             </div>
         </div>
 
-
-
         <div class="fieldWrapper col-md-12 col-lg-12 col-xl-8 mb-8 mb-md-0">
-            {{ form.comments.errors }}
-            {{ form.comments.label_tag }}
-            {{ form.comments }}
+            {{ form.hashTags.label_tag }}
+            {{ form.hashTags }}
+            <div class="form-row" style="padding-bottom: 20px;"></div>
+
+            <span style="display: inline;">
+                <label for="customHashTags">自訂義標籤</label>
+                <div style="display: flex; float: right;width: 50%;">
+                    <input style="margin-left: 10px;" name="hashTagInput" id="hashTagInput" type="input" placeholder="新增/刪除自定義標籤" class="form-control">
+                    <a style="margin-left: 10px;" class="comment-add btn btn-outline-info" title="新增自定義標籤" onclick="addHasTags()">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </a>
+                    <a style="margin-left: 10px;" class="comment-add btn btn-outline-danger" title="刪除自定義標籤" onclick="deleteCustomHasTags()">
+                        <i class="fa fa-minus" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </span>
+            <div class="form-row" style="padding-bottom: 20px;"></div>
+            <select name="customHashTags" id="customHashTags" multiple="" class="form-control">
+            </select>
+
+            <div style="width: 100%;" id="hashTagsAddSuccess" class="alert alert-success alert-dismissible fade show"
+                role="alert">
+                <strong>新增成功</strong>
+            </div>
+            <div style="width: 100%;" id="hashTagsDeleteSuccess" class="alert alert-danger alert-dismissible fade show"
+                role="alert">
+                <strong>刪除成功</strong>
+            </div>
+
+            {{ form.hashTags.errors }}
         </div>
     </div>
     <div class="form-row" style="padding-top: 20px; padding-bottom: 20px;">
-        <div class="fieldWrapper col-md-12 col-lg-6 col-xl-6 mb-6 mb-md-0">
-            {{ form.hashTags.label_tag }}
-            {{ form.hashTags }}
-            
-            <label for="customHashTags">自訂義標籤</label>
-            <select name="customHashTags" id="customHashTags" multiple="" class="form-control">
-            </select>
-            <div style="display: flex; ;margin-top: 10px; margin-left: -10px;">
-                <input style="margin-left: 10px;" name="hashTagInput" id="hashTagInput" type="input" class="form-control col-md-6 col-lg-6 col-xl-6 mb-6 mb-md-0" placeholder="自定義標籤">
-                <a style="margin-left: 10px;" class="comment-add btn btn-outline-info" title="新增自定義標籤" onclick="addHasTags()">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </a>
-                <a style="margin-left: 10px;" class="comment-add btn btn-outline-danger" title="刪除自定義標籤" onclick="deleteCustomHasTags()">
-                    <i class="fa fa-minus" aria-hidden="true"></i>
-                </a>
-            </div>
-            
-            <div style="width: 100%;" id="hashTagsAddSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>新增成功</strong> 
-              </div>
-            <div style="width: 100%;" id="hashTagsDeleteSuccess" class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>刪除成功</strong>
-            </div>
-            
-            {{ form.hashTags.errors }}
-        </div>
-
-    
-        <div class="col-md-12 col-lg-6 col-xl-6 mb-6 mb-md-0">
-            <input type="submit" name="submit" class="btn btn-info" value="送出"
-                style="width: 50%; margin-left: 25%; margin-top: 7%;" />
+        <div  style="margin:auto;" class="col-md-12 col-lg-6 col-xl-6 mb-6 mb-md-0">
+            <input type="submit" name="submit" class="btn btn-info" value="送出"/>
         </div>
     </div>
 </form>
@@ -106,52 +114,51 @@
 {% block contentJs%}
 <script>
     var hasTags = [];
-     $(function () {
+    $(function () {
         autocomplete(document.getElementById("hashTagInput"), hasTags);
 
         $('select').selectpicker();
         $('#hashTagsAddSuccess').hide();
         $('#hashTagsDeleteSuccess').hide();
 
-        
+
     });
-    function addHasTags(){
+    function addHasTags() {
         var optionValue = $('#hashTagInput').val().toLowerCase();
-        var isExist = $.map($('#id_hashTags option'), function(e) { return e.text; }).indexOf(optionValue) != -1;
-        var isExist_custom = $.map($('#customHashTags option'), function(e) { return e.text.toLowerCase(); }).indexOf(optionValue) != -1;
-        if(isExist || isExist_custom){
+        var isExist = $.map($('#id_hashTags option'), function (e) { return e.text; }).indexOf(optionValue) != -1;
+        var isExist_custom = $.map($('#customHashTags option'), function (e) { return e.text.toLowerCase(); }).indexOf(optionValue) != -1;
+        if (isExist || isExist_custom) {
             $('#hashTagsDeleteSuccess').html('<strong>已存在標籤</strong>');
             $('#hashTagsDeleteSuccess').show();
-            $("#hashTagsDeleteSuccess").fadeTo(2000, 500).slideUp(500, function(){
+            $("#hashTagsDeleteSuccess").fadeTo(2000, 500).slideUp(500, function () {
                 $("#hashTagsDeleteSuccess").slideUp(500);
             });
-            return ;
+            return;
         }
-        $('#customHashTags').append('<option value="'+optionValue+'" selected="">'+optionValue+'</option>');
+        $('#customHashTags').append('<option value="' + optionValue + '" selected="">' + optionValue + '</option>');
         hasTags.push(optionValue);
         $("#customHashTags").selectpicker("refresh");
         $('#hashTagInput').val('');
         $('#hashTagsAddSuccess').show();
-        $("#hashTagsAddSuccess").fadeTo(2000, 500).slideUp(500, function(){
+        $("#hashTagsAddSuccess").fadeTo(2000, 500).slideUp(500, function () {
             $("#hashTagsAddSuccess").slideUp(500);
         });
     }
-    function deleteCustomHasTags(){
+    function deleteCustomHasTags() {
         var optionValue = $('#hashTagInput').val().toLowerCase();
         var index = hasTags.indexOf(optionValue)
-        if ( index != -1)
-        {
-            $('#customHashTags').find('[value='+optionValue+']').remove();
+        if (index != -1) {
+            $('#customHashTags').find('[value=' + optionValue + ']').remove();
             hasTags.splice(index, 1)
             $('#customHashTags').selectpicker('refresh');
             $('#hashTagsDeleteSuccess').html('<strong>刪除成功</strong>');
             $('#hashTagsDeleteSuccess').show();
-            $("#hashTagsDeleteSuccess").fadeTo(2000, 500).slideUp(500, function(){
+            $("#hashTagsDeleteSuccess").fadeTo(2000, 500).slideUp(500, function () {
                 $("#hashTagsDeleteSuccess").slideUp(500);
             });
         }
     }
-    
+
     $('#r6').hide();
     $('#r6').next().hide();
     $(".comments-edit div input, .comments-edit div select, .comments-edit div textarea").addClass("form-control");

@@ -72,7 +72,7 @@ class Comment(models.Model):
     # On Delete = If the related user is deleted, delete this record
     intern = models.ForeignKey(InternPerson, null=True, on_delete=models.SET_NULL)
     # TODO -  may better need define in db
-    internshipType = models.CharField(null=True, max_length=200, choices=INTERNSHIPTYPE)
+    internshipType = models.CharField(null=True,blank=True, max_length=200, choices=INTERNSHIPTYPE)
     # TODO - Many(hashTags) to Many(Comment)
     hashTags = models.ManyToManyField(HashTags, blank=True)
     comments = models.CharField(max_length=200, null=True,blank=True)

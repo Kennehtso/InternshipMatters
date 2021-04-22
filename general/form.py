@@ -47,9 +47,10 @@ class CommentForm(ModelForm):
         super(CommentForm, self).__init__(*args, **kwargs)
         self.fields['organization'].widget.attrs['disabled'] = 'true'
         self.fields['intern'].widget.attrs['disabled'] = 'true'
-        self.fields['organization'].label = "機構"
-        self.fields['internshipType'].label = "實習類型"
-        self.fields['hashTags'].label = "標籤 (按'Ctrl'可以多選)"
+        self.fields['organization'].label = "評論機構"
+        self.fields['intern'].label = "伙伴稱呼"
+        #self.fields['internshipType'].label = "實習類型"
+        self.fields['hashTags'].label = "可選標籤"
         self.fields['comments'].label = "心得分享"
         #self.fields['score'].label = "評分"
 
