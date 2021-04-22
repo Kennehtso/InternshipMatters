@@ -1,20 +1,23 @@
 {% load static %}
 
-<header class="masthead text-white text-center" style="background: url({% static 'img/bgStarNight.png'%}) no-repeat center center;">
-  <div class="overlay"></div>
+<header class="masthead text-white text-center" style="background: url({% static 'img/bgStarNight.png'%}) no-repeat center center; background-size: cover;">
+  <!--div class="overlay"></div-->
   <div class="container">
-    <div class="row">
+    <!--div class="row">
       <div class="col-xl-9 mx-auto">
-        <h1 id="bannerTitle" class="mb-5" style='font-family: arial,"Microsoft JhengHei","微軟正黑體",sans-serif;'>實習 <span style="font-weight:bold;color:red">&ne;</span> 工讀！<br/>
-          實習是專業職涯的前置部署<br/>
+        <h1 id="bannerTitle" class="mb-5" style='font-family: arial,"Microsoft JhengHei","微軟正黑體",sans-serif;'>
+          實習 <span style="font-weight:bold;color:red">&ne;</span> 工讀！
+          <br/>
+          實習是專業職涯的前置部署
+          <br/>
           請不要敷衍我
         </h1>
       </div>
-    </div>
+    </div-->
 
     <div class="row">
       <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
-        <form id="searchForm" method="post" action="/result/">{% csrf_token %}
+        <form style="margin-top: 320px;" id="searchForm" method="post" action="/result/">{% csrf_token %}
           {{ form }}
           <div class="form-row" >
             <div class="btn-group col-md-10 col-lg-10 col-xl-10 mb-5 mb-md-0">

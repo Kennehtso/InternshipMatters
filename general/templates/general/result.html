@@ -191,7 +191,7 @@
       {% endfor %}
     </div>
     <input style="display: none;" id="score_{{item.id}}" value="{{item.score}}">
-    <figcaption>實習內容：{{ item.internshipContent }}</figcaption>
+    <figcaption>評論人數：{{ item.commentsCount }}</figcaption>
     <div>
       {% for hashTag in item.hashTags.all %}
       <button class="btn btn-xs btn-info">{{hashTag.name}}</button>

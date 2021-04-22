@@ -366,9 +366,10 @@ input[type=submit] {
   src:url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/callunasansregular-webfont.woff') format('woff');
  }
  body {
-   background: url(//subtlepatterns.com/patterns/scribble_light.png);
+   /*background: url(//subtlepatterns.com/patterns/scribble_light.png);*/
    font-family: Calluna, Arial, sans-serif;
    min-height: 1000px;
+   background-color: #fcffff;
  }
  #columns {
    column-width: 300px;

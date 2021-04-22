@@ -233,40 +233,66 @@ def getDetailData(url_detail, name=None ):
             data[f1]  = f2 
     return data
 
-@isAuthenticated_detail
+#@isAuthenticated_detail
 #@allowed_user_groups(allowed_roles=['admin'])
 def detail(request, orgId):
-    internPerson = InternPerson.objects.get(user=request.user)
+    internPerson = None
+    if not request.user.is_anonymous:
+        internPerson = InternPerson.objects.get(user=request.user)
     organizations = Organization.objects.all()
     organization = Organization.objects.get(id=orgId)
-    organizationDetail = getDetailData(organization.detailInfoFromExtUrl)
+    organizationDetail = getDetailData(organization.detailInfoFromExtUrl) # Currently not able to connnect with the website
+    print(F"organizationDetail: {organizationDetail}")
     organizationDetailObj = {
-        'unitName' : organizationDetail['3. 實習單位名稱：'],
-        'address' : organizationDetail['2. 地址：'],
-        'telephone' : organizationDetail['6. 聯絡電話：'],
-        'email' : organizationDetail['7. 電子信箱：'],
-        'internshipType' : organizationDetail['8. 實習機構類別：'],
-        'subsidy' : organizationDetail['實習津貼'],
-        'personalSupervise' : organizationDetail['個別督導'],
-        'consultingRoom' : organizationDetail['個諮室'],
-        'consultingRoomForGroup' : organizationDetail['團輔室'],
-        'numbersOfCases' : organizationDetail['每位全職實習生平均每週接案人數'],
-        'numbersOffullTime' : organizationDetail['專任心理師人數'],
-        'facilities' : organizationDetail['辦公室（桌椅）'],
-        'internshipContent' : organizationDetail['2. 實習內容：'],
-        'superviser' : organizationDetail['4. 實習單位主管：'],
-        'officer' : organizationDetail['5. 承辦人：'],
-        'supervise' : organizationDetail['諮商心理師提供之督導'],
-        'groupSupervise' : organizationDetail['團體督導或研習'],
+        'unitName' : '暫沒資料提供',
+        'address' :'暫沒資料提供',
+        'telephone' : '暫沒資料提供',
+        'email' : '暫沒資料提供',
+        'internshipType' : '暫沒資料提供',
+        'subsidy' : '暫沒資料提供',
+        'personalSupervise' :'暫沒資料提供',
+        'consultingRoom' : '暫沒資料提供',
+        'consultingRoomForGroup' :'暫沒資料提供',
+        'numbersOfCases' : '暫沒資料提供',
+        'numbersOffullTime' : '暫沒資料提供',
+        'facilities' :'暫沒資料提供',
+        'internshipContent' :'暫沒資料提供',
+        'superviser' : '暫沒資料提供',
+        'officer' : '暫沒資料提供',
+        'supervise' :'暫沒資料提供',
+        'groupSupervise' : '暫沒資料提供',
     }
+    if organizationDetail is not None:
+        organizationDetailObj = {
+            'unitName' : organizationDetail['3. 實習單位名稱：'],
+            'address' : organizationDetail['2. 地址：'],
+            'telephone' : organizationDetail['6. 聯絡電話：'],
+            'email' : organizationDetail['7. 電子信箱：'],
+            'internshipType' : organizationDetail['8. 實習機構類別：'],
+            'subsidy' : organizationDetail['實習津貼'],
+            'personalSupervise' : organizationDetail['個別督導'],
+            'consultingRoom' : organizationDetail['個諮室'],
+            'consultingRoomForGroup' : organizationDetail['團輔室'],
+            'numbersOfCases' : organizationDetail['每位全職實習生平均每週接案人數'],
+            'numbersOffullTime' : organizationDetail['專任心理師人數'],
+            'facilities' : organizationDetail['辦公室（桌椅）'],
+            'internshipContent' : organizationDetail['2. 實習內容：'],
+            'superviser' : organizationDetail['4. 實習單位主管：'],
+            'officer' : organizationDetail['5. 承辦人：'],
+            'supervise' : organizationDetail['諮商心理師提供之督導'],
+            'groupSupervise' : organizationDetail['團體督導或研習'],
+        }
     comments = organization.comment_set.all()
     comments_count = comments.count()
     context = {'organizations':organizations, 'organization':organization,'internPerson':internPerson, 'comments':comments, 'comments_count':comments_count, 'organizationDetailObj':organizationDetailObj}
     return render(request,'general/detail.html',context)
 
-@login_required(login_url='login')
+#@login_required(login_url='login')
 def createComment(request, orgId):
-    # TODO - Get UserId from Login
+    if not request.user.is_authenticated:
+        messages.warning(request, f"要先登入後才能進行分享哦～")
+        return redirect(f'../detail/{orgId}')
+
     internPerson = InternPerson.objects.get(user=request.user)
     form = CommentForm(initial={'organization':orgId, 'intern':internPerson.id})
     if request.method =='POST':

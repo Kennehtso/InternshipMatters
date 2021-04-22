@@ -4,6 +4,8 @@
     {% for msg in messages %}
         {% if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
             <div id='{{msg}}' class="text-center alert alert-success alert-dismissible fade show">
+        {% elif msg.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+            <div id='{{msg}}' class="text-center alert alert-warning alert-dismissible fade show">
         {% elif msg.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
             <div id='{{msg}}' class="text-center alert alert-danger alert-dismissible fade show">
         {% endif %}
