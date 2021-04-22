@@ -241,7 +241,7 @@ def detail(request, orgId):
         internPerson = InternPerson.objects.get(user=request.user)
     organizations = Organization.objects.all()
     organization = Organization.objects.get(id=orgId)
-    organizationDetail = getDetailData(organization.detailInfoFromExtUrl) # Currently not able to connnect with the website
+    organizationDetail = None # getDetailData(organization.detailInfoFromExtUrl) # Currently not able to connnect with the website
     print(F"organizationDetail: {organizationDetail}")
     organizationDetailObj = {
         'unitName' : '暫沒資料提供',
