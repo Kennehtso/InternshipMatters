@@ -52,7 +52,7 @@ class CommentForm(ModelForm):
         #self.fields['internshipType'].label = "實習類型"
         self.fields['hashTags'].label = "可選標籤"
         self.fields['comments'].label = "心得分享"
-        #self.fields['score'].label = "評分"
+        #self.fields['score'].label = "喜愛度"
 
     class Meta:
         # Specify 2 fields for basic model

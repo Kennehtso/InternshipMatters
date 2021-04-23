@@ -313,7 +313,7 @@ input[type=submit] {
   transition: all 0.4s ease-out;
   -webkit-font-smoothing: antialiased;
   position: absolute;
-  content: "☆";
+  content: "♡";
   color: #444;
   top: 0;
   left: 0;
@@ -333,16 +333,16 @@ input[type=submit] {
 }
 .rating input:checked + label:after,
 .rating input:checked ~ label:after {
-  content: "★";
-  color: #138496;
-  text-shadow: 0 0 20px #17a2b8;
+  content: "♥";
+  color: #d6688d;
+  text-shadow: 0 0 20px #d6688d;
 }
 .rating input:checked + label.added-class:after,
 .rating input:checked ~ label.added-class:after {
   transition: all 0.4s ease-out;
   -webkit-font-smoothing: antialiased;
   position: absolute;
-  content: "☆";
+  content: "♡";
   color: #444;
   text-shadow: none;
   top: 0;
@@ -354,7 +354,21 @@ input[type=submit] {
   -webkit-animation: 1s pulse ease;
           animation: 1s pulse ease;
 }
-
+.heartColorLevel_1{
+  color: #d6688d; text-shadow: 0 0 3px #d6688d;
+}
+.heartColorLevel_2{
+  color: #d85480; text-shadow: 0 0 7px #d85480;
+}
+.heartColorLevel_3{
+  color: #d64374; text-shadow: 0 0 11px #d64374;
+}
+.heartColorLevel_4{
+  color: #d62d65; text-shadow: 0 0 15px #d62d65;
+}
+.heartColorLevel_5{
+  color: #d10c4d; text-shadow: 0 0 20px #d10c4d;
+}
 .ratingResult label {
   font-size: 36px;
 }
@@ -409,7 +423,6 @@ input[type=submit] {
 
  div#columns figure div {
   width: 100%; height: auto;
-  border-bottom: 1px solid #ccc;
   padding-bottom: 15px;
   margin-bottom: 5px;
 }
@@ -421,7 +434,7 @@ div#columns figure div button {
 }
 
 div#columns figure div.rating {
-  border-bottom: none;
+  border-bottom: 1px solid #ccc;
   width: 100%; height: auto;
   padding-bottom: 15px;
   margin-bottom: 5px;
@@ -471,7 +484,7 @@ div#columns figure div.rating label::after{
 	background: -webkit-linear-gradient(top, #138496 0%,#138496 100%);
 	background: -o-linear-gradient(top, #138496 0%,#138496 100%);
 	background: linear-gradient(to bottom, #138496 0%,#138496 100%);
-	background-color: #138496;
+	background-color: #17a2b8;
 
 	color: white;
 	font: bold 11px/21px Arial, Tahoma, sans-serif;
@@ -786,3 +799,6 @@ div#columns figure div.rating label::after{
     right: 129px;
   }
 }
+/* TEST */
+
+

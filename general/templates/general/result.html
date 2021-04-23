@@ -75,12 +75,12 @@
       <div class="form-row" style="padding-top: 10px; padding-bottom: 50px;">
         <div class="form-group searchCustomBorder col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0">
           <div class="row">
-            <label for="score_input" class="col-sm-3 col-form-label">分數： <br />
-              <span id="scoreValue"></span> 分或以上
+            <label for="score_input" class="col-form-label" style="margin-left: 1.5em;">喜愛度
+              <i class="fas fa-heart" style='color: #d6688d;'></i> X <span id="scoreValue"></span> 或以上
+              
+              <a id="clearRate" class="btn btn-md btn-outline-danger" style="margin-left:10px;margin-top: 10px;"><i class="fa fa-refresh" aria-hidden="true"></i>
+              </a>
             </label>
-            <div class=" col-md-3 col-lg-3 col-xl-4 mb-3 mb-md-0">
-              <a id="clearRate" class="btn btn-md btn-outline-danger" style="margin-top: 10px;">重設評分</a>
-            </div>
             <div class="rating">
               <input type="radio" name="rating" id="r1">
               <label for="r1"></label>
@@ -107,16 +107,15 @@
         <!--Search Button -->
         <div class="form-group searchCustomBorder col-md-5 col-lg-5 col-xl-6 mb-2 mb-md-0">
           <div class="row">
-            <label for="commentsCount_input" class="col-sm-3 col-form-label">評論人數： <br />
-              <span id="commentsCountValue"></span> 人或以上
+            
+            <label for="commentsCount_input" class="col-form-label" style="margin-left: 1.5em; display: flex;">討論
+              &nbsp;<i class="fas fa-comments" style='color: #17a2b8;'></i>&nbsp;X <span id="commentsCountValue"></span> 或以上
             </label>
-            <div class="col-sm-9">
-              <input id="commentsCount_input" name="commentsCount_input" type="range" value="0" class="form-range"
-                min="0" max="99">
-            </div>
+            <input id="commentsCount_input" name="commentsCount_input" type="range" value="0" class="form-range" style="margin-left: 3em; "
+              min="0" max="99">
           </div>
           <div class="row">
-            <label for="isApprove_label" class="col-sm-3 col-form-label">審核類型：
+            <label for="isApprove_label" class="col-form-label" style="margin-left: 1.5em; display: flex;">審核類型：
             </label>
             <div id="isApprove_radio" class="btn-group col-sm-9" data-toggle="buttons">
               <label style="width: 5em;border-radius: 0.75em 0em 0em 0.75em;" class="btn btn-outline-info" for="info-outlined"> <input style="display: none;" type="radio"
@@ -154,23 +153,25 @@
     <p>{{ item.unitType }}</p>
     <p>津貼：{{ item.subsidy }}</p>
     <p>審核類型：
+
       {% if item.isApprove %}
       <label class="btn btn-outline-success"> 已審核 </label>
       {% else %}
       <label class="btn btn-outline-danger"> 未審核 </label>
       {% endif %}
     </p>
-    <div class="ratingResult">
+    <input style="display: none;" id="score_{{item.id}}" value="{{item.score}}">
+    <figcaption>評論人數：{{ item.commentsCount }}
+    <div class="ratingResult" title="{{item.score}}">
       {% for i in '12345'|make_list %}
       {% if item.score >= forloop.counter %}
-      <label style='color: #138496; text-shadow: 0 0 20px #17a2b8;'>★</label>
+      <label class='heartColorLevel_{{i}}'>♥</label>
       {% else %}
-      <label style='color: #444;text-shadow: 0 0 20px #444;'>☆</label>
+      <label style='color: #444;text-shadow: 0 0 20px #444;'>♡</label>
       {% endif %}
       {% endfor %}
     </div>
-    <input style="display: none;" id="score_{{item.id}}" value="{{item.score}}">
-    <figcaption>評論人數：{{ item.commentsCount }}</figcaption>
+    </figcaption>
     <div>
       {% for hashTag in item.hashTags.all %}
       <button class="btn btn-xs btn-info">{{hashTag.name}}</button>

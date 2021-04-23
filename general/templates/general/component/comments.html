@@ -1,12 +1,12 @@
 {% load static %}
 {% include './deleteModal.html'%}
 
-<div id="commentsSection" class="table-responsive" style="margin-left:1%; position: relative; border-radius: 0em 1em 0em 0em;max-height: 500px;overflow: auto;">
+<div id="commentsSection" class="table-responsive" style="display: inline-block; margin-left:1%; position: relative; border-radius: 0em 1em 0em 0em;max-height: 500px;overflow: auto;">
     <table class="table comments">
         <thead>
             <tr class="comments-thead" style="background-color: #343a40; color:white">
                 <th>伙伴稱呼</th>
-                <th>評分</th>
+                <th>喜愛度</th>
                 <th colspan="3">心得分享<span style="float: right;"><span style="color:#17a2b8; text-decoration: underline;">{{comments_count}}</span> 則心得</span></th>
             </tr>
         </thead>
@@ -19,12 +19,12 @@
                     {% endif %}
                     {{ item.intern.name }}
                 </td>
-                <td style="max-width: 50px;">{{ item.score }}</td>
+                <td style="max-width: 50px;"><i class="fas fa-heart" style='color: #d6688d; text-shadow: 0 0 20px #d6688d;'></i> X {{ item.score }}</td>
                 <td style="max-width: 400px;" id="comment-{{item.id}}">
                     <div>
                         <div id="outer_{{item.id}}" class="outer_comments" style="display:flex;flex-direction: row;">
                             <a style="max-height: 40px; margin:10px;" class="comment-more btn btn-outline-info" id="{{item.id}}">
-                                <i class="fas fa-info-circle recent-link">
+                                <i class="fas fa-info-circle recent-link" title="更多資訊">
                                     <!--span id="hovercard_{{item.id}}" class="hovercard">
                                         <div class="tooltiptext">
                                             
