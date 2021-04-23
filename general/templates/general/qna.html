@@ -1,0 +1,147 @@
+{% extends 'general/main.html'%}
+{% load static %}
+
+{% block otherCSS %}
+{% endblock otherCSS %}
+
+{% block content %}
+<section style="background: url({% static 'img/bgStarNight.png'%}) no-repeat center center; ">
+<div class="container">
+	<div class="d-flex justify-content-center h-100">
+		<div class="card" style="margin-top: 20px; width:100%">
+			<div class="text-center card-header">
+				<h3>實習指路人 Ｑ＆Ａ</h3>
+			</div>
+			<div class="card-body">
+				<section class="accordion-section clearfix mt-3" aria-label="Question Accordions">
+					<div class="container">
+						<!--qna 開始-->
+						<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+						  <div class="panel panel-default">
+							<div class="panel-heading p-3 mb-3" role="tab" id="heading0">
+							  <h3 class="panel-title">
+								<a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse0" aria-expanded="true" aria-controls="collapse0">
+									<i style="color: #17a2b8;" class="far fa-hand-point-right"></i>&nbsp;創立的動機跟目的？
+								</a>
+							  </h3>
+							</div>
+							<div id="collapse0" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
+							  <div class="panel-body px-3 mb-4">
+								<p>〝實習指路人是一個「互利共勉」的交流平台，
+									 因為我就是一個經歷者煎熬的其中一個社會上的無名氏，
+									 很多的遭遇與不公，更多的心靈上，身理上的折磨。
+									 我總是希望可以到一個空曠的山丘，或者大海，
+									 對著一望無際的空間無所保留的呼喊，
+									 我總是希望有一個人，可以真的明白的正在所經歷的狀況。
+									 我很希望有一個人，可以告訴我，現在怎麼辦？
+									 既然我無法遇到那個「他／她」，那我就成為那個人吧。
+									 於是便創立了〝實習指路人〞。
+								</p>
+								
+							  </div>
+							</div>
+						  </div>
+						  
+						  <div class="panel panel-default">
+							<div class="panel-heading p-3 mb-3" role="tab" id="heading1">
+							  <h3 class="panel-title">
+								<a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true" aria-controls="collapse1">
+								  實習指路人&nbsp;<i style="color: #17a2b8;" class="far fa-hand-point-right"></i>&nbsp;可以做什麼呢？
+								</a>
+							  </h3>
+							</div>
+							<div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1">
+							  <div class="panel-body px-3 mb-4">
+								<p>
+									主要是讓小伙伴可以在上面進行心得分享及評論。
+									也可以參考相類似的機構，伙伴們的分享，
+									讓辛苦的大家可以互相陪伴，依靠，支持。
+									另外，可以給予未來加入的學弟妹們一個參考，
+									也能為正在路途上迷茫的小伙伴們走出陰霾。
+								</p>
+							  </div>
+							</div>
+						  </div>
+						  
+						  <div class="panel panel-default">
+							<div class="panel-heading p-3 mb-3" role="tab" id="heading2">
+							  <h3 class="panel-title">
+								<a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="true" aria-controls="collapse2">
+									<i style="color: #17a2b8;" class="far fa-hand-point-right"></i>&nbsp;誰會想用實習指路人呢？
+								</a>
+							  </h3>
+							</div>
+							<div id="collapse2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading2">
+							  <div class="panel-body px-3 mb-4">
+								<p>我相信不管在大學或者碩班實習的期間都會遇到一些趣事或者一些難以忘懷一段故事。
+									不管是自己一些經驗累積、對學弟妹們的叮嚀，又或者是對機構的一種發聲，
+									你可能會需要一個角落，一間小酒屋，一個大家都明白你的地方去分享。
+									我相信你就會想在〝實習指路人〞跟大家一起共勉，一同努力。
+								</p>
+							  </div>
+							</div>
+						  </div>
+						  
+						  <div class="panel panel-default">
+							<div class="panel-heading p-3 mb-3" role="tab" id="heading3">
+							  <h3 class="panel-title">
+								<a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="true" aria-controls="collapse3">
+									我要如何&nbsp;<i style="color: #17a2b8;" class="far fa-hand-point-right"></i> 分享我的心得呢？
+								</a>
+							  </h3>
+							</div>
+							<div id="collapse3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading3">
+							  <div class="panel-body px-3 mb-4">
+								<p>
+									要分享你的心得，要先請伙伴在這個分享空間建一個帳戶，十分簡潔，註冊完就可以登入留言啦～
+									在登入以後，尋找到你想分享評論的機構，然後點擊「我想分享」。
+									輸入你的想法，給它一個個人的喜愛度，你想的話，還可以為機構貼上一些標籤，
+									讓其他伙伴們的參考提供更便利阿～
+									分享心得後如果發現心得輸入有誤或「喜愛度」按錯了也沒關係，
+									只要是你分享的心得，都可以進行更改～
+								</p>
+							  </div>
+							</div>
+						  </div>
+
+						  <div class="panel panel-default">
+							<div class="panel-heading p-3 mb-3" role="tab" id="heading4">
+							  <h3 class="panel-title">
+								<a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse4" aria-expanded="true" aria-controls="collapse4">
+									找不到想討論的機構&nbsp;<i style="color: #17a2b8;" class="far fa-hand-point-right"></i>&nbsp;怎麼辦？
+								</a>
+							  </h3>
+							</div>
+							<div id="collapse4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading4">
+							  <div class="panel-body px-3 mb-4">
+								<p>目前的機構都是取自 <span style="text-decoration: underline;color: #17a2b8;">台灣輔導與諮商學會</span>
+									已驗證的機構，如果伙伴在查詢頁面找不到，可以在最底處有一個「提議機構」
+								的區域，只有提供‘機構名稱’及其地址，我們將會陸續確認，經確認後便會再加入至系統裡，之後便可以在上面進行分享了～
+								</p>
+							  </div>
+							</div>
+						  </div>
+						  
+						<!--qna 結束-->
+						</div>
+					
+					</div>
+				  </section>
+			</div>
+			
+
+			<div class="card-footer">
+				<div class="d-flex justify-content-center links">
+					已經加入嗎？<a href="{% url 'login'%}" >點我登入</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section>
+{% endblock %}
+{% block contentJs%}
+<script>
+    $("#registerForm input").addClass("form-control");
+</script>
+{% endblock%}

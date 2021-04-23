@@ -800,5 +800,37 @@ div#columns figure div.rating label::after{
   }
 }
 /* TEST */
-
+.accordion-section .panel-default {
+  background-color: #343a40;
+  border-radius: 0.75em;
+}
+.accordion-section .panel-default > .panel-heading {
+  border: 0;
+  padding: 0;
+}
+.accordion-section .panel-default .panel-title a {
+  display: block;
+  font-size: 1.5rem;
+}
+.accordion-section .panel-default .panel-title a:hover{
+  color: #17a2b8;
+  text-shadow: 0 0 5px
+}
+.accordion-section .panel-default .panel-title a:after {
+  font-family: 'FontAwesome';
+  font-style: normal;
+  font-size: 3rem;
+  content: "\f106";
+  color: #17a2b8;
+  float: right;
+  margin-top: -12px;
+}
+.accordion-section .panel-default .panel-title a.collapsed:after {
+  content: "\f107";
+}
+.accordion-section .panel-default .panel-body {
+  font-size: 1.2rem;
+  color: white;
+  padding-bottom: 10px;
+}
 

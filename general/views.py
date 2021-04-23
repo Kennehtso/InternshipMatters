@@ -198,6 +198,12 @@ def result(request):
     'commentsCount_input':commentsCount_input,'isApprove_input':isApprove_input,
     }
     return render(request, 'general/result.html', context)
+def qna(request):
+    internPerson = {}
+    if request.user.is_authenticated:
+        internPerson = InternPerson.objects.get(user=request.user)
+    context = {'internPerson':internPerson,}
+    return render(request, 'general/qna.html', context)
 
 def getElementsByUrl(url):
     try:
