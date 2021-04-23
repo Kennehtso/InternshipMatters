@@ -596,10 +596,10 @@ div#columns figure div.rating label::after{
     position:relative;
     background-color: #343a40;
     display: table-cell;
-    border: 10px solid;
+    /*border: 10px solid;
     border-image-slice: 1;
     border-width: 5px; 
-    border-image-source: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+    border-image-source: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);*/
 }
 .comments-thead th {
   background-color: #343a40; 

@@ -118,7 +118,7 @@
           <div class="row">
             <label for="isApprove_label" class="col-sm-3 col-form-label">審核類型：
             </label>
-            <div id="isApprove_radio" class="btn-group" data-toggle="buttons">
+            <div id="isApprove_radio" class="btn-group col-sm-9" data-toggle="buttons">
               <label style="width: 5em;border-radius: 0.75em 0em 0em 0.75em;" class="btn btn-outline-info" for="info-outlined"> <input style="display: none;" type="radio"
                   class="btn-check isApprove_all" name="options-outlined" id="info-outlined" autocomplete="off">
                 全部 </label>
@@ -144,27 +144,6 @@
   </nav>
 </div>
 
-<!-- Send Org apply -->
-<div class="row" style="padding-top: 10px; padding-bottom: 20px;">
-  <div class="col-md-10 col-lg-8 col-xl-6 mx-auto" style="padding:10px; box-shadow: 3px 3px 5px gray;">
-    <form id="searchForm" method="post" action="/sendmailApply/">{% csrf_token %}
-      <div class="form-row">
-        <div class="btn-group col-md-5 col-lg-5 col-xl-5 mb-5 mb-md-0">
-          <input name="organization_new" id="organization_new" type="input" class="form-control form-control-lg"
-            placeholder="機構名稱">
-        </div>
-        <div class="btn-group col-md-5 col-lg-5 col-xl-5 mb-5 mb-md-0">
-          <input name="address_new" id="address_new" type="input" class="form-control form-control-lg"
-            placeholder="機構地址">
-        </div>
-        <!--Send mail Button -->
-        <div class="btn-group col-md-2 col-lg-2 col-xl-2 mb-2 mb-md-0">
-          <button type="submit" class="btn btn-lg btn-info">發送提議</button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
 
 <!--  RESULT LIST-->
 <div id="columns" class="infinite-container">
@@ -199,8 +178,31 @@
     </div>
   </figure>
   {% endfor%}
-  
 </div>
+
+<!-- Send Org apply -->
+<div class="container" style="padding-bottom: 2em;">
+  <nav style="border-radius: 0.75em; box-shadow: 3px 3px 5px gray;" class="navbar navbar-expand-lg navbar-dark bg-dark col-xl-12">
+      <a style="margin: auto; padding-top: 0px; padding-bottom: 0px;word-break: break-word;white-space: break-spaces;" class="navbar-brand col-xl-2 mb-2">找不到機構嗎？提議一個吧。</a>
+      <div class="col-xl-10 mx-auto">
+        <form id="searchForm" method="post" action="/sendmailApply/">{% csrf_token %}
+              <div class="form-row">
+                <div class="btn-group col-xl-5 mb-2 mx-auto">
+                  <input name="organization_new" id="organization_new" type="input" class="form-control form-control-lg" placeholder="機構名稱">
+                </div>
+                <div class="btn-group col-xl-5 mb-2">
+                  <input name="address_new" id="address_new" type="input" class="form-control form-control-lg" placeholder="機構地址">
+                </div>
+                <!--Send mail Button -->
+                <div class="btn-group col-xl-2 mb-2 mx-auto">
+                  <button type="submit" class="btn btn-lg btn-info">發送提議</button>
+                </div>
+              </div>
+          </form>
+      </div>
+  </nav>
+</div>
+
 <!-- infinite  paging -->
 {% if page_obj.has_next %}
 <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">更多</a>

@@ -13,21 +13,13 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
     {% endfor %}
-<div class="row" style="padding-top: 2em; padding-bottom: 20px;" >
-    <div class="col-md-10 col-lg-10 col-xl-10 mx-auto" style="left: 8%;">
-    <form id="searchForm" method="post" action="/result/">{% csrf_token %}
-        <div class="form-row" >
-            <div class="btn-group col-md-8 col-lg-8 col-xl-8 mb-8 mb-md-0">
-                <input name="bannerSearch" id="bannerSearch" type="search" class="form-control form-control-lg" placeholder="機構名稱 / 類型">
-            </div>
-            <!--Search Button -->
-            <div class="btn-group col-md-2 col-lg-2 col-xl-2 mb-2 mb-md-0">
-                <button type="submit" class="btn btn-lg btn-info">搜尋</button>
-            </div>
+    
+
+    <div class="row" style="padding-top: 2em; padding-bottom: 20px;" >
+        <div class="col-md-10 col-lg-10 col-xl-10 mx-auto" style="left: 8%;">
+           
         </div>
-    </form>
-</div>
-</div>
+    </div>
 <section id="scoreAndCommentSection"
     data-style="btn-outline-info"
     style="width: 70%; padding-top:1em; padding-bottom: 0.5em; display: table;margin-left: 16%;">
@@ -44,6 +36,26 @@
     <!-- Organization Detail -->
     {% include './component/descriptionBox.html'%}
 </section>
+<div class="container" style="padding-bottom: 2em;">
+    <nav style="border-radius: 0.75em; box-shadow: 3px 3px 5px gray;" class="navbar navbar-expand-lg navbar-dark bg-dark col-xl-12">
+        <a style="margin: auto; padding-top: 0px; padding-bottom: 0px;word-break: break-word;white-space: break-spaces;" class="navbar-brand col-xl-4 mb-2 mx-auto">找不到機構嗎？提議一個吧。</a>
+        <div class="col-xl-8 mx-auto">
+            <form id="searchForm" method="post" action="/result/">{% csrf_token %}
+                <div class="form-row">
+                  <div class="btn-group col-xl-8 mb-2">
+                       <input name="bannerSearch" id="bannerSearch" type="search" class="form-control form-control-lg" placeholder="機構名稱 / 類型">
+                      </div>
+                  <!--Send mail Button -->
+                  <div class="btn-group col-xl-2 mb-2 mx-auto">
+                    <button type="submit" class="btn btn-lg btn-info">搜尋</button>
+                  </div>
+                </div>
+            </form>
+        </div>
+    </nav>
+  </div>
+
+  
 {% endblock content %} 
 
 
