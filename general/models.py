@@ -20,15 +20,10 @@ class HashTags(models.Model):
     name = models.CharField(max_length=200, null=False)
     def __str__(self):
         return self.name
-
-VOTETYPE = (
-    ('agree','agree'),
-    ('neutral','neutral'),
-    ('disagree','disagree'),
-)
+        
 class Votes(models.Model):
     intern = models.ForeignKey(InternPerson, null=True, on_delete=models.SET_NULL)
-    voteType = models.CharField(null=True, max_length=200, choices=VOTETYPE)
+    voteType = models.CharField(null=True, max_length=200)
     createDate = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return f"{self.intern.name}-{self.voteType}" 

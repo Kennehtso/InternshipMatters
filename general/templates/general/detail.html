@@ -69,17 +69,28 @@
             {% endfor %}
         ];
         autocomplete(document.getElementById("bannerSearch"), countries);
+        $(".votes_input").each(function( index ) {
+            let val = $(this).val();
+            let cmtId = $(this).attr("id").split('_')[2];
+            $('#votes_radio_'+ cmtId).attr('old', val);
+            if (val == 'neutral')
+                $('#votes_neutral_label_'+ cmtId).addClass('active');
+            else if (val == 'agree')
+                $('#votes_agree_label_'+ cmtId).addClass('active');
+            else if (val == 'disagree')
+                $('#votes_disagree_label_'+ cmtId).addClass('active');
+        });
     });
 
     $(document).on('click', '.comment-delete', function () {
-        var cmtId = $(this).attr("id");
+        let cmtId = $(this).attr("id");
         $("#confirmDeleteModal").attr("comment-id", cmtId);
         $(".modal-comment").text($(".comment-comments-"+cmtId +" p").html());
     });
 
     $(document).on('click', '#confirmDeleteButtonModal', function () {
       $('#commentsSection').parent().append('<div class="loader text-center" style="color:red;"></div>').append('<div class="loader-text text-center" style="color:red;">稍等片刻...</div>')
-        var cmtId = $("#confirmDeleteButtonModal").closest(".modal").attr("comment-id");
+      let cmtId = $("#confirmDeleteButtonModal").closest(".modal").attr("comment-id");
         //alert(cmtId);
         $.ajax({
             type: "POST",
@@ -100,13 +111,20 @@
         });
     });
 
-    $(".votes_radio input:radio").change(function () {
+    $(".votes_radio input:radio").change(function (e) {
       $('#commentsSection').parent().append('<div class="loader text-center" style="color:#17a2b8;"></div>').append('<div class="loader-text text-center" style="color:#17a2b8;">稍等片刻...</div>')
         var cmtId = $(this).attr("id").split('_')[2];
+        var oldValue = $('#votes_radio_'+ cmtId).attr("old");
         var voteValue = $(this).attr('class').split(" ")[1].split('_')[1]; //agree, neutral, disagree
-        $('#votes_input').val(voteValue);
-        console.log('cmtId: '+ cmtId)
-        console.log('#votes_input: '+ $('#votes_input').val())
+        if (oldValue != voteValue){
+            $('#votes_'+oldValue+'_totalCount_'+ cmtId).html((parseInt($('#votes_'+oldValue+'_totalCount_'+ cmtId).html(), 10)-1).toString())
+            $('#votes_'+voteValue+'_totalCount_'+ cmtId).html((parseInt($('#votes_'+voteValue+'_totalCount_'+ cmtId).html(), 10)+1).toString())
+            $('#votes_radio_'+ cmtId).attr('old', voteValue);
+        }
+        $('#votes_input_'+cmtId).val(voteValue);
+        //console.log('cmtId: '+ cmtId)
+        //console.log('#votes_input_'+cmtId+': '+ $('#votes_input_'+cmtId).val())
+        $('.loader, .loader-text').remove();
         $.ajax({
             type: "POST",
             url: "{% url 'updateCommentVote' %}",
@@ -115,13 +133,15 @@
                 xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
             },
         success: function(response){
+            $('#votes_agree_totalCount_'+ cmtId).html(response.agreeCount);
+            $('#votes_neutral_totalCount_'+ cmtId).html(response.neutralCount);
+            $('#votes_disagree_totalCount_'+ cmtId).html(response.disagreeCount);
             //alert(response.success);
             //************TODO - UPDATE COUNT, COUNT GET FROM JSON REPSONSE*************
             //window.location.href = '/detail/{{organization.id}}'
             },
         complete : function(response){
             //alert(response.success);
-            $('.loader, .loader-text').remove();
             }
         });
     });

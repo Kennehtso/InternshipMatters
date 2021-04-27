@@ -250,7 +250,7 @@ def detail(request, orgId):
     organizations = Organization.objects.all()
     organization = Organization.objects.get(id=orgId)
     organizationDetail =  getDetailData(organization.detailInfoFromExtUrl) # Currently not able to connnect with the website
-    print(F"organizationDetail: {organizationDetail}")
+    #print(F"organizationDetail: {organizationDetail}")
     organizationDetailObj = {
         'unitName' : '暫沒資料提供',
         'address' :'暫沒資料提供',
@@ -291,8 +291,27 @@ def detail(request, orgId):
             'groupSupervise' : organizationDetail['團體督導或研習'],
         }
     comments = organization.comment_set.all()
+    comments_ids = comments.values_list('id', flat=True)
     comments_count = comments.count()
-    context = {'organizations':organizations, 'organization':organization,'internPerson':internPerson, 'comments':comments, 'comments_count':comments_count, 'organizationDetailObj':organizationDetailObj}
+    votesAll = Votes.objects.all()
+    for comment in comments:
+        vote = votesAll.filter(intern=internPerson, comment__id=comment.id)
+        if not vote:
+            tmpVote = Votes(intern=internPerson, voteType='neutral')
+            tmpVote.save()
+            comment.votes.add(tmpVote)
+
+    votesForCurrentUser = votesAll.filter(intern=internPerson, comment__id__in=comments_ids)
+    commentMapVotes = {}
+    for vote in votesForCurrentUser:
+        cmt_ByVote = vote.comment_set.first()
+        if cmt_ByVote.id not in commentMapVotes:
+            agreeCount = votesAll.filter(voteType='agree', comment__id=cmt_ByVote.id).count()
+            neutralCount = votesAll.filter(voteType='neutral', comment__id=cmt_ByVote.id).count()
+            disagreeCount = votesAll.filter(voteType='disagree', comment__id=cmt_ByVote.id).count()
+            commentMapVotes[cmt_ByVote.id] = [vote.voteType, agreeCount, neutralCount, disagreeCount]
+    context = {'organizations':organizations, 'organization':organization,'internPerson':internPerson, 'comments':comments, 'comments_count':comments_count, 'organizationDetailObj':organizationDetailObj,
+    'commentMapVotes':commentMapVotes,}
     return render(request,'general/detail.html',context)
 
 #@login_required(login_url='login')
@@ -382,35 +401,27 @@ def deleteComment(request):
 def updateCommentVote(request):
     if request.method =='POST':
         cmtId = request.POST["cmtId"]
-        print(F"cmtId: {cmtId}")
         internPerson = InternPerson.objects.get(user=request.user)
-        print(F"internPerson: {internPerson}")
         voteValue = request.POST["voteValue"]
-        print(F"voteValue: {voteValue}")
-        voteTypeSelect = VOTETYPE[1]
-        if voteValue == 'agree':
-            voteTypeSelect = VOTETYPE[0]
-        elif voteValue == 'disagree':
-            voteTypeSelect = VOTETYPE[2]
-        print(F"voteTypeSelect: {voteTypeSelect}")
             
         comment = Comment.objects.get(id=cmtId)
         vote = Votes.objects.filter(intern=internPerson, comment__id=cmtId).first()
-        print(F"votes (By intern = vote intern, comment__id = cmtid): {vote}")
         if not vote:
-            print('vote not exist')
-            tmpVote = Votes(intern=internPerson, voteType=voteTypeSelect)
+            tmpVote = Votes(intern=internPerson, voteType=voteValue)
             tmpVote.save()
             comment.votes.add(tmpVote)
             data = {'success': f" Create new Vote '{ tmpVote }' comment !!" }
         else:
-            vote.voteType = voteTypeSelect
+            vote.voteType = voteValue
             vote.save()
             data = {'success': f" Update Vote '{ vote }' comment !!" }
-                
+            
+        votesAll = Votes.objects.all()
+        agreeCount = votesAll.filter(voteType='agree', comment__id=cmtId).count()
+        neutralCount = votesAll.filter(voteType='neutral', comment__id=cmtId).count()
+        disagreeCount = votesAll.filter(voteType='disagree', comment__id=cmtId).count()
+        data['agreeCount'], data['neutralCount'], data['disagreeCount'] = agreeCount, neutralCount, disagreeCount
         return JsonResponse(data)
-
-
 
 def updateRelatedFieldForOrganization(orgId, hashTags=None):
     print(F"hashTags: {hashTags}")
