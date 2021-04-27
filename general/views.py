@@ -395,8 +395,11 @@ def sendmailApplyNewOrganization(request):
         orgName = request.POST["organization_new"]
         orgAddress = request.POST["address_new"]
         if orgName =='' or orgAddress == '':
-            messages.warning(request, f"提議加入的機構名稱及地均不能是空的哦")
-            return redirect('result')
+            #messages.warning(request, f"提議加入的機構名稱及地均不能是空的哦")
+            
+            data = {'fail': f" 提議加入的機構名稱及地均不能是空的哦 !!" }
+            return JsonResponse(data)
+            #return redirect('result')
 
         subject, from_email, toList = F'InternshipMatters-提議新增-{orgName}',settings.EMAIL_HOST_USER , [request.user.email, settings.EMAIL_HOST_USER]
         text_content = '感謝你的提議.'
@@ -406,12 +409,15 @@ def sendmailApplyNewOrganization(request):
             msg = EmailMultiAlternatives(subject, text_content, from_email, to=toList)
             msg.attach_alternative(html_content, "text/html")
             msg.send()
-            messages.success(request, f"機構 '{orgName}' 新增的提議已經發送嚕，經過確認後會再更新至系統，謝謝你的提議～")
+            #messages.success(request, f"機構 '{orgName}' 新增的提議已經發送嚕，經過確認後會再更新至系統，謝謝你的提議～")
+            data = {'success': f"機構 '{orgName}' 新增的提議已經發送嚕，經過確認後會再更新至系統，謝謝你的提議～" }
         except Exception as e:
             print(f'[Exception Send mail] - ({type(e)}): {e.message}')
-            messages.error(request, f"系統異常，機構 '{orgName}'新增的提議未能發送至信箱，請稍後再試。如屢次發送失敗或可以透過Email與我們聯繫。")
+            #messages.error(request, f"系統異常，機構 '{orgName}'新增的提議未能發送至信箱，請稍後再試。如屢次發送失敗或可以透過Email與我們聯繫。")
+            data = {'fail': f"系統異常，機構 '{orgName}'新增的提議未能發送至信箱，請稍後再試。如屢次發送失敗或可以透過Email與我們聯繫。" }
         
-        return redirect('result')
+        return JsonResponse(data)
+        #return redirect('result')
 # Maintainance Purpose
 
 #import random

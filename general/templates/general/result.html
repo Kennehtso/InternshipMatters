@@ -1,14 +1,19 @@
 {% extends 'general/main.html'%}
-{% block content %}
 
 {% block otherCSS %}
 {% endblock otherCSS %}
+
+{% block content %}
+{% include './component/orgSupplyModal.html'%}
+
 <!--Success / Error Messages -->
 {% for msg in messages %}
     {% if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
         <div id='{{msg}}' class="text-center alert alert-success alert-dismissible fade show">
     {% elif msg.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
         <div id='{{msg}}' class="text-center alert alert-danger alert-dismissible fade show">
+    {% elif msg.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+        <div id='{{msg}}' class="text-center alert alert-warning alert-dismissible fade show">
     {% endif %}
         <strong>{{msg}}</strong>
         <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -186,7 +191,6 @@
   <nav style="border-radius: 0.75em; box-shadow: 3px 3px 5px gray;" class="navbar navbar-expand-lg navbar-dark bg-dark col-xl-12">
       <a style="margin: auto; padding-top: 0px; padding-bottom: 0px;word-break: break-word;white-space: break-spaces;" class="navbar-brand col-xl-2 mb-2">找不到機構嗎？提議一個吧。</a>
       <div class="col-xl-10 mx-auto">
-        <form id="searchForm" method="post" action="/sendmailApply/">{% csrf_token %}
               <div class="form-row">
                 <div class="btn-group col-xl-5 mb-2 mx-auto">
                   <input name="organization_new" id="organization_new" type="input" class="form-control form-control-lg" placeholder="機構名稱">
@@ -196,10 +200,12 @@
                 </div>
                 <!--Send mail Button -->
                 <div class="btn-group col-xl-2 mb-2 mx-auto">
-                  <button type="submit" class="btn btn-lg btn-info">發送提議</button>
+                  <a class="organization-apply btn btn-lg btn-info" title="發送提議" data-toggle="modal" data-target="#orgSupplyModal" id="{{item.id}}">
+                    發送提議
+                  </a>
+                  <!--button type="input" class="btn btn-lg btn-info" data-toggle="modal" data-target="#orgSupplyModal">發送提議</button-->
                 </div>
               </div>
-          </form>
       </div>
   </nav>
 </div>
@@ -221,6 +227,56 @@
   crossorigin="anonymous"></script>
 
 <script>
+  
+  $(document).on('click', '.organization-apply', function () {
+        var organization_new = $("#organization_new").val();
+        var address_new = $("#address_new").val();
+        $(".modal-organization_new").text(organization_new);
+        $(".modal-address_new").text(address_new);
+    });
+
+    $(document).on('click', '#confirmOrgSupply', function () {
+      $('#columns').parent().append('<div class="loader text-center"></div>').append('<div class="loader-text text-center">提議發送中</div>');
+        var organization_new = $("#organization_new").val().replace(/^\s+|\s+$/g, '');
+        var address_new = $("#address_new").val().replace(/^\s+|\s+$/g, '');
+        $(".alert-dismissible").remove();
+        //alert(cmtId);
+        $.ajax({
+            type: "POST",
+            url: "{% url 'sendmailApply' %}",
+            data: { 'organization_new': organization_new, 'address_new':address_new},
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+            },
+        success: function(response){
+            //alert(response.success);
+            var alertType = "";
+            var message = "";
+            if (response.success != undefined){
+              alertType = "success";
+              message = response.success;
+            }
+            else if (response.fail != undefined){
+              alertType = "danger";
+              message = response.fail;
+            }
+            else if (response.warning != undefined){
+              alertType = "warning";
+              message = response.warning;
+            }
+            var msgHtml = "<div id="+message+" class='text-center alert alert-"+alertType+" alert-dismissible fade show'><strong>"+message+"</strong>";
+            msgHtml += "<button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+            $(".wrapper").prepend(msgHtml);
+            $("#organization_new").val("");
+            $("#address_new").val("");
+            },
+        complete : function(response){
+            //alert(response.success);
+            $('.loader, .loader-text').remove();
+            }
+        });
+    });
+
   $('#r6').hide();
   $('#r6').next().hide();
   bannerSearch='{{bannerSearch}}';
@@ -310,5 +366,6 @@
     var optionValue = $(this).attr('class').split(" ")[1].split('_')[1];
     $('#isApprove_input').val(optionValue);
   });
+
 </script>
 {% endblock contentJs%}
