@@ -318,6 +318,12 @@
       $('#columns').parent().append('<div class="loader text-center"></div>').append('<div class="loader-text text-center">稍等片刻</div>');
     },
     onAfterPageLoad: function ($items) {
+      let resultsRow = document.getElementsByClassName('resultFigures');
+      for (let i = 0; i < resultsRow.length; i++) {
+        resultsRow[i].addEventListener("click", () => {
+          window.location.href = '/detail/' + resultsRow[i].id;
+        });
+      }
       $('.loader, .loader-text').remove();
       $('#currentPage').html(parseInt($('#currentPage').html(),10) + 1);
     }
