@@ -99,6 +99,32 @@
             }
         });
     });
+
+    $(".votes_radio input:radio").change(function () {
+      $('#commentsSection').parent().append('<div class="loader text-center" style="color:#17a2b8;"></div>').append('<div class="loader-text text-center" style="color:#17a2b8;">稍等片刻...</div>')
+        var cmtId = $(this).attr("id").split('_')[2];
+        var voteValue = $(this).attr('class').split(" ")[1].split('_')[1]; //agree, neutral, disagree
+        $('#votes_input').val(voteValue);
+        console.log('cmtId: '+ cmtId)
+        console.log('#votes_input: '+ $('#votes_input').val())
+        $.ajax({
+            type: "POST",
+            url: "{% url 'updateCommentVote' %}",
+            data: { 'cmtId': cmtId, 'voteValue': voteValue},
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+            },
+        success: function(response){
+            //alert(response.success);
+            //************TODO - UPDATE COUNT, COUNT GET FROM JSON REPSONSE*************
+            //window.location.href = '/detail/{{organization.id}}'
+            },
+        complete : function(response){
+            //alert(response.success);
+            $('.loader, .loader-text').remove();
+            }
+        });
+    });
    </script>
 
 {% endblock contentJs%}

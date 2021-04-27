@@ -21,6 +21,18 @@ class HashTags(models.Model):
     def __str__(self):
         return self.name
 
+VOTETYPE = (
+    ('agree','agree'),
+    ('neutral','neutral'),
+    ('disagree','disagree'),
+)
+class Votes(models.Model):
+    intern = models.ForeignKey(InternPerson, null=True, on_delete=models.SET_NULL)
+    voteType = models.CharField(null=True, max_length=200, choices=VOTETYPE)
+    createDate = models.DateTimeField(auto_now_add=True, null=True)
+    def __str__(self):
+        return f"{self.intern.name}-{self.voteType}" 
+
 ORGANIZATIONTYPE = (
     ('大專校院諮商(輔導)中心(處、室、組)','大專校院諮商(輔導)中心(處、室、組)'),
     ('心理諮商所','心理諮商所'),
@@ -79,6 +91,7 @@ class Comment(models.Model):
     createDate = models.DateTimeField(auto_now_add=True, null=True)
     updatedDate = models.DateTimeField(null=True,blank=True)
     score = models.IntegerField(default=0, null=True, validators=[MaxValueValidator(5), MinValueValidator(0)])
+    votes = models.ManyToManyField(Votes, blank=True)
     
     def __str__(self):
         return f"{self.organization}({self.intern})({self.comments})"

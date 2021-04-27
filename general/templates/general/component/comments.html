@@ -5,21 +5,24 @@
     <table class="table comments">
         <thead>
             <tr class="comments-thead" style="background-color: #343a40; color:white">
-                <th>伙伴稱呼</th>
-                <th>喜愛度</th>
-                <th colspan="3">心得分享<span style="float: right;"><span style="color:#17a2b8; text-decoration: underline;">{{comments_count}}</span> 則心得</span></th>
+                <th style="width:6em;">伙伴稱呼</th>
+                <th style="width:6em;">喜愛度</th>
+                <th>心得分享</th>
+                <th></th>
+                <th></th>
+                <th><span style="float: right;"><span style="color:#17a2b8; text-decoration: underline;">{{comments_count}}</span> 則心得</span></th>
             </tr>
         </thead>
         <tbody>
             {% for item in comments %}
             <tr id="comment-row-{{item.id}}">
-                <td style="max-width: 50px;">
+                <td style="width:30px; max-width: 50px;">
                     {% if item.intern.profilePic %}
                     <img style="width:30px; height: 30px; border-radius: 50%;" src='{{ item.intern.profilePic.url }}'/>
                     {% endif %}
                     {{ item.intern.name }}
                 </td>
-                <td style="max-width: 50px;"><i class="fas fa-heart" style='color: #d6688d; text-shadow: 0 0 20px #d6688d;'></i> X {{ item.score }}</td>
+                <td style="width:30px; max-width: 50px;"><i class="fas fa-heart" style='color: #d6688d; text-shadow: 0 0 20px #d6688d;'></i> X {{ item.score }}</td>
                 <td style="max-width: 400px;" id="comment-{{item.id}}">
                     <div>
                         <div id="outer_{{item.id}}" class="outer_comments" style="display:flex;flex-direction: row;">
@@ -43,8 +46,8 @@
                                     {% endfor%}
                                 </div>
                                 <p  class="small mb-4 mb-lg-0" style="color: darkgray;">
-                                    建立日期: {{ item.createDate | date:"Y-m-d H:i" }} &nbsp;&nbsp;
-                                    上次更新日期: 
+                                    建立日期: {{ item.createDate | date:"Y-m-d H:i" }} <br/>
+                                    更新日期: 
                                     {% if item.updatedDate %}
                                         {{ item.updatedDate | date:"Y-m-d H:i" }} 
                                     {% else %}
@@ -55,14 +58,14 @@
                         </div>
                     </div>
                 </td>
-                <td >
+                <td style="width:10px">
                     {% if not request.user.is_anonymous and request.user == item.intern.user %}
                     <a class="comment-edit btn btn-outline-secondary" title="修改分享" href="{% url 'updateComment' item.id %}">
                         <i class="far fa-edit"></i>
                     </a>
                     {% endif %}
                 </td>
-                <td >
+                <td style="width:10px">
                     {% if not request.user.is_anonymous and request.user == item.intern.user %}
                     <a class="comment-delete btn btn-outline-danger" title="刪除分享" data-toggle="modal" data-target="#confirmDeleteModal" id="{{item.id}}">
                         <i class="far fa-trash-alt"></i>
@@ -70,7 +73,26 @@
                     <!--a class="btn btn-danger" onclick="deleteComment('{{item.id}}')">刪除</a-->
                     {% endif %}
                 </td>
-
+                <td style="width: 9em;">
+                    <div id="votes_radio_{{item.id}}" class="votes_radio btn-group" data-toggle="buttons" >
+                        <label style="width: 3em;border-radius: 0.75em 0em 0em 0.75em;" class="btn btn-outline-info" for="votes_agree_{{item.id}}" title="同意">
+                            <input style="display: none;" type="radio" 
+                            class="btn-check vote_agree" name="votes_agree_{{item.id}}" id="votes_agree_{{item.id}}" autocomplete="off">
+                            <i class="far fa-smile"></i>
+                        </label>
+                        <label style="width: 3em;" class="btn btn-outline-secondary" for="votes_neutral_{{item.id}}">
+                            <input style="display: none;" type="radio"
+                            class="btn-check vote_neutral" name="votes_neutral_{{item.id}}" id="votes_neutral_{{item.id}}" autocomplete="off">
+                            <i class="far fa-meh-blank"></i>
+                        </label>
+                        <label style="width: 3em;border-radius: 0em 0.75em 0.75em 0em;" class="btn btn-outline-danger" for="votes_disagree_{{item.id}}" title="不同意">
+                            <input style="display: none;" type="radio" 
+                            class="btn-check vote_disagree" name="votes_disagree_{{item.id}}" id="votes_disagree_{{item.id}}" autocomplete="off">
+                            <i class="far fa-frown-open"></i>
+                        </label>
+                        <input style="display: none;" id="votes_input" name="votes_input" type="text">
+                    </div>
+                </td>
             </tr>
             {% endfor%}
         </tbody>

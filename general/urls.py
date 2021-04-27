@@ -16,6 +16,7 @@ urlpatterns = [
     path('createComment/<str:orgId>',views.createComment, name='createComment'),
     path('commentForm/<str:pk>',views.updateComment, name='updateComment'),
     path('deleteComment',views.deleteComment, name='deleteComment'),
+    path('updateCommentVote',views.updateCommentVote, name='updateCommentVote'),
 
     #Reset Password
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name='general/resetSent.html'), name='reset_password'),

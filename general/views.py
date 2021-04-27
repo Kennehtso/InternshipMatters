@@ -1,3 +1,4 @@
+from sys import intern
 from django.db.models.expressions import OrderBy
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
@@ -376,6 +377,40 @@ def deleteComment(request):
         updateRelatedFieldForOrganization(orgId)
         data = {'success': f" Success delete id ='{ cmtId }' comment !!" }
         return JsonResponse(data)
+        
+@login_required(login_url='login')
+def updateCommentVote(request):
+    if request.method =='POST':
+        cmtId = request.POST["cmtId"]
+        print(F"cmtId: {cmtId}")
+        internPerson = InternPerson.objects.get(user=request.user)
+        print(F"internPerson: {internPerson}")
+        voteValue = request.POST["voteValue"]
+        print(F"voteValue: {voteValue}")
+        voteTypeSelect = VOTETYPE[1]
+        if voteValue == 'agree':
+            voteTypeSelect = VOTETYPE[0]
+        elif voteValue == 'disagree':
+            voteTypeSelect = VOTETYPE[2]
+        print(F"voteTypeSelect: {voteTypeSelect}")
+            
+        comment = Comment.objects.get(id=cmtId)
+        vote = Votes.objects.filter(intern=internPerson, comment__id=cmtId).first()
+        print(F"votes (By intern = vote intern, comment__id = cmtid): {vote}")
+        if not vote:
+            print('vote not exist')
+            tmpVote = Votes(intern=internPerson, voteType=voteTypeSelect)
+            tmpVote.save()
+            comment.votes.add(tmpVote)
+            data = {'success': f" Create new Vote '{ tmpVote }' comment !!" }
+        else:
+            vote.voteType = voteTypeSelect
+            vote.save()
+            data = {'success': f" Update Vote '{ vote }' comment !!" }
+                
+        return JsonResponse(data)
+
+
 
 def updateRelatedFieldForOrganization(orgId, hashTags=None):
     print(F"hashTags: {hashTags}")

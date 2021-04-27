@@ -8,7 +8,7 @@ $(window).resize(function () {
       $('#scoreCircle').css({"padding-top": "10px"});
    } else {
       $('.ih-item').removeClass('effect4 left_to_right').addClass('effect10 bottom_to_top');
-      $('.comments-info').css({"display": "table-cell", "width": "30%"});
+      $('.comments-info').css({"display": "table-cell", "width": "25%"});
       $('#commentsSection').css({"padding-top": "0px","margin-left": "1%"});
    }
 }).resize();
