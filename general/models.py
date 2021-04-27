@@ -77,6 +77,7 @@ class Comment(models.Model):
     hashTags = models.ManyToManyField(HashTags, blank=True)
     comments = models.CharField(max_length=200, null=True,blank=True)
     createDate = models.DateTimeField(auto_now_add=True, null=True)
+    updatedDate = models.DateTimeField(null=True,blank=True)
     score = models.IntegerField(default=0, null=True, validators=[MaxValueValidator(5), MinValueValidator(0)])
     
     def __str__(self):

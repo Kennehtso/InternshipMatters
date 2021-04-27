@@ -11,6 +11,7 @@ from django.views.generic.list import ListView
 from django.core.paginator import Paginator
 
 #Other import
+from datetime import datetime
 from functools import reduce
 import operator
 from .models import *
@@ -298,7 +299,11 @@ def createComment(request, orgId):
     if not request.user.is_authenticated:
         messages.warning(request, f"要先登入後才能進行分享哦～")
         return redirect(f'../detail/{orgId}')
-
+    
+    firstComment = Comment.objects.filter(organization__id=orgId, intern__user=request.user).first()
+    if firstComment:
+        messages.warning(request, f"伙伴 '{request.user.username}' 你已經對這個這個機構進行評價嚕 ('{firstComment.comments[:10]+'...' if len(firstComment.comments) > 10 else firstComment.comments }')。")
+        return redirect(f'../detail/{orgId}')
     internPerson = InternPerson.objects.get(user=request.user)
     form = CommentForm(initial={'organization':orgId, 'intern':internPerson.id})
     if request.method =='POST':
@@ -307,6 +312,8 @@ def createComment(request, orgId):
         if form.is_valid():
             f = form.save()
             comment = Comment.objects.get(id=f.id)
+            comment.updatedDate = datetime.now()
+            comment.save()
             #Update hashtags
             hashTags_all = HashTags.objects.all()
             for text in request.POST.getlist('customHashTags'):
@@ -332,11 +339,14 @@ def updateComment(request, pk):
     if internPerson.id != comment.intern.id:
         messages.error(request, f"伙伴 '{request.user.username}' 沒有該評論的修改權限哦。")
         return redirect(f'../detail/{comment.organization.id}')
+    
     form  = CommentForm(instance=comment)
     if request.method =='POST':
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             form.save()
+            comment.updatedDate = datetime.now()
+            comment.save()
             #Update hashtags
             hashTags_all = HashTags.objects.all()
             for text in request.POST.getlist('customHashTags'):

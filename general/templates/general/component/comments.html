@@ -37,12 +37,20 @@
                             </div>
                             <div style="margin:10px;" id="comment-info_{{item.id}}" class="comment-info comment-comments-{{item.id}}">
                                 <!--p >實習類型: {{ item.internshipType }}</p-->
-                                <div class="tags" style="margin-bottom: 0.5em; text-align: center;">
+                                <div class="tags" style="margin-bottom: 0.5em; text-align: left;">
                                     {% for hashTag in item.hashTags.all %}
                                       <a href="javascript:;" style="height: 100%;font-size: inherit;">{{hashTag.name}}</a>
                                     {% endfor%}
                                 </div>
-                                <p >創立日期: {{ item.createDate | date:"Y-m-d H:i" }}</p>
+                                <p  class="small mb-4 mb-lg-0" style="color: darkgray;">
+                                    建立日期: {{ item.createDate | date:"Y-m-d H:i" }} &nbsp;&nbsp;
+                                    上次更新日期: 
+                                    {% if item.updatedDate %}
+                                        {{ item.updatedDate | date:"Y-m-d H:i" }} 
+                                    {% else %}
+                                        {{ item.createDate | date:"Y-m-d H:i" }}
+                                    {% endif %}
+                                </p>
                             </div>
                         </div>
                     </div>
