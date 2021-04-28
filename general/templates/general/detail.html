@@ -127,6 +127,8 @@
         var oldValue = $('#votes_radio_'+ cmtId).attr("old");
         var voteValue = $(this).attr('class').split(" ")[1].split('_')[1]; //agree, neutral, disagree
         if (oldValue != voteValue){
+            var className = oldValue == 'agree' ? 'info' : oldValue == 'neutral' ? 'secondary': 'danger';
+            $('#votes_'+oldValue+'_label_'+ cmtId).removeClass('btn-'+className).addClass('btn-outline-'+className);
             $('#votes_'+oldValue+'_totalCount_'+ cmtId).html((parseInt($('#votes_'+oldValue+'_totalCount_'+ cmtId).html(), 10)-1).toString())
             $('#votes_'+voteValue+'_totalCount_'+ cmtId).html((parseInt($('#votes_'+voteValue+'_totalCount_'+ cmtId).html(), 10)+1).toString())
             $('#votes_radio_'+ cmtId).attr('old', voteValue);
@@ -155,19 +157,18 @@
             }
         });
     });
-    $(function(){
-        $(".votes_input").each(function( index ) {
-            let val = $(this).val();
-            let cmtId = $(this).attr("id").split('_')[2];
+    
+    $(".votes_input").each(function() {
+            var val = $(this).val();
+            var cmtId = $(this).attr("id").split('_')[2];
             $('#votes_radio_'+ cmtId).attr('old', val);
             if (val == 'neutral')
-                $('#votes_neutral_label_'+ cmtId).addClass('active');
+                $('#votes_neutral_label_'+ cmtId).removeClass('btn-outline-secondary').addClass('btn-secondary');
             else if (val == 'agree')
-                $('#votes_agree_label_'+ cmtId).addClass('active');
+                $('#votes_agree_label_'+ cmtId).removeClass('btn-outline-info').addClass('btn-info');
             else if (val == 'disagree')
-                $('#votes_disagree_label_'+ cmtId).addClass('active');
+                $('#votes_disagree_label_'+ cmtId).removeClass('btn-outline-danger').addClass('btn-danger');
         });
-    });
    </script>
 
 {% endblock contentJs%}
