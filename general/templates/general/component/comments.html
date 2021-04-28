@@ -104,20 +104,20 @@
                         <label style="width: 3em;border-radius: 0.75em 0em 0em 0.75em;"
                             class="btn btn-outline-danger"
                             for="votes_agree_{{item.id}}" title="登入才能表態～">
-                            <input style="display: none;" type="radio" class="btn-check vote_agree"
+                            <input style="display: none;" type="radio" class="disableIcon"
                                 name="votes_agree_{{item.id}}"  autocomplete="off">
                                 <i class="fas fa-ban"></i>
                         </label>
                         <label style="width: 3em;" class="btn btn-outline-danger"
                              for="votes_neutral_{{item.id}}" title="登入才能表態～">
-                            <input style="display: none;" type="radio" class="btn-check vote_neutral"
+                            <input style="display: none;" type="radio" class="disableIcon"
                                 name="votes_neutral_{{item.id}}" autocomplete="off">
                                 <i class="fas fa-ban"></i>
                         </label>
                         <label style="width: 3em;border-radius: 0em 0.75em 0.75em 0em;"
                              class="btn btn-outline-danger"
                             for="votes_disagree_{{item.id}}" title="登入才能表態～">
-                            <input style="display: none;" type="radio" class="btn-check vote_disagree"
+                            <input style="display: none;" type="radio" class="disableIcon"
                                 name="votes_disagree_{{item.id}}" autocomplete="off">
                                 <i class="fas fa-ban"></i>
                         </label>
@@ -131,7 +131,7 @@
                         <i class="far fa-edit"></i>
                     </a>
                     {% else %}
-                    <a class="btn btn-outline-secondary" title="無權限修改">
+                    <a class="disableIcon" title="無權限修改">
                         <i class="fas fa-ban"></i>
                     </a>
                     {% endif %}
@@ -144,7 +144,7 @@
                     </a>
                     {% else %}
                     <!--a class="btn btn-danger" onclick="deleteComment('{{item.id}}')">刪除</a-->
-                    <a class="btn btn-outline-danger" title="無權限刪除" >
+                    <a class="disableIcon" title="無權限刪除" >
                         <i class="fas fa-ban"></i>
                     </a>
                     {% endif %}

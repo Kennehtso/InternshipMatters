@@ -1,5 +1,25 @@
 {% extends 'general/main.html'%}
+{% block otherCSS %}
+<style>
 
+.disableIcon {
+    border-radius: 50%;
+    color: #dc3545;
+    font-weight: 400;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+.disableIcon:hover {
+    color: #dc3545;
+    cursor: text;
+    text-decoration: none;
+}
+</style>
+{% endblock otherCSS %}
 {% block content %}
     {% for msg in messages %}
         {% if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
