@@ -26,7 +26,7 @@ class Votes(models.Model):
     voteType = models.CharField(null=True, max_length=200)
     createDate = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
-        return f"{self.intern.name}-{self.voteType}" 
+        return f"{self.voteType}" 
 
 ORGANIZATIONTYPE = (
     ('大專校院諮商(輔導)中心(處、室、組)','大專校院諮商(輔導)中心(處、室、組)'),

@@ -244,9 +244,7 @@ def getDetailData(url_detail, name=None ):
 #@isAuthenticated_detail
 #@allowed_user_groups(allowed_roles=['admin'])
 def detail(request, orgId):
-    internPerson = None
-    if not request.user.is_anonymous:
-        internPerson = InternPerson.objects.get(user=request.user)
+        
     organizations = Organization.objects.all()
     organization = Organization.objects.get(id=orgId)
     organizationDetail =  getDetailData(organization.detailInfoFromExtUrl) # Currently not able to connnect with the website
@@ -290,26 +288,32 @@ def detail(request, orgId):
             'supervise' : organizationDetail['諮商心理師提供之督導'],
             'groupSupervise' : organizationDetail['團體督導或研習'],
         }
-    comments = organization.comment_set.all()
-    comments_ids = comments.values_list('id', flat=True)
-    comments_count = comments.count()
-    votesAll = Votes.objects.all()
-    for comment in comments:
-        vote = votesAll.filter(intern=internPerson, comment__id=comment.id)
-        if not vote:
-            tmpVote = Votes(intern=internPerson, voteType='neutral')
-            tmpVote.save()
-            comment.votes.add(tmpVote)
 
-    votesForCurrentUser = votesAll.filter(intern=internPerson, comment__id__in=comments_ids)
+    internPerson = None
+    comments = organization.comment_set.all()
+    comments_count = comments.count()
     commentMapVotes = {}
-    for vote in votesForCurrentUser:
-        cmt_ByVote = vote.comment_set.first()
-        if cmt_ByVote.id not in commentMapVotes:
-            agreeCount = votesAll.filter(voteType='agree', comment__id=cmt_ByVote.id).count()
-            neutralCount = votesAll.filter(voteType='neutral', comment__id=cmt_ByVote.id).count()
-            disagreeCount = votesAll.filter(voteType='disagree', comment__id=cmt_ByVote.id).count()
-            commentMapVotes[cmt_ByVote.id] = [vote.voteType, agreeCount, neutralCount, disagreeCount]
+    if not request.user.is_anonymous:
+        internPerson = InternPerson.objects.get(user=request.user)
+        comments_ids = comments.values_list('id', flat=True)
+        votesAll = Votes.objects.all()
+        
+        for comment in comments:
+            vote = votesAll.filter(intern=internPerson, comment__id=comment.id)
+            if not vote:
+                tmpVote = Votes(intern=internPerson, voteType='neutral')
+                tmpVote.save()
+                comment.votes.add(tmpVote)
+
+        votesForCurrentUser = votesAll.filter(intern=internPerson, comment__id__in=comments_ids)
+        for vote in votesForCurrentUser:
+            cmt_ByVote = vote.comment_set.first()
+            if cmt_ByVote.id not in commentMapVotes:
+                agreeCount = votesAll.filter(voteType='agree', comment__id=cmt_ByVote.id).count()
+                neutralCount = votesAll.filter(voteType='neutral', comment__id=cmt_ByVote.id).count()
+                disagreeCount = votesAll.filter(voteType='disagree', comment__id=cmt_ByVote.id).count()
+                commentMapVotes[cmt_ByVote.id] = [vote.voteType, agreeCount, neutralCount, disagreeCount]
+
     context = {'organizations':organizations, 'organization':organization,'internPerson':internPerson, 'comments':comments, 'comments_count':comments_count, 'organizationDetailObj':organizationDetailObj,
     'commentMapVotes':commentMapVotes,}
     return render(request,'general/detail.html',context)

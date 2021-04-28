@@ -8,14 +8,9 @@
             <tr class="comments-thead" style="background-color: #343a40; color:white">
                 <th style="width:6em;">伙伴稱呼</th>
                 <th style="width:6em;">喜愛度</th>
-
-                {% if not request.user.is_anonymous %}
                 <th>心得分享</th>
                 <th></th>
                 <th colspan="2"><span style="float: right;"><span style="color:#17a2b8; text-decoration: underline;">{{comments_count}}</span> 則心得</span></th>
-                {% else %}
-                <th>心得分享<span style="float: right;"><span style="color:#17a2b8; text-decoration: underline;">{{comments_count}}</span> 則心得</span></th>
-                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -28,7 +23,8 @@
                     {{ item.intern.name }}
                 </td>
                 <td style="width:30px; max-width: 50px;"><i class="fas fa-heart"
-                        style='color: #d6688d; text-shadow: 0 0 20px #d6688d;'></i> X {{ item.score }}</td>
+                        style='color: #d6688d; text-shadow: 0 0 20px #d6688d;' title="喜愛度 {{ item.score }} 分!"></i> X {{ item.score }}
+                </td>
                 <td style="max-width: 400px;" id="comment-{{item.id}}">
                     <div>
                         <div id="outer_{{item.id}}" class="outer_comments" style="display:flex;flex-direction: row;">
@@ -51,7 +47,7 @@
                                 <!--p >實習類型: {{ item.internshipType }}</p-->
                                 <div class="tags" style="margin-bottom: 0.5em; text-align: left;">
                                     {% for hashTag in item.hashTags.all %}
-                                    <a href="javascript:;" style="height: 100%;font-size: inherit;">{{hashTag.name}}</a>
+                                    <a href="javascript:;" style="height: 100%;font-size: inherit;" title="{{hashTag.name}}">{{hashTag.name}}</a>
                                     {% endfor%}
                                 </div>
                                 <p class="small mb-4 mb-lg-0" style="color: darkgray;">
@@ -70,40 +66,62 @@
 
                 <td style="width: 9em;">
                     {% if not request.user.is_anonymous %}
-                    {% for key, value in commentMapVotes.items %}
-                    {% if key == item.id %}
-                    <div id="votes_radio_{{item.id}}" class="votes_radio btn-group" data-toggle="buttons">
-
+                        {% for key, value in commentMapVotes.items %}
+                            {% if key == item.id %}
+                            <div id="votes_radio_{{item.id}}" class="votes_radio btn-group" data-toggle="buttons">
+                                <label style="width: 3em;border-radius: 0.75em 0em 0em 0.75em;"
+                                    id="votes_agree_label_{{item.id}}" class="btn btn-outline-info"
+                                    for="votes_agree_{{item.id}}" title="同意">
+                                    <input style="display: none;" type="radio" class="btn-check vote_agree"
+                                        name="votes_agree_{{item.id}}" id="votes_agree_{{item.id}}" autocomplete="off">
+                                    <i class="far fa-smile"></i>
+                                </label>
+                                <label style="width: 3em;" class="btn btn-outline-secondary"
+                                    id="votes_neutral_label_{{item.id}}" for="votes_neutral_{{item.id}}" title="沒意見">
+                                    <input style="display: none;" type="radio" class="btn-check vote_neutral"
+                                        name="votes_neutral_{{item.id}}" id="votes_neutral_{{item.id}}" autocomplete="off">
+                                    <i class="far fa-meh-blank"></i>
+                                </label>
+                                <label style="width: 3em;border-radius: 0em 0.75em 0.75em 0em;"
+                                    id="votes_disagree_label_{{item.id}}" class="btn btn-outline-danger"
+                                    for="votes_disagree_{{item.id}}" title="不同意">
+                                    <input style="display: none;" type="radio" class="btn-check vote_disagree"
+                                        name="votes_disagree_{{item.id}}" id="votes_disagree_{{item.id}}" autocomplete="off">
+                                    <i class="far fa-frown-open"></i>
+                                </label>
+                                <input style="display: none;" class="votes_input" id="votes_input_{{item.id}}"
+                                    name="votes_input_{{item.id}}" type="text" value="{{value.0}}">
+                            </div>
+                            <p class="text-center small mb-4 mb-lg-0" style="color: darkgray;">
+                                ( <span id="votes_agree_totalCount_{{item.id}}">{{value.1}}</span> /
+                                <span id="votes_neutral_totalCount_{{item.id}}">{{value.2}}</span> /
+                                <span id="votes_disagree_totalCount_{{item.id}}">{{value.3 }}</span> )
+                            </p>
+                            {% endif %}
+                        {% endfor%}
+                    {% else %}
+                    <div class="btn-group" data-toggle="buttons">
                         <label style="width: 3em;border-radius: 0.75em 0em 0em 0.75em;"
-                            id="votes_agree_label_{{item.id}}" class="btn btn-outline-info"
-                            for="votes_agree_{{item.id}}" title="同意">
+                            class="btn btn-outline-danger"
+                            for="votes_agree_{{item.id}}" title="登入才能表態～">
                             <input style="display: none;" type="radio" class="btn-check vote_agree"
-                                name="votes_agree_{{item.id}}" id="votes_agree_{{item.id}}" autocomplete="off">
-                            <i class="far fa-smile"></i>
+                                name="votes_agree_{{item.id}}"  autocomplete="off">
+                                <i class="fas fa-ban"></i>
                         </label>
-                        <label style="width: 3em;" class="btn btn-outline-secondary"
-                            id="votes_neutral_label_{{item.id}}" for="votes_neutral_{{item.id}}" title="沒意見">
+                        <label style="width: 3em;" class="btn btn-outline-danger"
+                             for="votes_neutral_{{item.id}}" title="登入才能表態～">
                             <input style="display: none;" type="radio" class="btn-check vote_neutral"
-                                name="votes_neutral_{{item.id}}" id="votes_neutral_{{item.id}}" autocomplete="off">
-                            <i class="far fa-meh-blank"></i>
+                                name="votes_neutral_{{item.id}}" autocomplete="off">
+                                <i class="fas fa-ban"></i>
                         </label>
                         <label style="width: 3em;border-radius: 0em 0.75em 0.75em 0em;"
-                            id="votes_disagree_label_{{item.id}}" class="btn btn-outline-danger"
-                            for="votes_disagree_{{item.id}}" title="不同意">
+                             class="btn btn-outline-danger"
+                            for="votes_disagree_{{item.id}}" title="登入才能表態～">
                             <input style="display: none;" type="radio" class="btn-check vote_disagree"
-                                name="votes_disagree_{{item.id}}" id="votes_disagree_{{item.id}}" autocomplete="off">
-                            <i class="far fa-frown-open"></i>
+                                name="votes_disagree_{{item.id}}" autocomplete="off">
+                                <i class="fas fa-ban"></i>
                         </label>
-                        <input style="display: none;" class="votes_input" id="votes_input_{{item.id}}"
-                            name="votes_input_{{item.id}}" type="text" value="{{value.0}}">
                     </div>
-                    <p class="text-center small mb-4 mb-lg-0" style="color: darkgray;">
-                        ( <span id="votes_agree_totalCount_{{item.id}}">{{value.1}}</span> /
-                        <span id="votes_neutral_totalCount_{{item.id}}">{{value.2}}</span> /
-                        <span id="votes_disagree_totalCount_{{item.id}}">{{value.3 }}</span> )
-                    </p>
-                    {% endif %}
-                    {% endfor%}
                     {% endif %}
                 </td>
                 <td style="width:10px">
@@ -111,6 +129,10 @@
                     <a class="comment-edit btn btn-outline-secondary" title="修改分享"
                         href="{% url 'updateComment' item.id %}">
                         <i class="far fa-edit"></i>
+                    </a>
+                    {% else %}
+                    <a class="btn btn-outline-secondary" title="無權限修改">
+                        <i class="fas fa-ban"></i>
                     </a>
                     {% endif %}
                 </td>
@@ -120,7 +142,11 @@
                         data-target="#confirmDeleteModal" id="{{item.id}}">
                         <i class="far fa-trash-alt"></i>
                     </a>
+                    {% else %}
                     <!--a class="btn btn-danger" onclick="deleteComment('{{item.id}}')">刪除</a-->
+                    <a class="btn btn-outline-danger" title="無權限刪除" >
+                        <i class="fas fa-ban"></i>
+                    </a>
                     {% endif %}
                 </td>
             </tr>
