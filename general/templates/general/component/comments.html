@@ -64,8 +64,8 @@
                     </div>
                 </td>
 
-                <td style="width: 9em;">
                     {% if not request.user.is_anonymous %}
+                    <td style="width: 9em;">
                         {% for key, value in commentMapVotes.items %}
                             {% if key == item.id %}
                             <div id="votes_radio_{{item.id}}" class="votes_radio btn-group" data-toggle="buttons">
@@ -99,31 +99,14 @@
                             </p>
                             {% endif %}
                         {% endfor%}
+                     </td>
                     {% else %}
-                    <div class="btn-group" data-toggle="buttons">
-                        <label style="width: 3em;border-radius: 0.75em 0em 0em 0.75em;"
-                            class="btn btn-outline-danger"
-                            for="votes_agree_{{item.id}}" title="登入才能表態～">
-                            <input style="display: none;" type="radio" class="disableIcon"
-                                name="votes_agree_{{item.id}}"  autocomplete="off">
-                                <i class="fas fa-ban"></i>
-                        </label>
-                        <label style="width: 3em;" class="btn btn-outline-danger"
-                             for="votes_neutral_{{item.id}}" title="登入才能表態～">
-                            <input style="display: none;" type="radio" class="disableIcon"
-                                name="votes_neutral_{{item.id}}" autocomplete="off">
-                                <i class="fas fa-ban"></i>
-                        </label>
-                        <label style="width: 3em;border-radius: 0em 0.75em 0.75em 0em;"
-                             class="btn btn-outline-danger"
-                            for="votes_disagree_{{item.id}}" title="登入才能表態～">
-                            <input style="display: none;" type="radio" class="disableIcon"
-                                name="votes_disagree_{{item.id}}" autocomplete="off">
-                                <i class="fas fa-ban"></i>
-                        </label>
-                    </div>
+                    <td style="width:10px">
+                        <a class="disableIcon" title="登入才能表態～" >
+                            <i class="fas fa-ban"></i>
+                        </a>
+                    </td>
                     {% endif %}
-                </td>
                 <td style="width:10px">
                     {% if not request.user.is_anonymous and request.user == item.intern.user %}
                     <a class="comment-edit btn btn-outline-secondary" title="修改分享"
