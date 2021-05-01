@@ -10,6 +10,7 @@ urlpatterns = [
     path('',views.home, name='home'),
     path('result/',views.result, name='result'),
     path('qna/',views.qna, name='qna'),
+    path('noticesNews/',views.noticesNews, name='noticesNews'),
     path('sendmailApply/',views.sendmailApplyNewOrganization, name='sendmailApply'),
     path('detail/<str:orgId>/',views.detail, name='detail'),
 

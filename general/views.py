@@ -207,6 +207,13 @@ def qna(request):
     context = {'internPerson':internPerson,}
     return render(request, 'general/qna.html', context)
 
+def noticesNews(request):
+    internPerson = {}
+    if request.user.is_authenticated:
+        internPerson = InternPerson.objects.get(user=request.user)
+    context = {'internPerson':internPerson,}
+    return render(request, 'general/noticesNews.html', context)
+    
 def getElementsByUrl(url):
     try:
         resp = requests.get(url,headers={"User-Agent": "curl/7.61.0"} ,timeout=5)

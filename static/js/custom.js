@@ -212,3 +212,15 @@ $(".comment-more").mouseenter(function() {
       'transition-delay': '0.1s'
    });
  })
+ $('.card-img-overlay').mouseenter(function() {
+   $(this).prev().css({
+      'filter':'brightness(35%)',
+      'transition': '0.7s'
+   });
+ });
+ $('.card-img-overlay').mouseleave(function() {
+   $(this).prev().css({
+      'filter':'brightness(60%)',
+      'transition': '0.7s'
+   });
+ });
