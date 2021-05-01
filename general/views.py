@@ -207,6 +207,14 @@ def qna(request):
     context = {'internPerson':internPerson,}
     return render(request, 'general/qna.html', context)
 
+def supportUs(request):
+    internPerson = {}
+    if request.user.is_authenticated:
+        internPerson = InternPerson.objects.get(user=request.user)
+    context = {'internPerson':internPerson,}
+    return render(request, 'general/supportUs.html', context)
+
+
 def noticesNews(request):
     internPerson = {}
     if request.user.is_authenticated:

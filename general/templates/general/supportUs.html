@@ -1,0 +1,56 @@
+{% extends 'general/main.html'%}
+{% load static %}
+
+{% block otherCSS %}
+{% endblock otherCSS %}
+
+{% block content %}
+<section style="background: linear-gradient(0deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url({% static 'img/bgStarNight.png'%}) no-repeat center center;">
+<div class="container">
+	<div class="d-flex justify-content-center h-100">
+		<div class="card" style="margin-top: 20px; width:100%">
+			<div class="text-center card-header">
+				<h3>實習指路人 Ｑ＆Ａ</h3>
+			</div>
+			<div class="card-body">
+				<div style="display: inline-flex;">
+				<div style="font-size: large; color:white; padding:2em; width:100%">
+					<p>
+						「實習指路人」是由總共２人去進行開發及維護更新。<br/>
+						一位是一個平凡的上班族，另一位跟大家一樣無薪的還是實習生。<br/><br/>
+						「指路人」是我們用我們平日閒下來的時間去創造的一個平台。<br/>
+						因為時間與金錢上的成本十有分限，<br/>
+						我們已盡可能用我們的力量去優化及維護這個平台。
+						我們還有很多的想法，也想進行更多的擴充，<br/><br/>
+						如果你同意我們在做的事情，也希望支持我們的話，<br/>
+						可以掃瞄右則的 QR Code，&nbsp;<i style="color: #17a2b8;" class="far fa-hand-point-right"></i><br/>
+						或是轉帳至 (xxxxxxxx)，請註明〝支持指路人〞。<br/><br/>
+
+						我們會聽取大家的建議跟想法，善用大家的支持，提供更好的平台。<br/>
+						「實習指路人 」團隊 在此感謝伙伴的支持<br/>
+					</p>
+				</div>
+				<div style="padding:2em;">
+					<img style="width:60%;  float:right" src="{% static 'img/support_us.jpg'%}"/>
+				</div>
+				</div>
+			</div>
+			
+
+			{% if not request.user.is_authenticated %}
+			<div class="card-footer">
+				<div class="d-flex justify-content-center links">
+					已經加入嗎？<a href="{% url 'login'%}" >點我登入</a>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+</section>
+{% endblock %}
+{% block contentJs%}
+<script>
+    $("#registerForm input").addClass("form-control");
+</script>
+{% endblock%}
