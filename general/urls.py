@@ -20,7 +20,11 @@ urlpatterns = [
     path('updateCommentVote',views.updateCommentVote, name='updateCommentVote'),
 
     #Reset Password
-    path('reset_password/', auth_views.PasswordResetView.as_view(template_name='general/resetSent.html'), name='reset_password'),
+    path('reset_password/', auth_views.PasswordResetView.as_view(
+        template_name='general/resetSent.html',
+        html_email_template_name='general/password_reset_email_custom.html',
+        subject_template_name='general/password_reset_email_title_custom.txt',
+        ), name='reset_password'),
     path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name='general/resetSentSuccess.html'), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='general/resetPassword.html'), name='password_reset_confirm'),
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name='general/resetSuccess.html'), name='password_reset_complete'),
