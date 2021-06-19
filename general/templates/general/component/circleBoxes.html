@@ -23,8 +23,8 @@
 		</div>
 	</div>
 	<div class="card-body" style="color:white; text-align: right;">
-		<h5 class="card-title">{{organizationDetailObj.unitName}}</h5>
-		<h4 class="card-title">{{organizationDetailObj.internshipType}}</h4>
+		<h5 class="card-title">{{organization.unitName}}</h5><!--h5 class="card-title">{{organizationDetailObj.unitName}}</h5-->
+		<h4 class="card-title">{{organization.unitType}}</h4><!--h4 class="card-title">{{organizationDetailObj.internshipType}}</h4-->
 		<div class="tags" style="margin-bottom: 0.5em; text-align: center;">
 		{% for hashTag in organization.hashTags.all %}
 		  <a href="#" style="height: 100%;font-size: inherit;">{{hashTag.name}}</a>

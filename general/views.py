@@ -262,6 +262,7 @@ def detail(request, orgId):
         
     organizations = Organization.objects.all()
     organization = Organization.objects.get(id=orgId)
+    """ Due to performance issues, not collcecting detail data
     organizationDetail =  getDetailData(organization.detailInfoFromExtUrl) # Currently not able to connnect with the website
     #print(F"organizationDetail: {organizationDetail}")
     organizationDetailObj = {
@@ -303,7 +304,7 @@ def detail(request, orgId):
             'supervise' : organizationDetail['諮商心理師提供之督導'],
             'groupSupervise' : organizationDetail['團體督導或研習'],
         }
-
+    """
     internPerson = None
     comments = organization.comment_set.all()
     comments_count = comments.count()
@@ -329,7 +330,8 @@ def detail(request, orgId):
                 disagreeCount = votesAll.filter(voteType='disagree', comment__id=cmt_ByVote.id).count()
                 commentMapVotes[cmt_ByVote.id] = [vote.voteType, agreeCount, neutralCount, disagreeCount]
 
-    context = {'organizations':organizations, 'organization':organization,'internPerson':internPerson, 'comments':comments, 'comments_count':comments_count, 'organizationDetailObj':organizationDetailObj,
+    context = {'organizations':organizations, 'organization':organization,'internPerson':internPerson, 'comments':comments, 'comments_count':comments_count, 
+    #'organizationDetailObj':organizationDetailObj,
     'commentMapVotes':commentMapVotes,}
     return render(request,'general/detail.html',context)
 
