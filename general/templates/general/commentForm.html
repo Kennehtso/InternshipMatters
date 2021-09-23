@@ -4,7 +4,7 @@
 <form id="commentForm" method="POST" action="" class="comments-edit">
     {% csrf_token %}
     <div class="form-row" style="padding-top: 20px;">
-        <div style="opacity: 0.5;" class="fieldWrapper col-md-12 col-lg-12 col-xl-4 mb-4 mb-md-0">
+        <div style="opacity: 0.5;" class="fieldWrapper col-md-12 col-lg-12 mb-md-0"> <!--col-xl-4 mb-4 -->
             <div>
                 <!--div class="fieldWrapper col-md-4 col-lg-4 col-xl-4 mb-4 mb-md-0"-->
                 {{ form.intern.errors }}
@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div class="fieldWrapper col-md-12 col-lg-12 col-xl-8 mb-8 mb-md-0">
+        <div class="fieldWrapper col-md-12 col-lg-12 mb-md-0">  <!-- col-xl-8 mb-8 -->
             {{ form.comments.errors }}
             {{ form.comments.label_tag }}
             {{ form.comments }}
@@ -37,15 +37,12 @@
                 {{ form.score }}
             </div-->
 
-        <div class="form-group searchCustomBorder col-md-12 col-lg-12 col-xl-4 mb-4 mb-md-0">
+        <div class="form-group col-md-8 col-lg-8 mb-md-0" style="padding-bottom: 20px;">  <!-- searchCustomBorder col-xl-6 mb-6 col-md-12 col-lg-12-->
             <div class="row">
                 <label for="score_input"
-                    class="col-md-2 col-lg-2 col-xl-3 mb-3 mb-md-3 col-form-label col-form-label">分數： <br />
+                    class="col-xl-3 mb-3 mb-md-3 col-form-label col-form-label">分數： <br /> <!--col-md-2 col-lg-2 -->
                     <span id="scoreValue"></span> 分或以上
                 </label>
-                <div class="col-md-3 col-lg-3 col-xl-4 mb-3 mb-md-4">
-                    <a id="clearRate" class="btn btn-md btn-outline-danger" style="margin-top: 10px;">重設喜愛度</a>
-                </div>
                 <div class="rating">
                     <input type="radio" name="rating" id="r1">
                     <label for="r1"></label>
@@ -65,18 +62,21 @@
                     <input type="radio" name="rating" id="r6">
                     <label for="r6"></label>
                 </div>
+                <div class="col-md-4"> <!--col-md-3 col-lg-3 col-xl-4 mb-3 mb-md-4-->
+                    <a id="clearRate" class="btn btn-md btn-outline-danger" style="margin-top: 10px;">重設喜愛度</a>
+                </div>
                 <input style="display: none;" type="range" class="form-range" value="{{form.score.value}}" min="0"
                     max="5" step="1" name="score" required="" id="id_score">
             </div>
         </div>
 
-        <div class="fieldWrapper col-md-12 col-lg-12 col-xl-8 mb-8 mb-md-0">
+        <div class="fieldWrapper col-md-12 col-lg-12 mb-md-0">  <!-- col-xl-8 mb-8 -->
             {{ form.hashTags.label_tag }}
             {{ form.hashTags }}
             <div class="form-row" style="padding-bottom: 20px;"></div>
 
             <span style="display: inline;">
-                <label for="customHashTags">自訂義標籤</label>
+                <label for="customHashTags">自訂義標籤 (可多選)</label>
                 <div style="display: flex; float: right;width: 50%;">
                     <input style="margin-left: 10px;" name="hashTagInput" id="hashTagInput" type="input" placeholder="新增/刪除自定義標籤" class="form-control">
                     <a style="margin-left: 10px;" class="comment-add btn btn-outline-info" title="新增自定義標籤" onclick="addHasTags()">

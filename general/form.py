@@ -50,7 +50,7 @@ class CommentForm(ModelForm):
         self.fields['organization'].label = "評論機構"
         self.fields['intern'].label = "伙伴稱呼"
         #self.fields['internshipType'].label = "實習類型"
-        self.fields['hashTags'].label = "可選標籤"
+        self.fields['hashTags'].label = "可選標籤 (可多選)"
         self.fields['comments'].label = "心得分享"
         #self.fields['score'].label = "喜愛度"
 
@@ -60,3 +60,12 @@ class CommentForm(ModelForm):
         model = Comment
         # which fields are allow, use '__all__' to allow all
         fields = '__all__'
+
+class CreateOrganizationForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CreateOrganizationForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs['placeholder'] = '機構稱呼'
+        self.fields['area'].widget.attrs['placeholder'] = '地址'
+    class Meta():
+        model = Organization
+        fields = ['name','area']

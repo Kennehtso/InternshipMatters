@@ -386,8 +386,8 @@ input[type=submit] {
    background-color: #fcffff;
  }
  #columns {
-   column-width: 300px;
-   column-gap: 5px;
+   /*column-width: 300px;
+   column-gap: 5px;*/
    width: 90%;
    max-width: 1250px;
    margin: 50px auto;
@@ -401,10 +401,12 @@ input[type=submit] {
    padding: 15px;
    padding-bottom: 10px;
    transition:  all 0.2s ease-out;
-   display: inline-block;
+   /*display: inline-block;*/
    break-inside: avoid-column;
    width: 300px;
    border-radius: 1em;
+   float: left;
+   height: 500px;
  }
  
  div#columns figure h3 {

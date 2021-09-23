@@ -77,13 +77,27 @@ def userSetting(request):
     context = {'internPerson':internPerson, 'form':form }
     return render(request,'general/userSetting.html',context)
 
+@isLogin
+def applyOrganization(request):
+    internPerson = InternPerson.objects.get(user=request.user)
+    form = CreateOrganizationForm()
+
+    if request.method == 'POST':
+        form = UpdateUserForm(request.POST,request.FILES, instance=internPerson)
+        if form.is_valid():
+            messages.success(request, f"你的資料更新成功嚕！～")
+            form.save()
+        
+    context = {'internPerson':internPerson, 'form':form }
+    return render(request,'general/applyOrganization.html',context)
+
 def logoutPage(request):
     userName = request.user.username
     logout(request)
     messages.success(request, f"伙伴 '{userName}' 已經登出嚕，我們下次見～")
     return redirect('login')
 
-def home(request):
+def home(request): 
     internPerson = {}
     if request.user.is_authenticated:
         internPerson = InternPerson.objects.get(user=request.user)
@@ -481,7 +495,6 @@ def sendmailApplyNewOrganization(request):
         subject, from_email, toList = F'InternshipMatters-提議新增-{orgName}',settings.EMAIL_HOST_USER , [request.user.email, settings.EMAIL_HOST_USER]
         text_content = '感謝你的提議.'
         html_content = getEmailTemplate(request.user.username, orgName, orgAddress)
-       
         try:
             msg = EmailMultiAlternatives(subject, text_content, from_email, to=toList)
             msg.attach_alternative(html_content, "text/html")
@@ -489,7 +502,7 @@ def sendmailApplyNewOrganization(request):
             #messages.success(request, f"機構 '{orgName}' 新增的提議已經發送嚕，經過確認後會再更新至系統，謝謝你的提議～")
             data = {'success': f"機構 '{orgName}' 新增的提議已經發送嚕，經過確認後會再更新至系統，謝謝你的提議～" }
         except Exception as e:
-            print(f'[Exception Send mail] - ({type(e)}): {e.message}')
+            print(f'[Exception Send mail] - ({type(e)}): {e}')
             #messages.error(request, f"系統異常，機構 '{orgName}'新增的提議未能發送至信箱，請稍後再試。如屢次發送失敗或可以透過Email與我們聯繫。")
             data = {'fail': f"系統異常，機構 '{orgName}'新增的提議未能發送至信箱，請稍後再試。如屢次發送失敗或可以透過Email與我們聯繫。" }
         
@@ -559,4 +572,3 @@ def addOrganization(request):
         #cnt += 1
     """
     return redirect('login')
-    

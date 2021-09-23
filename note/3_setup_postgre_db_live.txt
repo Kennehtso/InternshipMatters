@@ -86,7 +86,7 @@
 					'PORT':'XXXXX',#DEFAULT
 				}
 			}
-	13. Save, and run 'python migrate.py migrate' in CMD
+	13. Save, and run 'python manage.py migrate' in CMD
 	14. You can now access the DB in Live ! 
 	** Please check if the inbound connect set to 'everywhere' in RDS Instance > 'inbound rules' > 'Source' field
 	"""

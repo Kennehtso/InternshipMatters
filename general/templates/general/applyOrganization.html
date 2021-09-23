@@ -1,0 +1,121 @@
+{% extends 'general/main.html'%}
+{% load static %}
+
+{% block otherCSS %}
+{% endblock otherCSS %}
+
+{% block content %}
+{% include './component/orgSupplyModal.html'%}
+<style>
+	.profilePic{
+		width:100PX;
+		height:100PX;
+		margin: 0 auto;
+		border-radius: 50%;
+	}
+</style>
+<section class="loginOrSettingSecton" style="background: linear-gradient(0deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),url({% static 'img/bgStarNight.png'%}) no-repeat center center;">
+<div class="container">
+	<div class="d-flex justify-content-center h-100">
+		<div class="card">
+			<div class="card-header">
+				<h3>新增機構</h3>
+			</div>
+			<div class="card-body">
+                <form id="registerForm" action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-user"></i></span>
+						</div>
+						<input name="organization_new" id="organization_new" type="input" class="form-control form-control-lg" placeholder="機構名稱">
+					</div>
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-envelope"></i></span>
+						</div>
+						<input name="address_new" id="address_new" type="input" class="form-control form-control-lg" placeholder="機構地址">
+					</div>
+					
+					{% for msg in messages %}
+						{% if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}	
+							<div id='{{msg}}' class="alert alert-success alert-dismissible fade show">
+						{% elif msg.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+							<div id='{{msg}}' class="alert alert-warning   alert-dismissible fade show">
+						{% endif %}
+							<strong>{{msg}}</strong>
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+						</div>
+					{% endfor %}
+					<div class="form-group">
+						<a type="button" title="確認" class="organization-apply btn btn-info register_btn" data-toggle="modal" data-target="#orgSupplyModal">確認</a>
+					</div>
+				</form>
+			</div>
+			
+
+			<div class="card-footer">
+				<div class="d-flex justify-content-center links">
+					你有查過了嗎？<a href="{% url 'result'%}" >點我搜尋</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section>
+{% endblock %}
+{% block contentJs%}
+<script>
+    $("#registerForm input").addClass("form-control");
+
+	$(document).on('click', '.organization-apply', function () {
+        var organization_new = $("#organization_new").val();
+        var address_new = $("#address_new").val();
+        $(".modal-organization_new").text(organization_new);
+        $(".modal-address_new").text(address_new);
+    });
+	
+    $(document).on('click', '#confirmOrgSupply', function () {
+      $('#columns').parent().append('<div class="loader text-center"></div>').append('<div class="loader-text text-center">發送申請中</div>');
+        var organization_new = $("#organization_new").val().replace(/^\s+|\s+$/g, '');
+        var address_new = $("#address_new").val().replace(/^\s+|\s+$/g, '');
+        $(".alert-dismissible").remove();
+        //alert(cmtId);
+        $.ajax({
+            type: "POST",
+            url: "{% url 'sendmailApply' %}",
+            data: { 'organization_new': organization_new, 'address_new':address_new},
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+            },
+        success: function(response){
+            //alert(response.success);
+            var alertType = "";
+            var message = "";
+            if (response.success != undefined){
+              alertType = "success";
+              message = response.success;
+            }
+            else if (response.fail != undefined){
+              alertType = "danger";
+              message = response.fail;
+            }
+            else if (response.warning != undefined){
+              alertType = "warning";
+              message = response.warning;
+            }
+            var msgHtml = "<div id="+message+" class='text-center alert alert-"+alertType+" alert-dismissible fade show'><strong>"+message+"</strong>";
+            msgHtml += "<button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+            $(".wrapper").prepend(msgHtml);
+            $("#organization_new").val("");
+            $("#address_new").val("");
+            },
+        complete : function(response){
+            //alert(response.success);
+            $('.loader, .loader-text').remove();
+            }
+        });
+    });
+
+</script>
+{% endblock%}

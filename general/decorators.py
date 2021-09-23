@@ -26,7 +26,7 @@ def isLogin(views_func):
         if request.user.is_authenticated:
             return views_func(request, *args, **kwargs)
         else:
-            messages.error(request, f"要先登入才能瀏覽 “機構評論詳閱” 頁面。")
+            messages.error(request, f"要先登入才能瀏覽這個頁面。")
             return redirect('login')
     return wrapper_func
 
