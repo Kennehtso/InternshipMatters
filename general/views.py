@@ -79,6 +79,8 @@ def userSetting(request):
 
 @isLogin
 def applyOrganization(request):
+    #TODO: Leave comments, happiness in the same time. 
+    # those field will send mail to notice admin to initialize a first comment when create
     internPerson = InternPerson.objects.get(user=request.user)
     form = CreateOrganizationForm()
 

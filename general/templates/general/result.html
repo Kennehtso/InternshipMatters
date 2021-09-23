@@ -311,7 +311,10 @@
     $('#info-outlined').trigger('click');
   }
   
+
   var loader = $('.lodaer');
+  var offsetTop = $( ".footer" ).first().offset().top;
+  var newHeight = 1545;
   var infinite = new Waypoint.Infinite({
     element: $('.infinite-container')[0],
     onBeforePageLoad: function () {
@@ -326,7 +329,8 @@
       }
       $('.loader, .loader-text').remove();
       $('#currentPage').html(parseInt($('#currentPage').html(),10) + 1);
-    }
+    }, 
+    enabled:false
   });
   let resultsRow = document.getElementsByClassName('resultFigures');
 
@@ -373,5 +377,15 @@
     $('#isApprove_input').val(optionValue);
   });
 
+  $(window).scroll(function() {
+   if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+     alert('BTM');
+    infinite.waypoint.enable();
+    infinite.waypoint.trigger();
+   }
+   else{
+    infinite.waypoint.disable();
+   }
+});
 </script>
 {% endblock contentJs%}
