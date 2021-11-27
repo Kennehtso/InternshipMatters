@@ -20,7 +20,7 @@
     </div>
 {% endfor %}
 <a id="pagerDisplay">
-  第 <span id="currentPage">1</span> / {{ page_obj.paginator.num_pages }} 頁
+  已讀取 <span id="currentPage">1</span> / {{ page_obj.paginator.num_pages }} 頁
 </a>
 <div class="row" style="padding-top: 10px; padding-bottom: 20px;">
   <div class="col-md-10 col-lg-8 col-xl-6 mx-auto" style="box-shadow: 3px 3px 5px gray;">
@@ -378,13 +378,18 @@
   });
 
   $(window).scroll(function() {
-   if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
-    infinite.waypoint.enable();
-    infinite.waypoint.trigger();
-   }
-   else{
-    infinite.waypoint.disable();
-   }
+    let isAnyMore = $('.infinite-more-link').length > 0;
+    if(!isAnyMore){
+      infinite.waypoint.disable();
+      return;
+    }
+    if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+        infinite.waypoint.enable();
+        infinite.waypoint.trigger();
+    }
+    else{
+      infinite.waypoint.disable();
+    }
 });
 </script>
 {% endblock contentJs%}
