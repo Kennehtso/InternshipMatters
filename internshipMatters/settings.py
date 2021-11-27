@@ -158,17 +158,16 @@ STATICFILES_DIRS = [
 
 # SMTP Config
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+#EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
 
-
 #Whitenoise static files handling
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-
 
 import logging
 from logging.handlers import SysLogHandler
