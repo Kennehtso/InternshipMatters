@@ -157,7 +157,7 @@ STATICFILES_DIRS = [
 ]
 
 # SMTP Config
-SENDGRID_API_KEY = get_env_variable('SEND_GRID_API_KEY')
+SENDGRID_API_KEY = env('SEND_GRID_API_KEY')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 #EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST = 'smtp.sendgrid.net'
