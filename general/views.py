@@ -494,7 +494,7 @@ def sendmailApplyNewOrganization(request):
             return JsonResponse(data)
             #return redirect('result')
 
-        subject, from_email, toList = F'InternshipMatters-提議新增-{orgName}',settings.EMAIL_HOST_USER , [request.user.email, settings.EMAIL_HOST_USER]
+        subject, from_email, toList = F'InternshipMatters-提議新增-{orgName}','nternshipsmatters@gmail.com' , [request.user.email, 'nternshipsmatters@gmail.com']
         text_content = '感謝你的提議.'
         html_content = getEmailTemplate(request.user.username, orgName, orgAddress)
         try:
