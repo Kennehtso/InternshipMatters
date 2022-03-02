@@ -117,8 +117,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-STATIC_URL = 'static/'
-MEDIA_URL = 'media/'
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 #Static Root for collectstatic
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -153,8 +153,8 @@ if not DEBUG:
 # Customize Added
 STATICFILES_DIRS = [
     #BASE_DIR / "static",
-    Path.joinpath(BASE_DIR, STATIC_URL),
-    Path.joinpath(BASE_DIR, MEDIA_URL)
+    Path.joinpath(BASE_DIR, 'static'),
+    Path.joinpath(BASE_DIR, 'media')
 ]
 
 # SMTP Config
@@ -170,7 +170,7 @@ EMAIL_USE_TLS = True
 
 
 #Whitenoise static files handling
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 import logging
 from logging.handlers import SysLogHandler
