@@ -9,6 +9,6 @@
 5. Close browser and go back to cli
 6. Command
 	- type 'cd {project directory clone from git}' to set our current location
-	- type 'git remote -v' to check there should list out our project with 'origin' and 'heroku'
+	- type 'heroku git remote -v' to check there should list out our project with 'origin' and 'heroku'
 	- type 'heroku git:remote -a {App name}' to access to our app
 	- type 'heroku run python manage.py migrate'
